@@ -1,0 +1,15 @@
+#!/bin/bash
+nohup sh efficiency.exe filelist/TTJets_SingleLeptFromTbar_1lepskimmed/TTJets_SingleLeptFromTbar1.txt TTJets_SingleLeptFromTbar 1 &
+nohup sh efficiency.exe filelist/TTJets_SingleLeptFromTbar_1lepskimmed/TTJets_SingleLeptFromTbar2.txt TTJets_SingleLeptFromTbar 2 &
+nohup sh efficiency.exe filelist/TTJets_SingleLeptFromTbar_1lepskimmed/TTJets_SingleLeptFromTbar3.txt TTJets_SingleLeptFromTbar 3 &
+nohup sh efficiency.exe filelist/TTJets_SingleLeptFromTbar_1lepskimmed/TTJets_SingleLeptFromTbar4.txt TTJets_SingleLeptFromTbar 4 &
+nohup sh efficiency.exe filelist/TTJets_SingleLeptFromTbar_1lepskimmed/TTJets_SingleLeptFromTbar5.txt TTJets_SingleLeptFromTbar 5 &
+nohup sh efficiency.exe filelist/TTJets_SingleLeptFromTbar_1lepskimmed/TTJets_SingleLeptFromTbar6.txt TTJets_SingleLeptFromTbar 6 &
+nohup sh efficiency.exe filelist/TTJets_SingleLeptFromTbar_1lepskimmed/TTJets_SingleLeptFromTbar7.txt TTJets_SingleLeptFromTbar 7 &
+nohup sh efficiency.exe filelist/TTJets_SingleLeptFromTbar_1lepskimmed/TTJets_SingleLeptFromTbar8.txt TTJets_SingleLeptFromTbar 8 &
+nohup sh efficiency.exe filelist/TTJets_SingleLeptFromTbar_1lepskimmed/TTJets_SingleLeptFromTbar9.txt TTJets_SingleLeptFromTbar 9 &
+nohup sh efficiency.exe filelist/TTJets_SingleLeptFromTbar_1lepskimmed/TTJets_SingleLeptFromTbar10.txt TTJets_SingleLeptFromTbar 10 &
+nohup sh efficiency.exe filelist/TTJets_SingleLeptFromTbar_1lepskimmed/TTJets_SingleLeptFromTbar11.txt TTJets_SingleLeptFromTbar 11 &
+nohup sh efficiency.exe filelist/TTJets_SingleLeptFromTbar_1lepskimmed/TTJets_SingleLeptFromTbar12.txt TTJets_SingleLeptFromTbar 12 &
+nohup sh efficiency.exe filelist/TTJets_SingleLeptFromTbar_1lepskimmed/TTJets_SingleLeptFromTbar13.txt TTJets_SingleLeptFromTbar 13 &
+nohup sh efficiency.exe filelist/TTJets_SingleLeptFromTbar_1lepskimmed/TTJets_SingleLeptFromTbar14.txt TTJets_SingleLeptFromTbar 14 &

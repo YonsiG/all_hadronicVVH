@@ -1,0 +1,1 @@
+g++ -g -std=c++17 plot_efficiency.C -I$ROOTSYS/include `root-config --libs ` -lMinuit -lGenVector -o plot_efficiency.exe

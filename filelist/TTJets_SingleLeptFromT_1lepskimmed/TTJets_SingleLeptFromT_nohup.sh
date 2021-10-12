@@ -1,0 +1,16 @@
+nohup sh efficiency.exe filelist/TTJets_SingleLeptFromT_1lepskimmed/TTJets_SingleLeptFromT1.txt TTJets_SingleLeptFromT 1 &
+nohup sh efficiency.exe filelist/TTJets_SingleLeptFromT_1lepskimmed/TTJets_SingleLeptFromT2.txt TTJets_SingleLeptFromT 2 &
+nohup sh efficiency.exe filelist/TTJets_SingleLeptFromT_1lepskimmed/TTJets_SingleLeptFromT3.txt TTJets_SingleLeptFromT 3 &
+nohup sh efficiency.exe filelist/TTJets_SingleLeptFromT_1lepskimmed/TTJets_SingleLeptFromT4.txt TTJets_SingleLeptFromT 4 &
+nohup sh efficiency.exe filelist/TTJets_SingleLeptFromT_1lepskimmed/TTJets_SingleLeptFromT5.txt TTJets_SingleLeptFromT 5 &
+nohup sh efficiency.exe filelist/TTJets_SingleLeptFromT_1lepskimmed/TTJets_SingleLeptFromT6.txt TTJets_SingleLeptFromT 6 &
+nohup sh efficiency.exe filelist/TTJets_SingleLeptFromT_1lepskimmed/TTJets_SingleLeptFromT7.txt TTJets_SingleLeptFromT 7 &
+nohup sh efficiency.exe filelist/TTJets_SingleLeptFromT_1lepskimmed/TTJets_SingleLeptFromT8.txt TTJets_SingleLeptFromT 8 &
+nohup sh efficiency.exe filelist/TTJets_SingleLeptFromT_1lepskimmed/TTJets_SingleLeptFromT9.txt TTJets_SingleLeptFromT 9 &
+nohup sh efficiency.exe filelist/TTJets_SingleLeptFromT_1lepskimmed/TTJets_SingleLeptFromT10.txt TTJets_SingleLeptFromT 10 &
+nohup sh efficiency.exe filelist/TTJets_SingleLeptFromT_1lepskimmed/TTJets_SingleLeptFromT11.txt TTJets_SingleLeptFromT 11 &
+nohup sh efficiency.exe filelist/TTJets_SingleLeptFromT_1lepskimmed/TTJets_SingleLeptFromT12.txt TTJets_SingleLeptFromT 12 &
+nohup sh efficiency.exe filelist/TTJets_SingleLeptFromT_1lepskimmed/TTJets_SingleLeptFromT13.txt TTJets_SingleLeptFromT 13 &
+nohup sh efficiency.exe filelist/TTJets_SingleLeptFromT_1lepskimmed/TTJets_SingleLeptFromT14.txt TTJets_SingleLeptFromT 14 &
+nohup sh efficiency.exe filelist/TTJets_SingleLeptFromT_1lepskimmed/TTJets_SingleLeptFromT15.txt TTJets_SingleLeptFromT 15 &
+nohup sh efficiency.exe filelist/TTJets_SingleLeptFromT_1lepskimmed/TTJets_SingleLeptFromT16.txt TTJets_SingleLeptFromT 16 &

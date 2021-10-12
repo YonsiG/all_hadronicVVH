@@ -1,0 +1,14 @@
+mv TTJets_SingleLeptFromT3.txt TTJets_SingleLeptFromTbar3.txt
+mv TTJets_SingleLeptFromT4.txt TTJets_SingleLeptFromTbar4.txt
+mv TTJets_SingleLeptFromT5.txt TTJets_SingleLeptFromTbar5.txt
+mv TTJets_SingleLeptFromT6.txt TTJets_SingleLeptFromTbar6.txt
+mv TTJets_SingleLeptFromT7.txt TTJets_SingleLeptFromTbar7.txt
+mv TTJets_SingleLeptFromT8.txt TTJets_SingleLeptFromTbar8.txt
+mv TTJets_SingleLeptFromT9.txt TTJets_SingleLeptFromTbar9.txt
+mv TTJets_SingleLeptFromT10.txt TTJets_SingleLeptFromTbar10.txt
+mv TTJets_SingleLeptFromT11.txt TTJets_SingleLeptFromTbar11.txt
+mv TTJets_SingleLeptFromT12.txt TTJets_SingleLeptFromTbar12.txt
+mv TTJets_SingleLeptFromT13.txt TTJets_SingleLeptFromTbar13.txt
+mv TTJets_SingleLeptFromT14.txt TTJets_SingleLeptFromTbar14.txt
+~
+
