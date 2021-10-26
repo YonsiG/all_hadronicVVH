@@ -18,7 +18,7 @@ void makeHists::createHists(const char *fileName)
 
     weight_Scale = new TH1D("weight_Scale", "weight_Scale", 1, 0, 1);
 
-    cutflow = new TH1D("cutflow", "cutflow", 20, 0, 20);
+    cutflow = new TH1D("cutflow", "cutflow", 40, 0, 40);
 
 }
 

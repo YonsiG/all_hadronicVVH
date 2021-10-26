@@ -166,6 +166,7 @@ void efficiency::Loop(const char *typeName)
       /*****************jet selection****************/
       // pass the jet_kinematic_selection first
       int count_jet = 0;
+      int jet_index[200];
       for (int ijet = 0; ijet < nJet; ijet++)
       {
          Jet[ijet].SetPtEtaPhiM(Jet_pt[ijet], Jet_eta[ijet], Jet_phi[ijet], Jet_mass[ijet]);
@@ -179,8 +180,24 @@ void efficiency::Loop(const char *typeName)
 
          if (count_overlap == 1)
             continue;
-
+         
+         jet_index[count_jet]=ijet;
          count_jet++;
+      }
+
+      /*****VBF selection*****/
+      int VBF_selection;
+      if(count_jet>=2) 
+      {
+         for(int ivbf=0; ivbf<count_jet; ivbf++)
+         {
+            for(int ivbf2=ivbf; ivbf2<count_jet; ivbf2++)
+            {
+               TLorentzVector VBF_mass;
+               VBF_mass = Jet[ivbf]+Jet[ivbf2];
+               if (VBF_mass.M()>500) VBF_selection=1;
+            }
+         }
       }
 
       /*****************categorization****************/
@@ -191,79 +208,93 @@ void efficiency::Loop(const char *typeName)
       if (count_fatjet >= 3 && count_jet >= 2)
       {
          myHists->cutflow->Fill(4.5, weight);
+         if (VBF_selection==1) myHists->cutflow->Fill(5.5, weight);
          continue;
       }
       if (count_fatjet >= 3 && count_jet == 1)
       {
-         myHists->cutflow->Fill(5.5, weight);
+         myHists->cutflow->Fill(6.5, weight);
+         if (VBF_selection==1) myHists->cutflow->Fill(7.5, weight);
          continue;
       }
       if (count_fatjet >= 3 && count_jet <1)
       {
-         myHists->cutflow->Fill(6.5, weight);
+         myHists->cutflow->Fill(8.5, weight);
+         if (VBF_selection==1) myHists->cutflow->Fill(9.5, weight);
          continue;
       }
 
       if (count_fatjet == 2)
       {
-         myHists->cutflow->Fill(7.5, weight);
+         myHists->cutflow->Fill(10.5, weight);
       }
       if (count_fatjet == 2 && count_jet >= 4)
       {
-         myHists->cutflow->Fill(8.5, weight);
+         myHists->cutflow->Fill(11.5, weight);
+         if (VBF_selection==1) myHists->cutflow->Fill(12.5, weight);
          continue;
       }
       if (count_fatjet == 2 && count_jet == 3)
       {
-         myHists->cutflow->Fill(9.5, weight);
+         myHists->cutflow->Fill(13.5, weight);
+         if (VBF_selection==1) myHists->cutflow->Fill(14.5, weight);
          continue;
       }
       if (count_fatjet == 2 && count_jet == 2)
       {
-         myHists->cutflow->Fill(10.5, weight);
+         myHists->cutflow->Fill(15.5, weight);
+         if (VBF_selection==1) myHists->cutflow->Fill(16.5, weight);
          continue;
       }
       if (count_fatjet == 2 && count_jet < 2)
       {
-         myHists->cutflow->Fill(11.5, weight);
+         myHists->cutflow->Fill(17.5, weight);
+         if (VBF_selection==1) myHists->cutflow->Fill(18.5, weight);
          continue;
       }
 
       if (count_fatjet == 1)
       {
-         myHists->cutflow->Fill(12.5, weight);
+         myHists->cutflow->Fill(19.5, weight);
       }
       if (count_fatjet == 1 && count_jet >= 6)
       {
-         myHists->cutflow->Fill(13.5, weight);
+         myHists->cutflow->Fill(20.5, weight);
+         if (VBF_selection==1) myHists->cutflow->Fill(21.5, weight);
          continue;
       }
       if (count_fatjet == 1 && count_jet == 5)
       {
-         myHists->cutflow->Fill(14.5, weight);
+         myHists->cutflow->Fill(22.5, weight);
+         if (VBF_selection==1) myHists->cutflow->Fill(23.5, weight);
          continue;
       }
       if (count_fatjet == 1 && count_jet == 4)
       {
-         myHists->cutflow->Fill(15.5, weight);
+         myHists->cutflow->Fill(24.5, weight);
+         if (VBF_selection==1) myHists->cutflow->Fill(25.5, weight);
          continue;
       }
       if (count_fatjet == 1 && count_jet == 3)
       {
-         myHists->cutflow->Fill(16.5, weight);
+         myHists->cutflow->Fill(26.5, weight);
+         if (VBF_selection==1) myHists->cutflow->Fill(27.5, weight);
          continue;
       }
       if (count_fatjet == 1 && count_jet == 2)
       {
-         myHists->cutflow->Fill(17.5, weight);
+         myHists->cutflow->Fill(28.5, weight);
+         if (VBF_selection==1) myHists->cutflow->Fill(29.5, weight);
          continue;
       }
       if (count_fatjet == 1 && count_jet < 2)
       {
-         myHists->cutflow->Fill(18.5, weight);
+         myHists->cutflow->Fill(30.5, weight);
+         if (VBF_selection==1) myHists->cutflow->Fill(31.5, weight);
          continue;
       }      
-      myHists->cutflow->Fill(19.5, weight);
+      myHists->cutflow->Fill(32.5, weight);
+      if (VBF_selection==1) myHists->cutflow->Fill(33.5, weight);
       /*
       if (FatJet_btagDDBvL[maxindex] > 0.7)
       {
