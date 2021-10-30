@@ -1,5 +1,7 @@
 This is a plain text showing the usage of the package.
 
+The environment can be set by source command.txt
+
 The core looping program consists of efficiency.h, efficiency.C, makehists.h, makehists.C and Control.C
 
 To compile, you can simply use 
