@@ -68,23 +68,8 @@ void efficiency::Loop(const char *typeName)
       Sta_FileEventNumber++;
 
       double weight = double(genWeight * xsection * 137.0);
-      myHists->cutflow_1->Fill(0.5, weight);
-      myHists->cutflow_2->Fill(0.5, weight);
-      myHists->cutflow_3->Fill(0.5, weight);
-      myHists->cutflow_4->Fill(0.5, weight);
-      myHists->cutflow_5->Fill(0.5, weight);
-      myHists->cutflow_6->Fill(0.5, weight);
-      myHists->cutflow_7->Fill(0.5, weight);
-      myHists->cutflow_8->Fill(0.5, weight);
-      myHists->cutflow_9->Fill(0.5, weight);
-      myHists->cutflow_10->Fill(0.5, weight);
-      myHists->cutflow_11->Fill(0.5, weight);
-      myHists->cutflow_12->Fill(0.5, weight);
-      myHists->cutflow_13->Fill(0.5, weight);
-      myHists->cutflow_14->Fill(0.5, weight);
-      myHists->cutflow_15->Fill(0.5, weight);
-      myHists->cutflow_16->Fill(0.5, weight);
-      myHists->cutflow_17->Fill(0.5, weight);
+      for (int icutflow = 0; icutflow < 14; icutflow++)
+         myHists->cutflow[icutflow]->Fill(0.5, weight);
 
       /*************gen particles****************/
 
@@ -117,23 +102,9 @@ void efficiency::Loop(const char *typeName)
 
       if (double_count_Hbb != 2)
          continue; // only consider Generated Hbb events, other inclusive channels are not studied
-      myHists->cutflow_1->Fill(1.5, weight);
-      myHists->cutflow_2->Fill(1.5, weight);
-      myHists->cutflow_3->Fill(1.5, weight);
-      myHists->cutflow_4->Fill(1.5, weight);
-      myHists->cutflow_5->Fill(1.5, weight);
-      myHists->cutflow_6->Fill(1.5, weight);
-      myHists->cutflow_7->Fill(1.5, weight);
-      myHists->cutflow_8->Fill(1.5, weight);
-      myHists->cutflow_9->Fill(1.5, weight);
-      myHists->cutflow_10->Fill(1.5, weight);
-      myHists->cutflow_11->Fill(1.5, weight);
-      myHists->cutflow_12->Fill(1.5, weight);
-      myHists->cutflow_13->Fill(1.5, weight);
-      myHists->cutflow_14->Fill(1.5, weight);
-      myHists->cutflow_15->Fill(1.5, weight);
-      myHists->cutflow_16->Fill(1.5, weight);
-      myHists->cutflow_17->Fill(1.5, weight);
+
+      for (int icutflow = 0; icutflow < 14; icutflow++)
+         myHists->cutflow[icutflow]->Fill(1.5, weight);
 
       /**************lepton selection****************/
       int count_lepton = 0;
@@ -154,23 +125,9 @@ void efficiency::Loop(const char *typeName)
 
       if (count_lepton != 0)
          continue;
-      myHists->cutflow_1->Fill(2.5, weight);
-      myHists->cutflow_2->Fill(2.5, weight);
-      myHists->cutflow_3->Fill(2.5, weight);
-      myHists->cutflow_4->Fill(2.5, weight);
-      myHists->cutflow_5->Fill(2.5, weight);
-      myHists->cutflow_6->Fill(2.5, weight);
-      myHists->cutflow_7->Fill(2.5, weight);
-      myHists->cutflow_8->Fill(2.5, weight);
-      myHists->cutflow_9->Fill(2.5, weight);
-      myHists->cutflow_10->Fill(2.5, weight);
-      myHists->cutflow_11->Fill(2.5, weight);
-      myHists->cutflow_12->Fill(2.5, weight);
-      myHists->cutflow_13->Fill(2.5, weight);
-      myHists->cutflow_14->Fill(2.5, weight);
-      myHists->cutflow_15->Fill(2.5, weight);
-      myHists->cutflow_16->Fill(2.5, weight);
-      myHists->cutflow_17->Fill(2.5, weight);
+
+      for (int icutflow = 0; icutflow < 14; icutflow++)
+         myHists->cutflow[icutflow]->Fill(2.5, weight);
 
       /****************fatjet selection**************/
       //      int sort_index = 0;
@@ -214,11 +171,12 @@ void efficiency::Loop(const char *typeName)
       /*****************jet selection****************/
       // pass the jet_kinematic_selection first
       int count_jet = 0;
+      int count_central_jet = 0;
       int jet_index[200];
       for (int ijet = 0; ijet < nJet; ijet++)
       {
          Jet[ijet].SetPtEtaPhiM(Jet_pt[ijet], Jet_eta[ijet], Jet_phi[ijet], Jet_mass[ijet]);
-         if (!Jet_kinematic_Select(Jet[ijet]))
+         if (!Jet_kinVBF_select(Jet[ijet]))
             continue;
 
          int count_overlap = 0;
@@ -231,6 +189,8 @@ void efficiency::Loop(const char *typeName)
 
          jet_index[count_jet] = ijet;
          count_jet++;
+         if (Jet_central_Select(Jet[ijet]))
+            count_central_jet++;
       }
 
       /*****VBF selection*****/
@@ -250,124 +210,67 @@ void efficiency::Loop(const char *typeName)
       }
 
       /*****************categorization****************/
+      int category_number = 13;
       if (count_fatjet >= 3)
       {
-         myHists->cutflow_1->Fill(3.5, weight);
-         myHists->cutflow_2->Fill(3.5, weight);
-         myHists->cutflow_3->Fill(3.5, weight);
+         myHists->cutflow[0]->Fill(3.5, weight);
+         myHists->cutflow[1]->Fill(3.5, weight);
+         myHists->cutflow[2]->Fill(3.5, weight);
       }
       if (count_fatjet >= 3 && count_jet >= 2)
-      {
-         myHists->cutflow_1->Fill(4.5, weight);
-         if (VBF_selection == 1)
-            myHists->cutflow_1->Fill(5.5, weight);
-         continue;
-      }
+         category_number = 0;
       if (count_fatjet >= 3 && count_jet == 1)
-      {
-         myHists->cutflow_2->Fill(4.5, weight);
-         if (VBF_selection == 1)
-            myHists->cutflow_2->Fill(5.5, weight);
-         continue;
-      }
+         category_number = 1;
       if (count_fatjet >= 3 && count_jet < 1)
-      {
-         myHists->cutflow_3->Fill(4.5, weight);
-         if (VBF_selection == 1)
-            myHists->cutflow_3->Fill(5.5, weight);
-         continue;
-      }
+         category_number = 2;
 
       if (count_fatjet == 2)
       {
-         myHists->cutflow_4->Fill(3.5, weight);
-         myHists->cutflow_5->Fill(3.5, weight);
-         myHists->cutflow_6->Fill(3.5, weight);
-         myHists->cutflow_7->Fill(3.5, weight);
+         myHists->cutflow[3]->Fill(3.5, weight);
+         myHists->cutflow[4]->Fill(3.5, weight);
+         myHists->cutflow[5]->Fill(3.5, weight);
+         myHists->cutflow[6]->Fill(3.5, weight);
       }
       if (count_fatjet == 2 && count_jet >= 4)
-      {
-         myHists->cutflow_4->Fill(4.5, weight);
-         if (VBF_selection == 1)
-            myHists->cutflow_4->Fill(5.5, weight);
-         continue;
-      }
+         category_number = 3;
       if (count_fatjet == 2 && count_jet == 3)
-      {
-         myHists->cutflow_5->Fill(4.5, weight);
-         if (VBF_selection == 1)
-            myHists->cutflow_5->Fill(5.5, weight);
-         continue;
-      }
+         category_number = 4;
       if (count_fatjet == 2 && count_jet == 2)
-      {
-         myHists->cutflow_6->Fill(4.5, weight);
-         if (VBF_selection == 1)
-            myHists->cutflow_6->Fill(5.5, weight);
-         continue;
-      }
+         category_number = 5;
       if (count_fatjet == 2 && count_jet < 2)
-      {
-         myHists->cutflow_7->Fill(4.5, weight);
-         if (VBF_selection == 1)
-            myHists->cutflow_7->Fill(5.5, weight);
-         continue;
-      }
+         category_number = 6;
 
       if (count_fatjet == 1)
       {
-         myHists->cutflow_8->Fill(3.5, weight);
-         myHists->cutflow_9->Fill(3.5, weight);
-         myHists->cutflow_10->Fill(3.5, weight);
-         myHists->cutflow_11->Fill(3.5, weight);
-         myHists->cutflow_12->Fill(3.5, weight);
-         myHists->cutflow_13->Fill(3.5, weight);
+         myHists->cutflow[7]->Fill(3.5, weight);
+         myHists->cutflow[8]->Fill(3.5, weight);
+         myHists->cutflow[9]->Fill(3.5, weight);
+         myHists->cutflow[10]->Fill(3.5, weight);
+         myHists->cutflow[11]->Fill(3.5, weight);
+         myHists->cutflow[12]->Fill(3.5, weight);
       }
       if (count_fatjet == 1 && count_jet >= 6)
-      {
-         myHists->cutflow_8->Fill(4.5, weight);
-         if (VBF_selection == 1)
-            myHists->cutflow_8->Fill(5.5, weight);
-         continue;
-      }
+         category_number = 7;
       if (count_fatjet == 1 && count_jet == 5)
-      {
-         myHists->cutflow_9->Fill(4.5, weight);
-         if (VBF_selection == 1)
-            myHists->cutflow_9->Fill(5.5, weight);
-         continue;
-      }
+         category_number = 8;
       if (count_fatjet == 1 && count_jet == 4)
-      {
-         myHists->cutflow_10->Fill(4.5, weight);
-         if (VBF_selection == 1)
-            myHists->cutflow_10->Fill(5.5, weight);
-         continue;
-      }
+         category_number = 9;
       if (count_fatjet == 1 && count_jet == 3)
-      {
-         myHists->cutflow_11->Fill(4.5, weight);
-         if (VBF_selection == 1)
-            myHists->cutflow_11->Fill(5.5, weight);
-         continue;
-      }
+         category_number = 10;
       if (count_fatjet == 1 && count_jet == 2)
-      {
-         myHists->cutflow_12->Fill(4.5, weight);
-         if (VBF_selection == 1)
-            myHists->cutflow_12->Fill(5.5, weight);
-         continue;
-      }
+         category_number = 11;
       if (count_fatjet == 1 && count_jet < 2)
-      {
-         myHists->cutflow_13->Fill(4.5, weight);
-         if (VBF_selection == 1)
-            myHists->cutflow_13->Fill(5.5, weight);
-         continue;
-      }
-      myHists->cutflow_14->Fill(4.5, weight);
+         category_number = 12;
+
+      myHists->cutflow[category_number]->Fill(4.5, weight);
+
       if (VBF_selection == 1)
-         myHists->cutflow_14->Fill(5.5, weight);
+         myHists->cutflow[category_number]->Fill(5.5, weight);
+
+      /****************plot filling******************/
+      myHists->number_of_jets[category_number]->Fill(count_jet, weight);
+      myHists->number_of_central_jets[category_number]->Fill(count_central_jet, weight);
+
       /*
       if (FatJet_btagDDBvL[maxindex] > 0.7)
       {

@@ -50,7 +50,7 @@ bool FatJet_kinematic_Select(TLorentzVector FatJet, int FatJet_jetId, float FatJ
     return true;
 }
 
-bool Jet_kinematic_Select(TLorentzVector Jet)
+bool Jet_central_Select(TLorentzVector Jet)
 {
     if (Jet.Pt() < 30)
         return false;
@@ -70,7 +70,7 @@ bool Jet_kinematic_Select(TLorentzVector Jet)
 
 bool Jet_kinVBF_select(TLorentzVector Jet)
 {
-   if (Jet.Pt() < 30)
+   if (Jet.Pt() < 25)
        return false;
    if (fabs(Jet.Eta() > 4.7))
        return false;
