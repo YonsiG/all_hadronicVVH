@@ -32,9 +32,23 @@ int main()
     double scaleNum = 1 / weight_Scale->GetBinContent(1);
 
     TFile *outputFile = new TFile(outfileName, "RECREATE");
- 
-    TH1D *cutflow = (TH1D *)inputFile->Get("cutflow")->Clone();;
-    cutflow->Scale(scaleNum);
+    char plotname[50];
+    TH1D *cutflow[14];
+    TH1D *number_of_jets[14];
+    TH1D *number_of_central_jets[14];
+
+    for (int icategory = 0; icategory < 14; icategory++)
+    {
+        sprintf(plotname, "cutflow%i", icategory);
+        cutflow[icategory] = (TH1D *)inputFile->Get(plotname)->Clone();
+        sprintf(plotname, "number_of_jets%i", icategory);
+        number_of_jets[icategory] = (TH1D *)inputFile->Get(plotname)->Clone();
+        sprintf(plotname, "number_of_central_jets%i", icategory);
+        number_of_central_jets[icategory] = (TH1D *)inputFile->Get(plotname)->Clone();
+        cutflow[icategory]->Scale(scaleNum);
+        number_of_jets[icategory]->Scale(scaleNum);
+        number_of_central_jets[icategory]->Scale(scaleNum);
+    }
 
     inputFile->Close();
     outputFile->cd();
