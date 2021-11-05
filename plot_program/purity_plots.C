@@ -30,18 +30,18 @@ int main()
 {
    bool isLog = 0;
 
-   TFile *signalfile = new TFile("../outfiles/C2V_4p5/C2V_4p5_selected.root");
+   TFile *signalfile = new TFile("../../outfiles/C2V_3/SSWWH_scaled.root");
 
-   string histName = "recoHiggs_msoftdrop_stackTT";
+   string histName = "first_fatjet_btag_score_SSWWH";
 
    TCanvas *c = new TCanvas("plot1", "", 800, 600);
    TPad *pad1 = new TPad("pad1", "pad1", 0, 0, 1.0, 1.0);
    THStack *stack = new THStack("ts1", "");
    c->SetMargin(0.1, 0.05, 0.1, 0.05);
 
-   TH1D *plot_2pass = (TH1D *)signalfile->Get("Higgs_msoftdrop_2passTT");
-   TH1D *plot_1pass = (TH1D *)signalfile->Get("Higgs_msoftdrop_1passTT");
-   TH1D *plot_0pass = (TH1D *)signalfile->Get("Higgs_msoftdrop_0passTT");
+   TH1D *plot_2pass = (TH1D *)signalfile->Get("first_fatjet_btag_score_2match");
+   TH1D *plot_1pass = (TH1D *)signalfile->Get("first_fatjet_btag_score_1match");
+   TH1D *plot_0pass = (TH1D *)signalfile->Get("first_fatjet_btag_score_0match");
 
    for (int ibin = 1; ibin < plot_2pass->GetNbinsX() + 1; ibin++)
    {
@@ -69,7 +69,7 @@ int main()
    plot_2pass->GetYaxis()->SetTitleFont(70);
    plot_2pass->GetYaxis()->SetLabelSize(0.03);
    plot_2pass->GetYaxis()->SetLabelFont(70);
-   plot_2pass->GetXaxis()->SetTitle("Higgs msoftdrop / GeV");
+   plot_2pass->GetXaxis()->SetTitle("fatjet DDBvL score / GeV");
    plot_2pass->GetXaxis()->SetTitleSize(0.04);
    plot_2pass->GetXaxis()->SetTitleOffset(1);
    plot_2pass->GetXaxis()->SetTitleFont(70);
@@ -81,10 +81,10 @@ int main()
    stack->Add(plot_0pass);
    stack->Draw("H");
 
-   TLegend *legend = new TLegend(0.65, 0.75, 0.88, 0.88);
-   legend->AddEntry(plot_2pass, "2pass", "f");
-   legend->AddEntry(plot_1pass, "1pass", "f");
-   legend->AddEntry(plot_0pass, "0pass", "f");
+   TLegend *legend = new TLegend(0.55, 0.75, 0.78, 0.88);
+   legend->AddEntry(plot_2pass, "2 matches", "f");
+   legend->AddEntry(plot_1pass, "1 match", "f");
+   legend->AddEntry(plot_0pass, "0 match", "f");
    legend->SetTextFont(20);
    legend->SetTextSize(0.025);
    legend->SetBorderSize(0);
@@ -92,7 +92,7 @@ int main()
    //   legend -> SetHeader("ATLAS Internal");
 
    if (isLog)
-      c->SaveAs(("../plots/" + histName + "_log.pdf").c_str()); //save plots to disk
+      c->SaveAs(("../../plots/C2V_3/" + histName + "_log.pdf").c_str()); //save plots to disk
    if (!isLog)
-      c->SaveAs(("../plots/" + histName + "_linear.pdf").c_str());
+      c->SaveAs(("../../plots/C2V_3/" + histName + "_linear.pdf").c_str());
 }

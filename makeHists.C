@@ -30,6 +30,36 @@ void makeHists::createHists(const char *fileName)
         sprintf(plotname, "number_of_central_jets%i", icategory);
         number_of_central_jets[icategory] = new TH1D(plotname, plotname, 10, 0, 10);
     }
+
+    fatjet_btag_score = new TH1D("fatjet_btag_score", "fatjet_btag_score", 100, 0, 1);
+    fatjet_btag_score->Sumw2();
+    first_fatjet_btag_score = new TH1D("first_fatjet_btag_score", "first_fatjet_btag_score", 100, 0, 1);
+    first_fatjet_btag_score->Sumw2();
+    second_fatjet_btag_score = new TH1D("second_fatjet_btag_score", "second_fatjet_btag_score", 100, 0, 1);
+    second_fatjet_btag_score->Sumw2();
+    third_fatjet_btag_score = new TH1D("third_fatjet_btag_score", "third_fatjet_btag_score", 100, 0, 1);
+    third_fatjet_btag_score->Sumw2();
+
+    first_fatjet_btag_score_2match = new TH1D("first_fatjet_btag_score_2match", "first_fatjet_btag_score_2match", 100, 0, 1);
+    first_fatjet_btag_score_2match->Sumw2();
+    second_fatjet_btag_score_2match = new TH1D("second_fatjet_btag_score_2match", "second_fatjet_btag_score_2match", 100, 0, 1);
+    second_fatjet_btag_score_2match->Sumw2();
+    third_fatjet_btag_score_2match = new TH1D("third_fatjet_btag_score_2match", "third_fatjet_btag_score_2match", 100, 0, 1);
+    third_fatjet_btag_score_2match->Sumw2();
+
+    first_fatjet_btag_score_1match = new TH1D("first_fatjet_btag_score_1match", "first_fatjet_btag_score_1match", 100, 0, 1);
+    first_fatjet_btag_score_1match->Sumw2();
+    second_fatjet_btag_score_1match = new TH1D("second_fatjet_btag_score_1match", "second_fatjet_btag_score_1match", 100, 0, 1);
+    second_fatjet_btag_score_1match->Sumw2();
+    third_fatjet_btag_score_1match = new TH1D("third_fatjet_btag_score_1match", "third_fatjet_btag_score_1match", 100, 0, 1);
+    third_fatjet_btag_score_1match->Sumw2();
+
+    first_fatjet_btag_score_0match = new TH1D("first_fatjet_btag_score_0match", "first_fatjet_btag_score_0match", 100, 0, 1);
+    first_fatjet_btag_score_0match->Sumw2();
+    second_fatjet_btag_score_0match = new TH1D("second_fatjet_btag_score_0match", "second_fatjet_btag_score_0match", 100, 0, 1);
+    second_fatjet_btag_score_0match->Sumw2();
+    third_fatjet_btag_score_0match = new TH1D("third_fatjet_btag_score_0match", "third_fatjet_btag_score_0match", 100, 0, 1);
+    third_fatjet_btag_score_0match->Sumw2();
 }
 
 void makeHists::saveHists()

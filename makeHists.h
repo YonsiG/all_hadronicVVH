@@ -22,6 +22,23 @@ public:
   TH1D *number_of_jets[14];
   TH1D *number_of_central_jets[14];
 
+  TH1D *fatjet_btag_score;
+  TH1D *first_fatjet_btag_score;
+  TH1D *second_fatjet_btag_score;
+  TH1D *third_fatjet_btag_score;
+
+  TH1D *first_fatjet_btag_score_2match;
+  TH1D *second_fatjet_btag_score_2match;
+  TH1D *third_fatjet_btag_score_2match;
+
+  TH1D *first_fatjet_btag_score_1match;
+  TH1D *second_fatjet_btag_score_1match;
+  TH1D *third_fatjet_btag_score_1match;
+
+  TH1D *first_fatjet_btag_score_0match;
+  TH1D *second_fatjet_btag_score_0match;
+  TH1D *third_fatjet_btag_score_0match;
+
   void createHists(const char *fileName);
   void saveHists();
 };

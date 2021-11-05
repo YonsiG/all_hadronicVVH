@@ -27,30 +27,30 @@ using namespace std;
 int main()
 {
   /*******Switches********/
-  bool Compare = true; //if you want to draw two plots, please set it true
+  bool Compare = false; //if you want to draw two plots, please set it true
   bool Stack = false;
-  bool DoRatio = true; //if you want to draw the ratio beneath the plots, please set it true (Set Compare mode true first)
+  bool DoRatio = false; //if you want to draw the ratio beneath the plots, please set it true (Set Compare mode true first)
   bool DoLogy = false;
   bool SetXRange = false;
-  bool SetYRange = true;
+  bool SetYRange = false;
   bool Normalize = false;      //Set Compare mode first, normalize to plot1
   bool NormalizeToOne = false; //Set Compare mode first
   bool DoSave = true;          //Save as pdf version
   bool IsCutFlow = false;
   bool DoRebin = false;
 
-  char filename1[100] = "../outfiles/C2V_4p5/C2V_4p5_scaled.root";
-  char filename2[100] = "../outfiles/C2V_4p5/C2V_4p5_scaled.root"; //if you only want to draw one plot, use filename1 only
+  char filename1[100] = "../../outfiles/C2V_3/OSWWH_scaled.root";
+  char filename2[100] = "../../outfiles/C2V_3/OSWWH_scaled.root"; //if you only want to draw one plot, use filename1 only
 
-  char plotname1[100] = "cut_HiggsptLL";
-  char plotname2[100] = "total_Higgspt"; //if you only want to draw one plot, use plotname1 only
+  char plotname1[100] = "third_fatjet_btag_score";
+  char plotname2[100] = "third_fatjet_btag_score"; //if you only want to draw one plot, use plotname1 only
 
-  char saveFileName[100] = "../plots/C2V_4p5/efficiency_vs_Higgs_PtLL.pdf";
+  char saveFileName[100] = "../../plots/C2V_3/third_fatjet_btag_score.pdf";
 
-  char Xtitle[100] = "Higgs pt";
+  char Xtitle[100] = "fatjet DDBvL score";
   char Ytitle[100] = "entries";
 
-  char legend1[100] = "after_cut";
+  char legend1[100] = "third fatjet";
   char legend2[100] = "before_cut";
 
   double minX = 25;    //if SetXRange

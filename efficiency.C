@@ -130,9 +130,9 @@ void efficiency::Loop(const char *typeName)
          myHists->cutflow[icutflow]->Fill(2.5, weight);
 
       /****************fatjet selection**************/
-      //      int sort_index = 0;
-      //      int pass_cut_fatjet_index[200];
-      //      double pass_cut_fatjet_btagDDBvL[200]; // temporarily not sorting
+      int sort_index = 0;
+      int pass_cut_fatjet_index[200];
+      double pass_cut_fatjet_btagDDBvL[200]; // temporarily not sorting
       int count_fatjet = 0;
       for (int ifatjet = 0; ifatjet < nFatJet; ifatjet++)
       {
@@ -141,32 +141,25 @@ void efficiency::Loop(const char *typeName)
          if (Fatjet_kinematic_filter == false)
             continue;
          count_fatjet++;
-         //         pass_cut_fatjet_index[sort_index] = ifatjet;
-         //         pass_cut_fatjet_btagDDBvL[sort_index] = FatJet_btagDDBvL[ifatjet];
-         //         sort_index++;
+         pass_cut_fatjet_index[sort_index] = ifatjet;
+         pass_cut_fatjet_btagDDBvL[sort_index] = FatJet_btagDDBvL[ifatjet];
+         sort_index++;
       }
-      /*      if (sort_index < 1)
-               continue; // at least 1  fatjets
-            myHists->cutflow->Fill(3.5, weight);
 
-            int maxindex, secondindex, thirdindex;
-            for (int iindex = 0; iindex < sort_index; iindex++)
-            {
-               double smaller_than = 0;
-               for (int iindex_compare = 0; iindex_compare < sort_index; iindex_compare++)
-               {
-                  if (FatJet[pass_cut_fatjet_index[iindex_compare]].Pt() > FatJet[pass_cut_fatjet_index[iindex]].Pt())
-                     smaller_than++;
-               }
-
-               if (smaller_than == 0)
-                  maxindex = pass_cut_jet_index[iindex];
-               if (smaller_than == 1)
-                  secondindex = pass_cut_jet_index[iindex];
-               if (smaller_than == 2)
-                  thirdindex = pass_cut_jet_index[iindex];
-            }
-      */
+      // sorting the fatjets according to their btag score
+      for (int isort = 0; isort < sort_index; isort++)
+      {
+         int thisfatjet_rank = 0;
+         for (int irankindex = 0; irankindex < sort_index; irankindex++)
+         {
+            if (isort == irankindex)
+               continue;
+            if (pass_cut_fatjet_btagDDBvL[isort] < pass_cut_fatjet_btagDDBvL[irankindex])
+               thisfatjet_rank++;
+         }
+         FatJet_btagsort[thisfatjet_rank] = FatJet[pass_cut_fatjet_index[isort]];
+         FatJet_DDBvL_btagsort[thisfatjet_rank] = pass_cut_fatjet_btagDDBvL[isort];
+      }
 
       /*****************jet selection****************/
       // pass the jet_kinematic_selection first
@@ -270,6 +263,47 @@ void efficiency::Loop(const char *typeName)
       /****************plot filling******************/
       myHists->number_of_jets[category_number]->Fill(count_jet, weight);
       myHists->number_of_central_jets[category_number]->Fill(count_central_jet, weight);
+      for (int isort = 0; isort < sort_index; isort++)
+         myHists->fatjet_btag_score->Fill(FatJet_DDBvL_btagsort[isort], weight);
+
+      myHists->first_fatjet_btag_score->Fill(FatJet_DDBvL_btagsort[0], weight);
+      if (sort_index > 1)
+         myHists->second_fatjet_btag_score->Fill(FatJet_DDBvL_btagsort[1], weight);
+      if (sort_index > 2)
+         myHists->third_fatjet_btag_score->Fill(FatJet_DDBvL_btagsort[2], weight);
+
+      if (FatJet_btagsort[0].DeltaR(GenBquarkFromH) < 0.8 && FatJet_btagsort[0].DeltaR(GenantiBquarkFromH) < 0.8)
+         myHists->first_fatjet_btag_score_2match->Fill(FatJet_DDBvL_btagsort[0], weight);
+      if (FatJet_btagsort[0].DeltaR(GenBquarkFromH) > 0.8 && FatJet_btagsort[0].DeltaR(GenantiBquarkFromH) < 0.8)
+         myHists->first_fatjet_btag_score_1match->Fill(FatJet_DDBvL_btagsort[0], weight);
+      if (FatJet_btagsort[0].DeltaR(GenBquarkFromH) < 0.8 && FatJet_btagsort[0].DeltaR(GenantiBquarkFromH) > 0.8)
+         myHists->first_fatjet_btag_score_1match->Fill(FatJet_DDBvL_btagsort[0], weight);
+      if (FatJet_btagsort[0].DeltaR(GenBquarkFromH) > 0.8 && FatJet_btagsort[0].DeltaR(GenantiBquarkFromH) > 0.8)
+         myHists->first_fatjet_btag_score_0match->Fill(FatJet_DDBvL_btagsort[0], weight);
+
+      if (sort_index > 1)
+      {
+         if (FatJet_btagsort[1].DeltaR(GenBquarkFromH) < 0.8 && FatJet_btagsort[1].DeltaR(GenantiBquarkFromH) < 0.8)
+            myHists->second_fatjet_btag_score_2match->Fill(FatJet_DDBvL_btagsort[1], weight);
+         if (FatJet_btagsort[1].DeltaR(GenBquarkFromH) > 0.8 && FatJet_btagsort[1].DeltaR(GenantiBquarkFromH) < 0.8)
+            myHists->second_fatjet_btag_score_1match->Fill(FatJet_DDBvL_btagsort[1], weight);
+         if (FatJet_btagsort[1].DeltaR(GenBquarkFromH) < 0.8 && FatJet_btagsort[1].DeltaR(GenantiBquarkFromH) > 0.8)
+            myHists->second_fatjet_btag_score_1match->Fill(FatJet_DDBvL_btagsort[1], weight);
+         if (FatJet_btagsort[1].DeltaR(GenBquarkFromH) > 0.8 && FatJet_btagsort[1].DeltaR(GenantiBquarkFromH) > 0.8)
+            myHists->second_fatjet_btag_score_0match->Fill(FatJet_DDBvL_btagsort[1], weight);
+      }
+
+      if (sort_index > 2)
+      {
+         if (FatJet_btagsort[2].DeltaR(GenBquarkFromH) < 0.8 && FatJet_btagsort[2].DeltaR(GenantiBquarkFromH) < 0.8)
+            myHists->third_fatjet_btag_score_2match->Fill(FatJet_DDBvL_btagsort[2], weight);
+         if (FatJet_btagsort[2].DeltaR(GenBquarkFromH) > 0.8 && FatJet_btagsort[2].DeltaR(GenantiBquarkFromH) < 0.8)
+            myHists->third_fatjet_btag_score_1match->Fill(FatJet_DDBvL_btagsort[2], weight);
+         if (FatJet_btagsort[2].DeltaR(GenBquarkFromH) < 0.8 && FatJet_btagsort[2].DeltaR(GenantiBquarkFromH) > 0.8)
+            myHists->third_fatjet_btag_score_1match->Fill(FatJet_DDBvL_btagsort[2], weight);
+         if (FatJet_btagsort[2].DeltaR(GenBquarkFromH) > 0.8 && FatJet_btagsort[2].DeltaR(GenantiBquarkFromH) > 0.8)
+            myHists->third_fatjet_btag_score_0match->Fill(FatJet_DDBvL_btagsort[2], weight);
+      }
 
       /*
       if (FatJet_btagDDBvL[maxindex] > 0.7)

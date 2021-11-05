@@ -36,6 +36,19 @@ int main()
     TH1D *cutflow[14];
     TH1D *number_of_jets[14];
     TH1D *number_of_central_jets[14];
+    TH1D *fatjet_btag_score;
+    TH1D *first_fatjet_btag_score;
+    TH1D *second_fatjet_btag_score;
+    TH1D *third_fatjet_btag_score;
+    TH1D *first_fatjet_btag_score_2match;
+    TH1D *second_fatjet_btag_score_2match;
+    TH1D *third_fatjet_btag_score_2match;
+    TH1D *first_fatjet_btag_score_1match;
+    TH1D *second_fatjet_btag_score_1match;
+    TH1D *third_fatjet_btag_score_1match;
+    TH1D *first_fatjet_btag_score_0match;
+    TH1D *second_fatjet_btag_score_0match;
+    TH1D *third_fatjet_btag_score_0match;
 
     for (int icategory = 0; icategory < 14; icategory++)
     {
@@ -49,6 +62,36 @@ int main()
         number_of_jets[icategory]->Scale(scaleNum);
         number_of_central_jets[icategory]->Scale(scaleNum);
     }
+
+    fatjet_btag_score = (TH1D *)inputFile->Get("fatjet_btag_score")->Clone();
+    fatjet_btag_score->Scale(scaleNum);
+    first_fatjet_btag_score = (TH1D *)inputFile->Get("first_fatjet_btag_score")->Clone();
+    first_fatjet_btag_score->Scale(scaleNum);
+    second_fatjet_btag_score = (TH1D *)inputFile->Get("second_fatjet_btag_score")->Clone();
+    second_fatjet_btag_score->Scale(scaleNum);
+    third_fatjet_btag_score = (TH1D *)inputFile->Get("third_fatjet_btag_score")->Clone();
+    third_fatjet_btag_score->Scale(scaleNum);
+
+    first_fatjet_btag_score_2match = (TH1D *)inputFile->Get("first_fatjet_btag_score_2match")->Clone();
+    first_fatjet_btag_score_2match->Scale(scaleNum);
+    second_fatjet_btag_score_2match = (TH1D *)inputFile->Get("second_fatjet_btag_score_2match")->Clone();
+    second_fatjet_btag_score_2match->Scale(scaleNum);
+    third_fatjet_btag_score_2match = (TH1D *)inputFile->Get("third_fatjet_btag_score_2match")->Clone();
+    third_fatjet_btag_score_2match->Scale(scaleNum);
+
+    first_fatjet_btag_score_1match = (TH1D *)inputFile->Get("first_fatjet_btag_score_1match")->Clone();
+    first_fatjet_btag_score_1match->Scale(scaleNum);
+    second_fatjet_btag_score_1match = (TH1D *)inputFile->Get("second_fatjet_btag_score_1match")->Clone();
+    second_fatjet_btag_score_1match->Scale(scaleNum);
+    third_fatjet_btag_score_1match = (TH1D *)inputFile->Get("third_fatjet_btag_score_1match")->Clone();
+    third_fatjet_btag_score_1match->Scale(scaleNum);
+
+    first_fatjet_btag_score_0match = (TH1D *)inputFile->Get("first_fatjet_btag_score_0match")->Clone();
+    first_fatjet_btag_score_0match->Scale(scaleNum);
+    second_fatjet_btag_score_0match = (TH1D *)inputFile->Get("second_fatjet_btag_score_0match")->Clone();
+    second_fatjet_btag_score_0match->Scale(scaleNum);
+    third_fatjet_btag_score_0match = (TH1D *)inputFile->Get("third_fatjet_btag_score_0match")->Clone();
+    third_fatjet_btag_score_0match->Scale(scaleNum);
 
     inputFile->Close();
     outputFile->cd();

@@ -102,6 +102,10 @@ public:
     Int_t Sta_TotalNumber = 0;
     Int_t Sta_FileEventNumber;
 
+    /*************sorting variables****************/
+    TLorentzVector FatJet_btagsort[200];
+    Float_t FatJet_DDBvL_btagsort[200];
+
     /******************functions*******************/
     efficiency(const char *infileName, const char *typeName, const char *fileNumber);
     virtual ~efficiency();
