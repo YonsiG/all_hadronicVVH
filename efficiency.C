@@ -39,13 +39,13 @@ void efficiency::Loop(const char *typeName)
    /********defining cross sections**********/
    double xsection;
    if (string(typeName) == string("OSWWH"))
-      xsection = 0.005652;
+      xsection = 5.652;
    if (string(typeName) == string("SSWWH"))
-      xsection = 0.003559;
+      xsection = 3.559;
    if (string(typeName) == string("WZH"))
-      xsection = 0.003742;
+      xsection = 3.742;
    if (string(typeName) == string("ZZH"))
-      xsection = 0.002994;
+      xsection = 2.994;
 
    /********defining total weights***********/
    int weightnum = runChain->GetEntries();
@@ -187,7 +187,9 @@ void efficiency::Loop(const char *typeName)
       }
 
       /*****VBF selection*****/
-      int VBF_selection;
+      int VBF_selection = 0;
+      int VBF_jet_index[2];
+      int VBF_max_mass = 0;
       if (count_jet >= 2)
       {
          for (int ivbf = 0; ivbf < count_jet; ivbf++)
@@ -196,11 +198,17 @@ void efficiency::Loop(const char *typeName)
             {
                TLorentzVector VBF_mass;
                VBF_mass = Jet[ivbf] + Jet[ivbf2];
-               if (VBF_mass.M() > 500)
-                  VBF_selection = 1;
+               if (VBF_mass.M() > VBF_max_mass)
+               {
+                  VBF_jet_index[0] = ivbf;
+                  VBF_jet_index[1] = ivbf2;
+                  VBF_max_mass = VBF_mass.M();
+               }
             }
          }
       }
+      if (VBF_max_mass > 500)
+         VBF_selection = 1;
 
       /*****************categorization****************/
       int category_number = 13;
@@ -263,23 +271,27 @@ void efficiency::Loop(const char *typeName)
       /****************plot filling******************/
       myHists->number_of_jets[category_number]->Fill(count_jet, weight);
       myHists->number_of_central_jets[category_number]->Fill(count_central_jet, weight);
+
       for (int isort = 0; isort < sort_index; isort++)
          myHists->fatjet_btag_score->Fill(FatJet_DDBvL_btagsort[isort], weight);
-
-      myHists->first_fatjet_btag_score->Fill(FatJet_DDBvL_btagsort[0], weight);
+      if (sort_index > 0)
+         myHists->first_fatjet_btag_score->Fill(FatJet_DDBvL_btagsort[0], weight);
       if (sort_index > 1)
          myHists->second_fatjet_btag_score->Fill(FatJet_DDBvL_btagsort[1], weight);
       if (sort_index > 2)
          myHists->third_fatjet_btag_score->Fill(FatJet_DDBvL_btagsort[2], weight);
 
-      if (FatJet_btagsort[0].DeltaR(GenBquarkFromH) < 0.8 && FatJet_btagsort[0].DeltaR(GenantiBquarkFromH) < 0.8)
-         myHists->first_fatjet_btag_score_2match->Fill(FatJet_DDBvL_btagsort[0], weight);
-      if (FatJet_btagsort[0].DeltaR(GenBquarkFromH) > 0.8 && FatJet_btagsort[0].DeltaR(GenantiBquarkFromH) < 0.8)
-         myHists->first_fatjet_btag_score_1match->Fill(FatJet_DDBvL_btagsort[0], weight);
-      if (FatJet_btagsort[0].DeltaR(GenBquarkFromH) < 0.8 && FatJet_btagsort[0].DeltaR(GenantiBquarkFromH) > 0.8)
-         myHists->first_fatjet_btag_score_1match->Fill(FatJet_DDBvL_btagsort[0], weight);
-      if (FatJet_btagsort[0].DeltaR(GenBquarkFromH) > 0.8 && FatJet_btagsort[0].DeltaR(GenantiBquarkFromH) > 0.8)
-         myHists->first_fatjet_btag_score_0match->Fill(FatJet_DDBvL_btagsort[0], weight);
+      if (sort_index > 0)
+      {
+         if (FatJet_btagsort[0].DeltaR(GenBquarkFromH) < 0.8 && FatJet_btagsort[0].DeltaR(GenantiBquarkFromH) < 0.8)
+            myHists->first_fatjet_btag_score_2match->Fill(FatJet_DDBvL_btagsort[0], weight);
+         if (FatJet_btagsort[0].DeltaR(GenBquarkFromH) > 0.8 && FatJet_btagsort[0].DeltaR(GenantiBquarkFromH) < 0.8)
+            myHists->first_fatjet_btag_score_1match->Fill(FatJet_DDBvL_btagsort[0], weight);
+         if (FatJet_btagsort[0].DeltaR(GenBquarkFromH) < 0.8 && FatJet_btagsort[0].DeltaR(GenantiBquarkFromH) > 0.8)
+            myHists->first_fatjet_btag_score_1match->Fill(FatJet_DDBvL_btagsort[0], weight);
+         if (FatJet_btagsort[0].DeltaR(GenBquarkFromH) > 0.8 && FatJet_btagsort[0].DeltaR(GenantiBquarkFromH) > 0.8)
+            myHists->first_fatjet_btag_score_0match->Fill(FatJet_DDBvL_btagsort[0], weight);
+      }
 
       if (sort_index > 1)
       {
