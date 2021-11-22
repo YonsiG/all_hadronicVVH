@@ -92,6 +92,7 @@ public:
     TLorentzVector GenBquarkFromH;
     TLorentzVector GenantiBquarkFromH;
     TLorentzVector GenHiggs;
+    TLorentzVector GenVBFJets[2];
 
     TLorentzVector FatJet[200];
     TLorentzVector Jet[200];

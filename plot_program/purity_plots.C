@@ -30,18 +30,18 @@ int main()
 {
    bool isLog = 0;
 
-   TFile *signalfile = new TFile("../../outfiles/C2V_3/SSWWH_scaled.root");
+   TFile *signalfile = new TFile("../../outfiles/C2V_3/OSWWH_scaled.root");
 
-   string histName = "first_fatjet_btag_score_SSWWH";
+   string histName = "OSWWH/VBFJet_Mjj";
 
    TCanvas *c = new TCanvas("plot1", "", 800, 600);
    TPad *pad1 = new TPad("pad1", "pad1", 0, 0, 1.0, 1.0);
    THStack *stack = new THStack("ts1", "");
    c->SetMargin(0.1, 0.05, 0.1, 0.05);
 
-   TH1D *plot_2pass = (TH1D *)signalfile->Get("first_fatjet_btag_score_2match");
-   TH1D *plot_1pass = (TH1D *)signalfile->Get("first_fatjet_btag_score_1match");
-   TH1D *plot_0pass = (TH1D *)signalfile->Get("first_fatjet_btag_score_0match");
+   TH1D *plot_2pass = (TH1D *)signalfile->Get("VBFJet_Mjj_2match");
+   TH1D *plot_1pass = (TH1D *)signalfile->Get("VBFJet_Mjj_1match");
+   TH1D *plot_0pass = (TH1D *)signalfile->Get("VBFJet_Mjj_0match");
 
    for (int ibin = 1; ibin < plot_2pass->GetNbinsX() + 1; ibin++)
    {
@@ -76,9 +76,9 @@ int main()
    plot_2pass->GetXaxis()->SetLabelSize(0.03);
    plot_2pass->GetXaxis()->SetLabelFont(70);
 
-   stack->Add(plot_2pass);
-   stack->Add(plot_1pass);
    stack->Add(plot_0pass);
+   stack->Add(plot_1pass);
+   stack->Add(plot_2pass);
    stack->Draw("H");
 
    TLegend *legend = new TLegend(0.55, 0.75, 0.78, 0.88);

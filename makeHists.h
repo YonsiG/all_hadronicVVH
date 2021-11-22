@@ -39,6 +39,24 @@ public:
   TH1D *second_fatjet_btag_score_0match;
   TH1D *third_fatjet_btag_score_0match;
 
+  TH1D *VBFJet_leadingPt_2match;
+  TH1D *VBFJet_leadingPt_1match;
+  TH1D *VBFJet_leadingPt_0match;
+  TH1D *VBFJet_subleadingPt_2match;
+  TH1D *VBFJet_subleadingPt_1match;
+  TH1D *VBFJet_subleadingPt_0match;
+
+  TH1D *VBFJet_leadingMass_2match;
+  TH1D *VBFJet_leadingMass_1match;
+  TH1D *VBFJet_leadingMass_0match;
+  TH1D *VBFJet_subleadingMass_2match;
+  TH1D *VBFJet_subleadingMass_1match;
+  TH1D *VBFJet_subleadingMass_0match;
+
+  TH1D *VBFJet_Mjj_2match;
+  TH1D *VBFJet_Mjj_1match;
+  TH1D *VBFJet_Mjj_0match;
+
   void createHists(const char *fileName);
   void saveHists();
 };
