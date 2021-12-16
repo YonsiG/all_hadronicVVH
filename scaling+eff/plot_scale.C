@@ -24,8 +24,8 @@ using namespace std;
 
 int main()
 {
-    char infileName[100] = "../../outfiles/C2V_3/OSWWH_0_selected.root";
-    char outfileName[100] = "../../outfiles/C2V_3/OSWWH_scaled.root";
+    char infileName[100] = "../../outfiles/C2V_3/WZH_2_selected.root";
+    char outfileName[100] = "../../outfiles/C2V_3/WZH_2_scaled.root";
 
     TFile *inputFile = new TFile(infileName);
     TH1D *weight_Scale = (TH1D *)inputFile->Get("weight_Scale");
@@ -55,15 +55,12 @@ int main()
     TH1D *VBFJet_subleadingPt_2match;
     TH1D *VBFJet_subleadingPt_1match;
     TH1D *VBFJet_subleadingPt_0match;
-    TH1D *VBFJet_leadingMass_2match;
-    TH1D *VBFJet_leadingMass_1match;
-    TH1D *VBFJet_leadingMass_0match;
-    TH1D *VBFJet_subleadingMass_2match;
-    TH1D *VBFJet_subleadingMass_1match;
-    TH1D *VBFJet_subleadingMass_0match;
     TH1D *VBFJet_Mjj_2match;
     TH1D *VBFJet_Mjj_1match;
     TH1D *VBFJet_Mjj_0match;
+    TH1D *VBFJet_DeltaEta_2match;
+    TH1D *VBFJet_DeltaEta_1match;
+    TH1D *VBFJet_DeltaEta_0match;
 
     for (int icategory = 0; icategory < 14; icategory++)
     {
@@ -121,24 +118,19 @@ int main()
     VBFJet_subleadingPt_0match = (TH1D *)inputFile->Get("VBFJet_subleadingPt_0match")->Clone();
     VBFJet_subleadingPt_0match->Scale(scaleNum);
 
-    VBFJet_leadingMass_2match = (TH1D *)inputFile->Get("VBFJet_leadingMass_2match")->Clone();
-    VBFJet_leadingMass_2match->Scale(scaleNum);
-    VBFJet_leadingMass_1match = (TH1D *)inputFile->Get("VBFJet_leadingMass_1match")->Clone();
-    VBFJet_leadingMass_1match->Scale(scaleNum);
-    VBFJet_leadingMass_0match = (TH1D *)inputFile->Get("VBFJet_leadingMass_0match")->Clone();
-    VBFJet_leadingMass_0match->Scale(scaleNum);
-    VBFJet_subleadingMass_2match = (TH1D *)inputFile->Get("VBFJet_subleadingMass_2match")->Clone();
-    VBFJet_subleadingMass_2match->Scale(scaleNum);
-    VBFJet_subleadingMass_1match = (TH1D *)inputFile->Get("VBFJet_subleadingMass_1match")->Clone();
-    VBFJet_subleadingMass_1match->Scale(scaleNum);
-    VBFJet_subleadingMass_0match = (TH1D *)inputFile->Get("VBFJet_subleadingMass_0match")->Clone();
-    VBFJet_subleadingMass_0match->Scale(scaleNum);
     VBFJet_Mjj_2match = (TH1D *)inputFile->Get("VBFJet_Mjj_2match")->Clone();
     VBFJet_Mjj_2match->Scale(scaleNum);
     VBFJet_Mjj_1match = (TH1D *)inputFile->Get("VBFJet_Mjj_1match")->Clone();
     VBFJet_Mjj_1match->Scale(scaleNum);
     VBFJet_Mjj_0match = (TH1D *)inputFile->Get("VBFJet_Mjj_0match")->Clone();
     VBFJet_Mjj_0match->Scale(scaleNum);
+
+    VBFJet_DeltaEta_2match = (TH1D *)inputFile->Get("VBFJet_DeltaEta_2match")->Clone();
+    VBFJet_DeltaEta_2match->Scale(scaleNum);
+    VBFJet_DeltaEta_1match = (TH1D *)inputFile->Get("VBFJet_DeltaEta_1match")->Clone();
+    VBFJet_DeltaEta_1match->Scale(scaleNum);
+    VBFJet_DeltaEta_0match = (TH1D *)inputFile->Get("VBFJet_DeltaEta_0match")->Clone();
+    VBFJet_DeltaEta_0match->Scale(scaleNum);
 
     inputFile->Close();
     outputFile->cd();

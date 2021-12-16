@@ -75,26 +75,19 @@ void makeHists::createHists(const char *fileName)
     VBFJet_subleadingPt_0match = new TH1D("VBFJet_subleadingPt_0match", "VBFJet_subleadingPt_0match", 100, 0, 1000);
     VBFJet_subleadingPt_0match->Sumw2();
 
-    VBFJet_leadingMass_2match = new TH1D("VBFJet_leadingMass_2match", "VBFJet_leadingMass_2match", 100, 0, 1000);
-    VBFJet_leadingMass_2match->Sumw2();
-    VBFJet_leadingMass_1match = new TH1D("VBFJet_leadingMass_1match", "VBFJet_leadingMass_1match", 100, 0, 1000);
-    VBFJet_leadingMass_1match->Sumw2();
-    VBFJet_leadingMass_0match = new TH1D("VBFJet_leadingMass_0match", "VBFJet_leadingMass_0match", 100, 0, 1000);
-    VBFJet_leadingMass_0match->Sumw2();
-
-    VBFJet_subleadingMass_2match = new TH1D("VBFJet_subleadingMass_2match", "VBFJet_subleadingMass_2match", 100, 0, 200);
-    VBFJet_subleadingMass_2match->Sumw2();
-    VBFJet_subleadingMass_1match = new TH1D("VBFJet_subleadingMass_1match", "VBFJet_subleadingMass_1match", 100, 0, 200);
-    VBFJet_subleadingMass_1match->Sumw2();
-    VBFJet_subleadingMass_0match = new TH1D("VBFJet_subleadingMass_0match", "VBFJet_subleadingMass_0match", 100, 0, 200);
-    VBFJet_subleadingMass_0match->Sumw2();
-
     VBFJet_Mjj_2match = new TH1D("VBFJet_Mjj_2match", "VBFJet_Mjj_2match", 100, 0, 6000);
     VBFJet_Mjj_2match->Sumw2();
     VBFJet_Mjj_1match = new TH1D("VBFJet_Mjj_1match", "VBFJet_Mjj_1match", 100, 0, 6000);
     VBFJet_Mjj_1match->Sumw2();
     VBFJet_Mjj_0match = new TH1D("VBFJet_Mjj_0match", "VBFJet_Mjj_0match", 100, 0, 6000);
     VBFJet_Mjj_0match->Sumw2();
+
+    VBFJet_DeltaEta_2match = new TH1D("VBFJet_DeltaEta_2match", "VBFJet_DeltaEta_2match", 100, 0, 10);
+    VBFJet_DeltaEta_2match->Sumw2();
+    VBFJet_DeltaEta_1match = new TH1D("VBFJet_DeltaEta_1match", "VBFJet_DeltaEta_1match", 100, 0, 10);
+    VBFJet_DeltaEta_1match->Sumw2();
+    VBFJet_DeltaEta_0match = new TH1D("VBFJet_DeltaEta_0match", "VBFJet_DeltaEta_0match", 100, 0, 10);
+    VBFJet_DeltaEta_0match->Sumw2();
 }
 
 void makeHists::saveHists()
