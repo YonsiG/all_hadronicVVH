@@ -29,6 +29,30 @@ void makeHists::createHists(const char *fileName)
 
         sprintf(plotname, "number_of_central_jets%i", icategory);
         number_of_central_jets[icategory] = new TH1D(plotname, plotname, 10, 0, 10);
+
+        sprintf(plotname, "VBFJet_DeltaEta_2match%i", icategory);
+        VBFJet_DeltaEta_2match[icategory] = new TH1D(plotname, plotname, 100, 0, 10);
+        VBFJet_DeltaEta_2match[icategory]->Sumw2();
+
+        sprintf(plotname, "VBFJet_DeltaEta_1match%i", icategory);
+        VBFJet_DeltaEta_1match[icategory] = new TH1D(plotname, plotname, 100, 0, 10);
+        VBFJet_DeltaEta_1match[icategory]->Sumw2();
+
+        sprintf(plotname, "VBFJet_DeltaEta_0match%i", icategory);
+        VBFJet_DeltaEta_0match[icategory] = new TH1D(plotname, plotname, 100, 0, 10);
+        VBFJet_DeltaEta_0match[icategory]->Sumw2();
+
+        sprintf(plotname, "matched_VBFJet_Pt%i", icategory);
+        matched_VBFJet_Pt[icategory] = new TH1D(plotname, plotname, 100, 0, 1000);
+        matched_VBFJet_Pt[icategory]->Sumw2();
+
+        sprintf(plotname, "matched_VBFJet_Eta%i", icategory);
+        matched_VBFJet_Eta[icategory] = new TH1D(plotname, plotname, 100, -5, 5);
+        matched_VBFJet_Eta[icategory]->Sumw2();
+
+        sprintf(plotname, "matched_VBFJet_qgl%i", icategory);
+        matched_VBFJet_qgl[icategory] = new TH1D(plotname, plotname, 100, 0, 1);
+        matched_VBFJet_qgl[icategory]->Sumw2();
     }
 
     fatjet_btag_score = new TH1D("fatjet_btag_score", "fatjet_btag_score", 100, 0, 1);
@@ -82,12 +106,20 @@ void makeHists::createHists(const char *fileName)
     VBFJet_Mjj_0match = new TH1D("VBFJet_Mjj_0match", "VBFJet_Mjj_0match", 100, 0, 6000);
     VBFJet_Mjj_0match->Sumw2();
 
-    VBFJet_DeltaEta_2match = new TH1D("VBFJet_DeltaEta_2match", "VBFJet_DeltaEta_2match", 100, 0, 10);
-    VBFJet_DeltaEta_2match->Sumw2();
-    VBFJet_DeltaEta_1match = new TH1D("VBFJet_DeltaEta_1match", "VBFJet_DeltaEta_1match", 100, 0, 10);
-    VBFJet_DeltaEta_1match->Sumw2();
-    VBFJet_DeltaEta_0match = new TH1D("VBFJet_DeltaEta_0match", "VBFJet_DeltaEta_0match", 100, 0, 10);
-    VBFJet_DeltaEta_0match->Sumw2();
+    VBFJet_DeltaEta_2match_total = new TH1D("VBFJet_DeltaEta_2match_total", "VBFJet_DeltaEta_2match_total", 100, 0, 10);
+    VBFJet_DeltaEta_2match_total->Sumw2();
+    VBFJet_DeltaEta_1match_total = new TH1D("VBFJet_DeltaEta_1match_total", "VBFJet_DeltaEta_1match_total", 100, 0, 10);
+    VBFJet_DeltaEta_1match_total->Sumw2();
+    VBFJet_DeltaEta_0match_total = new TH1D("VBFJet_DeltaEta_0match_total", "VBFJet_DeltaEta_0match_total", 100, 0, 10);
+    VBFJet_DeltaEta_0match_total->Sumw2();
+
+    matched_VBFJet_Pt_total = new TH1D("matched_VBFJet_Pt_total", "matched_VBFJet_Pt_total", 100, 0, 1000);
+    matched_VBFJet_Pt_total->Sumw2();
+    matched_VBFJet_Eta_total = new TH1D("matched_VBFJet_Eta_total", "matched_VBFJet_Eta_total", 100, -5, 5);
+    matched_VBFJet_Eta_total->Sumw2();
+    matched_VBFJet_qgl_total = new TH1D("matched_VBFJet_qgl_total", "matched_VBFJet_qgl_total", 100, 0, 1);
+    matched_VBFJet_qgl_total->Sumw2();
+
 }
 
 void makeHists::saveHists()

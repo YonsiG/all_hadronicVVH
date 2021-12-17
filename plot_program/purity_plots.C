@@ -30,18 +30,18 @@ int main()
 {
    bool isLog = 0;
 
-   TFile *signalfile = new TFile("../../outfiles/C2V_3/WZH_3_scaled.root");
+   TFile *signalfile = new TFile("../../outfiles/C2V_3/WZH_0_scaled.root");
 
-   string histName = "WZH/VBFJet_DeltaEta_3";
+   string histName = "WZH/VBFJet_Mjj_0";
 
    TCanvas *c = new TCanvas("plot1", "", 800, 600);
    TPad *pad1 = new TPad("pad1", "pad1", 0, 0, 1.0, 1.0);
    THStack *stack = new THStack("ts1", "");
    c->SetMargin(0.1, 0.05, 0.1, 0.05);
 
-   TH1D *plot_2pass = (TH1D *)signalfile->Get("VBFJet_DeltaEta_2match");
-   TH1D *plot_1pass = (TH1D *)signalfile->Get("VBFJet_DeltaEta_1match");
-   TH1D *plot_0pass = (TH1D *)signalfile->Get("VBFJet_DeltaEta_0match");
+   TH1D *plot_2pass = (TH1D *)signalfile->Get("VBFJet_Mjj_2match");
+   TH1D *plot_1pass = (TH1D *)signalfile->Get("VBFJet_Mjj_1match");
+   TH1D *plot_0pass = (TH1D *)signalfile->Get("VBFJet_Mjj_0match");
 
    for (int ibin = 1; ibin < plot_2pass->GetNbinsX() + 1; ibin++)
    {

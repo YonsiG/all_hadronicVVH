@@ -24,8 +24,8 @@ using namespace std;
 
 int main()
 {
-    char infileName[100] = "../../outfiles/C2V_3/WZH_2_selected.root";
-    char outfileName[100] = "../../outfiles/C2V_3/WZH_2_scaled.root";
+    char infileName[100] = "../../outfiles/C2V_3/WZH_0_selected.root";
+    char outfileName[100] = "../../outfiles/C2V_3/WZH_0_scaled.root";
 
     TFile *inputFile = new TFile(infileName);
     TH1D *weight_Scale = (TH1D *)inputFile->Get("weight_Scale");
@@ -58,9 +58,18 @@ int main()
     TH1D *VBFJet_Mjj_2match;
     TH1D *VBFJet_Mjj_1match;
     TH1D *VBFJet_Mjj_0match;
-    TH1D *VBFJet_DeltaEta_2match;
-    TH1D *VBFJet_DeltaEta_1match;
-    TH1D *VBFJet_DeltaEta_0match;
+    TH1D *VBFJet_DeltaEta_2match_total;
+    TH1D *VBFJet_DeltaEta_1match_total;
+    TH1D *VBFJet_DeltaEta_0match_total;
+    TH1D *VBFJet_DeltaEta_2match[14];
+    TH1D *VBFJet_DeltaEta_1match[14];
+    TH1D *VBFJet_DeltaEta_0match[14];
+    TH1D *matched_VBFJet_Pt_total;
+    TH1D *matched_VBFJet_Eta_total;
+    TH1D *matched_VBFJet_qgl_total;
+    TH1D *matched_VBFJet_Pt[14];
+    TH1D *matched_VBFJet_Eta[14];
+    TH1D *matched_VBFJet_qgl[14];
 
     for (int icategory = 0; icategory < 14; icategory++)
     {
@@ -70,9 +79,28 @@ int main()
         number_of_jets[icategory] = (TH1D *)inputFile->Get(plotname)->Clone();
         sprintf(plotname, "number_of_central_jets%i", icategory);
         number_of_central_jets[icategory] = (TH1D *)inputFile->Get(plotname)->Clone();
+        sprintf(plotname, "VBFJet_DeltaEta_2match%i", icategory);
+        VBFJet_DeltaEta_2match[icategory] = (TH1D *)inputFile->Get(plotname)->Clone();
+        sprintf(plotname, "VBFJet_DeltaEta_1match%i", icategory);
+        VBFJet_DeltaEta_1match[icategory] = (TH1D *)inputFile->Get(plotname)->Clone();
+        sprintf(plotname, "VBFJet_DeltaEta_0match%i", icategory);
+        VBFJet_DeltaEta_0match[icategory] = (TH1D *)inputFile->Get(plotname)->Clone();
+        sprintf(plotname, "matched_VBFJet_Pt%i", icategory);
+        matched_VBFJet_Pt[icategory] = (TH1D *)inputFile->Get(plotname)->Clone();
+        sprintf(plotname, "matched_VBFJet_Eta%i", icategory);
+        matched_VBFJet_Eta[icategory] = (TH1D *)inputFile->Get(plotname)->Clone();
+        sprintf(plotname, "matched_VBFJet_qgl%i", icategory);
+        matched_VBFJet_qgl[icategory] = (TH1D *)inputFile->Get(plotname)->Clone();
+
         cutflow[icategory]->Scale(scaleNum);
         number_of_jets[icategory]->Scale(scaleNum);
         number_of_central_jets[icategory]->Scale(scaleNum);
+        VBFJet_DeltaEta_2match[icategory]->Scale(scaleNum);
+        VBFJet_DeltaEta_1match[icategory]->Scale(scaleNum);
+        VBFJet_DeltaEta_0match[icategory]->Scale(scaleNum);
+        matched_VBFJet_Pt[icategory]->Scale(scaleNum);
+        matched_VBFJet_Eta[icategory]->Scale(scaleNum);
+        matched_VBFJet_qgl[icategory]->Scale(scaleNum);
     }
 
     fatjet_btag_score = (TH1D *)inputFile->Get("fatjet_btag_score")->Clone();
@@ -125,12 +153,19 @@ int main()
     VBFJet_Mjj_0match = (TH1D *)inputFile->Get("VBFJet_Mjj_0match")->Clone();
     VBFJet_Mjj_0match->Scale(scaleNum);
 
-    VBFJet_DeltaEta_2match = (TH1D *)inputFile->Get("VBFJet_DeltaEta_2match")->Clone();
-    VBFJet_DeltaEta_2match->Scale(scaleNum);
-    VBFJet_DeltaEta_1match = (TH1D *)inputFile->Get("VBFJet_DeltaEta_1match")->Clone();
-    VBFJet_DeltaEta_1match->Scale(scaleNum);
-    VBFJet_DeltaEta_0match = (TH1D *)inputFile->Get("VBFJet_DeltaEta_0match")->Clone();
-    VBFJet_DeltaEta_0match->Scale(scaleNum);
+    VBFJet_DeltaEta_2match_total = (TH1D *)inputFile->Get("VBFJet_DeltaEta_2match_total")->Clone();
+    VBFJet_DeltaEta_2match_total->Scale(scaleNum);
+    VBFJet_DeltaEta_1match_total = (TH1D *)inputFile->Get("VBFJet_DeltaEta_1match_total")->Clone();
+    VBFJet_DeltaEta_1match_total->Scale(scaleNum);
+    VBFJet_DeltaEta_0match_total = (TH1D *)inputFile->Get("VBFJet_DeltaEta_0match_total")->Clone();
+    VBFJet_DeltaEta_0match_total->Scale(scaleNum);
+
+    matched_VBFJet_Pt_total = (TH1D *)inputFile->Get("matched_VBFJet_Pt_total")->Clone();
+    matched_VBFJet_Pt_total->Scale(scaleNum);
+    matched_VBFJet_Eta_total = (TH1D *)inputFile->Get("matched_VBFJet_Eta_total")->Clone();
+    matched_VBFJet_Eta_total->Scale(scaleNum);
+    matched_VBFJet_qgl_total = (TH1D *)inputFile->Get("matched_VBFJet_qgl_total")->Clone();
+    matched_VBFJet_qgl_total->Scale(scaleNum);
 
     inputFile->Close();
     outputFile->cd();

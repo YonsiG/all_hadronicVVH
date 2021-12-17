@@ -50,9 +50,23 @@ public:
   TH1D *VBFJet_Mjj_1match;
   TH1D *VBFJet_Mjj_0match;
 
-  TH1D *VBFJet_DeltaEta_2match;
-  TH1D *VBFJet_DeltaEta_1match;
-  TH1D *VBFJet_DeltaEta_0match;
+  TH1D *VBFJet_DeltaEta_2match_total;
+  TH1D *VBFJet_DeltaEta_1match_total;
+  TH1D *VBFJet_DeltaEta_0match_total;
+
+  TH1D *VBFJet_DeltaEta_2match[14];
+  TH1D *VBFJet_DeltaEta_1match[14];
+  TH1D *VBFJet_DeltaEta_0match[14];
+
+  TH1D *matched_VBFJet_Pt_total;
+  TH1D *matched_VBFJet_Eta_total;
+  TH1D *matched_VBFJet_qgl_total;
+  
+  TH1D *matched_VBFJet_Pt[14];
+  TH1D *matched_VBFJet_Eta[14];
+  TH1D *matched_VBFJet_qgl[14];
+
+
 
   void createHists(const char *fileName);
   void saveHists();

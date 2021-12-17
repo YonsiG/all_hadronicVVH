@@ -65,6 +65,7 @@ public:
     Float_t Jet_phi[200];
     Float_t Jet_pt[200];
     Float_t Jet_mass[200];
+    Float_t Jet_qgl[200];
 
     Float_t Electron_mass[200];
     Float_t Electron_pt[200];
@@ -184,6 +185,7 @@ void efficiency::Initial(const char *rootName, int rootNumber, const char *typeN
     fChain->SetBranchAddress("Jet_phi", Jet_phi);
     fChain->SetBranchAddress("Jet_pt", Jet_pt);
     fChain->SetBranchAddress("Jet_mass", Jet_mass);
+    fChain->SetBranchAddress("Jet_qgl", Jet_qgl);
 
     fChain->SetBranchAddress("Electron_mass", Electron_mass);
     fChain->SetBranchAddress("Electron_pt", Electron_pt);

@@ -39,18 +39,18 @@ int main()
   bool IsCutFlow = false;
   bool DoRebin = false;
 
-  char filename1[100] = "../../outfiles/C2V_3/OSWWH_scaled.root";
-  char filename2[100] = "../../outfiles/C2V_3/OSWWH_scaled.root"; //if you only want to draw one plot, use filename1 only
+  char filename1[100] = "../../outfiles/C2V_3/WZH_0_scaled.root";
+  char filename2[100] = "../../outfiles/C2V_3/WZH_0_scaled.root"; //if you only want to draw one plot, use filename1 only
 
-  char plotname1[100] = "third_fatjet_btag_score";
+  char plotname1[100] = "matched_VBFJet_Eta0";
   char plotname2[100] = "third_fatjet_btag_score"; //if you only want to draw one plot, use plotname1 only
 
-  char saveFileName[100] = "../../plots/C2V_3/third_fatjet_btag_score.pdf";
+  char saveFileName[100] = "../../plots/C2V_3/WZH/matched_VBFJet_Eta0.pdf";
 
-  char Xtitle[100] = "fatjet DDBvL score";
+  char Xtitle[100] = "jet Eta";
   char Ytitle[100] = "entries";
 
-  char legend1[100] = "third fatjet";
+  char legend1[100] = "jet Eta";
   char legend2[100] = "before_cut";
 
   double minX = 25;    //if SetXRange
@@ -105,7 +105,7 @@ int main()
       h1->Draw("E0");
 
     //   TLegend* legend = new TLegend(0.75,0.75,0.88,0.86); //the coordination of the legend frame;
-    TLegend *legend = new TLegend(0.13, 0.73, 0.27, 0.8);
+    TLegend *legend = new TLegend(0.33, 0.73, 0.47, 0.8);
     legend->AddEntry(h1, legend1, "lpfe");
     legend->SetTextFont(70);
     legend->SetTextSize(0.04);
