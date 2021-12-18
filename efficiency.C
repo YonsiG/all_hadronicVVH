@@ -132,18 +132,18 @@ void efficiency::Loop(const char *typeName)
          myHists->cutflow[icutflow]->Fill(2.5, weight);
 
       /****************fatjet selection**************/
+      TLorentzVector tempFatJet;
       int sort_index = 0;
-      int pass_cut_fatjet_index[200];
       double pass_cut_fatjet_btagDDBvL[200]; // temporarily not sorting
       int count_fatjet = 0;
       for (int ifatjet = 0; ifatjet < nFatJet; ifatjet++)
       {
-         FatJet[ifatjet].SetPtEtaPhiM(FatJet_pt[ifatjet], FatJet_eta[ifatjet], FatJet_phi[ifatjet], FatJet_mass[ifatjet]);
-         bool Fatjet_kinematic_filter = FatJet_kinematic_Select(FatJet[ifatjet], FatJet_jetId[ifatjet], FatJet_msoftdrop[ifatjet]);
+         tempFatJet.SetPtEtaPhiM(FatJet_pt[ifatjet], FatJet_eta[ifatjet], FatJet_phi[ifatjet], FatJet_mass[ifatjet]);
+         bool Fatjet_kinematic_filter = FatJet_kinematic_Select(tempFatJet, FatJet_jetId[ifatjet], FatJet_msoftdrop[ifatjet]);
          if (Fatjet_kinematic_filter == false)
             continue;
          count_fatjet++;
-         pass_cut_fatjet_index[sort_index] = ifatjet;
+         FatJet[sort_index] = tempFatJet;
          pass_cut_fatjet_btagDDBvL[sort_index] = FatJet_btagDDBvL[ifatjet];
          sort_index++;
       }
@@ -159,7 +159,7 @@ void efficiency::Loop(const char *typeName)
             if (pass_cut_fatjet_btagDDBvL[isort] < pass_cut_fatjet_btagDDBvL[irankindex])
                thisfatjet_rank++;
          }
-         FatJet_btagsort[thisfatjet_rank] = FatJet[pass_cut_fatjet_index[isort]];
+         FatJet_btagsort[thisfatjet_rank] = FatJet[isort];
          FatJet_DDBvL_btagsort[thisfatjet_rank] = pass_cut_fatjet_btagDDBvL[isort];
       }
 
@@ -167,24 +167,24 @@ void efficiency::Loop(const char *typeName)
       // pass the jet_kinematic_selection first
       int count_jet = 0;
       int count_central_jet = 0;
-      int jet_index[200];
+      TLorentzVector tempJet;
       for (int ijet = 0; ijet < nJet; ijet++)
       {
-         Jet[ijet].SetPtEtaPhiM(Jet_pt[ijet], Jet_eta[ijet], Jet_phi[ijet], Jet_mass[ijet]);
-         if (!Jet_kinVBF_select(Jet[ijet]))
+         tempJet.SetPtEtaPhiM(Jet_pt[ijet], Jet_eta[ijet], Jet_phi[ijet], Jet_mass[ijet]);
+         if (!Jet_kinVBF_select(tempJet))
             continue;
 
          int count_overlap = 0;
          for (int ifatjet = 0; ifatjet < count_fatjet; ifatjet++)
-            if (Jet[ijet].DeltaR(FatJet[ifatjet]) < 0.8)
+            if (tempJet.DeltaR(FatJet[ifatjet]) < 0.8)
                count_overlap = 1;
 
          if (count_overlap == 1)
             continue;
 
-         jet_index[count_jet] = ijet;
+         Jet[count_jet] = tempJet;
          count_jet++;
-         if (Jet_central_Select(Jet[ijet]))
+         if (Jet_central_Select(tempJet))
             count_central_jet++;
       }
 
