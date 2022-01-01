@@ -1,6 +1,8 @@
 #define _EFFICIENCY_C_
 #include "efficiency.h"
 #include "tools.h"
+#include "EventSelection.h"
+
 #include <TROOT.h>
 #include <TChain.h>
 #include <TFile.h>
@@ -38,14 +40,7 @@ void efficiency::Loop(const char *typeName)
 
    /********defining cross sections**********/
    double xsection;
-   if (string(typeName) == string("OSWWH"))
-      xsection = 5.652;
-   if (string(typeName) == string("SSWWH"))
-      xsection = 3.559;
-   if (string(typeName) == string("WZH"))
-      xsection = 3.742;
-   if (string(typeName) == string("ZZH"))
-      xsection = 2.994;
+   xsection = getXsection(string(typeName));
 
    /********defining total weights***********/
    int weightnum = runChain->GetEntries();
@@ -72,37 +67,13 @@ void efficiency::Loop(const char *typeName)
          myHists->cutflow[icutflow]->Fill(0.5, weight);
 
       /*************gen particles****************/
+      int Is_Hbb = 0;
+      GenPart_Filter(Is_Hbb, GenHiggs, GenBquarkFromH, GenantiBquarkFromH,
+                     GenVBFJets[0], GenVBFJets[1],
+                     nGenPart, GenPart_status, GenPart_pdgId, GenPart_genPartIdxMother,
+                     GenPart_pt, GenPart_eta, GenPart_phi, GenPart_mass);
 
-      int double_count_Hbb = 0;
-
-      for (int ipart = 0; ipart < nGenPart; ipart++)
-      {
-         if (GenPart_status[ipart] == 62 && GenPart_pdgId[ipart] == 25)
-            GenHiggs.SetPtEtaPhiM(GenPart_pt[ipart], GenPart_eta[ipart], GenPart_phi[ipart], GenPart_mass[ipart]);
-
-         if (GenPart_pdgId[ipart] == -5 || GenPart_pdgId[ipart] == 5)
-         {
-            if (GenPart_pdgId[GenPart_genPartIdxMother[ipart]] != 25 || GenPart_status[GenPart_genPartIdxMother[ipart]] != 62)
-               continue;
-
-            if (GenPart_pdgId[ipart] == 5)
-               GenBquarkFromH.SetPtEtaPhiM(GenPart_pt[ipart], GenPart_eta[ipart], GenPart_phi[ipart], GenPart_mass[ipart]);
-
-            if (GenPart_pdgId[ipart] == -5)
-               GenantiBquarkFromH.SetPtEtaPhiM(GenPart_pt[ipart], GenPart_eta[ipart], GenPart_phi[ipart], GenPart_mass[ipart]);
-
-            double_count_Hbb++; // each Hbb event will count 2 in b, so called double count
-         }
-      }
-
-      // keep track of the final W(pdgId=+-24)(status=62) and their daughters(2 quarks or 2 leptons/neutrino)
-
-      // keep track of VBF quarks(pdgId=+-1,2,3,4,5,6), the mothers should be quarks from protons(search for pdgId), their daughters should be W and quark
-      // easy:Instance 2,3 are always the VBF jets. GenPart[2] and GenPart[3]
-      GenVBFJets[0].SetPtEtaPhiM(GenPart_pt[2], GenPart_eta[2], GenPart_phi[2], GenPart_mass[2]);
-      GenVBFJets[1].SetPtEtaPhiM(GenPart_pt[3], GenPart_eta[3], GenPart_phi[3], GenPart_mass[3]);
-
-      if (double_count_Hbb != 2)
+      if (Is_Hbb != 1)
          continue; // only consider Generated Hbb events, other inclusive channels are not studied
 
       for (int icutflow = 0; icutflow < 14; icutflow++)
@@ -189,130 +160,25 @@ void efficiency::Loop(const char *typeName)
       }
 
       /*****VBF selection*****/
-      int VBF_selection = 0;
+      bool VBF_selection = 0;
+      int VBF_method = 1;
       int VBF_jet_index[2];
       float VBF_max_mass = 0;
       float VBF_max_DeltaEta = 0;
-      int VBF_method = 1;
 
       if (count_jet >= 2)
       {
-         VBF_max_mass = 0;
-         if (VBF_method == 1)
-         {
-            for (int ivbf = 0; ivbf < count_jet; ivbf++)
-            {
-               for (int ivbf2 = ivbf; ivbf2 < count_jet; ivbf2++)
-               {
-                  if ((Jet[ivbf] + Jet[ivbf2]).M() > VBF_max_mass)
-                  {
-                     if (Jet[ivbf].Pt() > Jet[ivbf2].Pt())
-                     {
-                        VBF_jet_index[0] = ivbf;
-                        VBF_jet_index[1] = ivbf2;
-                     }
-                     if (Jet[ivbf].Pt() < Jet[ivbf2].Pt())
-                     {
-                        VBF_jet_index[0] = ivbf2;
-                        VBF_jet_index[1] = ivbf;
-                     }
-                     VBF_max_mass = (Jet[ivbf] + Jet[ivbf2]).M();
-                  }
-               }
-            }
-         }
-         VBF_max_mass = 0;
-
-         VBF_max_DeltaEta = 0;
-         if (VBF_method == 2)
-         {
-            for (int ivbf = 0; ivbf < count_jet; ivbf++)
-            {
-               for (int ivbf2 = ivbf; ivbf2 < count_jet; ivbf2++)
-               {
-                  if (fabs(Jet[ivbf].Eta() - Jet[ivbf2].Eta()) > VBF_max_DeltaEta)
-                  {
-                     if (Jet[ivbf].Pt() > Jet[ivbf2].Pt())
-                     {
-                        VBF_jet_index[0] = ivbf;
-                        VBF_jet_index[1] = ivbf2;
-                     }
-                     if (Jet[ivbf].Pt() < Jet[ivbf2].Pt())
-                     {
-                        VBF_jet_index[0] = ivbf2;
-                        VBF_jet_index[1] = ivbf;
-                     }
-                     VBF_max_DeltaEta = fabs(Jet[ivbf].Eta() - Jet[ivbf2].Eta());
-                  }
-               }
-            }
-         }
-         VBF_max_DeltaEta = 0;
-
-         if (VBF_method == 3)
-         {
-            float VBF_max_Energy = 0;
-            for (int ivbf = 0; ivbf < count_jet; ivbf++)
-            {
-               if (Jet[ivbf].E() > VBF_max_Energy)
-               {
-                  VBF_jet_index[0] = ivbf;
-                  VBF_max_Energy = Jet[ivbf].E();
-               }
-            } // select max energy jet
-            VBF_max_Energy = 0;
-            int opposite_eta = 0;
-            for (int ivbf = 0; ivbf < count_jet; ivbf++)
-            {
-               if (ivbf == VBF_jet_index[0])
-                  continue;
-               if (Jet[ivbf].Eta() * Jet[VBF_jet_index[0]].Eta() > 0)
-                  continue;
-               opposite_eta = 1;
-               if (Jet[ivbf].E() > VBF_max_Energy)
-               {
-                  VBF_jet_index[1] = ivbf;
-                  VBF_max_Energy = Jet[ivbf].E();
-               }
-            }
-
-            VBF_max_DeltaEta = 0;
-            if (opposite_eta == 0)
-            {
-               for (int ivbf = 0; ivbf < count_jet; ivbf++)
-               {
-                  if (ivbf == VBF_jet_index[0])
-                     continue;
-                  if (fabs(Jet[ivbf].Eta() - Jet[VBF_jet_index[0]].Eta()) > VBF_max_DeltaEta)
-                  {
-                     VBF_jet_index[1] = ivbf;
-                     VBF_max_DeltaEta = fabs(Jet[ivbf].Eta() - Jet[VBF_jet_index[0]].Eta());
-                  }
-               }
-            }
-         }
-
-         VBF_max_mass = (Jet[VBF_jet_index[0]] + Jet[VBF_jet_index[1]]).M();
-         VBF_max_DeltaEta = fabs(Jet[VBF_jet_index[0]].Eta() - Jet[VBF_jet_index[1]].Eta());
-         // if (VBF_max_mass > 500 && VBF_max_DeltaEta > 3)
-         if (VBF_max_mass > 500)
-            VBF_selection = 1;
+         VBF_selection = VBF_Selection(VBF_method, VBF_jet_index[0], VBF_jet_index[1],
+                                       VBF_max_mass, VBF_max_DeltaEta, count_jet, Jet);
       }
 
       /*****************categorization****************/
-      int category_number = 13;
       if (count_fatjet >= 3)
       {
          myHists->cutflow[0]->Fill(3.5, weight);
          myHists->cutflow[1]->Fill(3.5, weight);
          myHists->cutflow[2]->Fill(3.5, weight);
       }
-      if (count_fatjet >= 3 && count_jet >= 2)
-         category_number = 0;
-      if (count_fatjet >= 3 && count_jet == 1)
-         category_number = 1;
-      if (count_fatjet >= 3 && count_jet < 1)
-         category_number = 2;
 
       if (count_fatjet == 2)
       {
@@ -321,14 +187,6 @@ void efficiency::Loop(const char *typeName)
          myHists->cutflow[5]->Fill(3.5, weight);
          myHists->cutflow[6]->Fill(3.5, weight);
       }
-      if (count_fatjet == 2 && count_jet >= 4)
-         category_number = 3;
-      if (count_fatjet == 2 && count_jet == 3)
-         category_number = 4;
-      if (count_fatjet == 2 && count_jet == 2)
-         category_number = 5;
-      if (count_fatjet == 2 && count_jet < 2)
-         category_number = 6;
 
       if (count_fatjet == 1)
       {
@@ -339,19 +197,8 @@ void efficiency::Loop(const char *typeName)
          myHists->cutflow[11]->Fill(3.5, weight);
          myHists->cutflow[12]->Fill(3.5, weight);
       }
-      if (count_fatjet == 1 && count_jet >= 6)
-         category_number = 7;
-      if (count_fatjet == 1 && count_jet == 5)
-         category_number = 8;
-      if (count_fatjet == 1 && count_jet == 4)
-         category_number = 9;
-      if (count_fatjet == 1 && count_jet == 3)
-         category_number = 10;
-      if (count_fatjet == 1 && count_jet == 2)
-         category_number = 11;
-      if (count_fatjet == 1 && count_jet < 2)
-         category_number = 12;
 
+      int category_number = categorize(count_fatjet, count_jet);
       myHists->cutflow[category_number]->Fill(4.5, weight);
 
       if (VBF_selection == 1)

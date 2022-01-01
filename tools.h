@@ -37,11 +37,61 @@ double deltaPhi(double phi1, double phi2)
     return result;
 }
 
+double getXsection(string TypeName)
+{
+    double xsection;
+    if (TypeName == string("OSWWH"))
+        xsection = 5.652;
+    if (TypeName == string("SSWWH"))
+        xsection = 3.559;
+    if (TypeName == string("WZH"))
+        xsection = 3.742;
+    if (TypeName == string("ZZH"))
+        xsection = 2.994;
+    return xsection;
+}
+
+int categorize(int count_fatjet, int count_jet)
+{
+    int category_number = 13;
+
+    if (count_fatjet >= 3 && count_jet >= 2)
+        category_number = 0;
+    if (count_fatjet >= 3 && count_jet == 1)
+        category_number = 1;
+    if (count_fatjet >= 3 && count_jet < 1)
+        category_number = 2;
+
+    if (count_fatjet == 2 && count_jet >= 4)
+        category_number = 3;
+    if (count_fatjet == 2 && count_jet == 3)
+        category_number = 4;
+    if (count_fatjet == 2 && count_jet == 2)
+        category_number = 5;
+    if (count_fatjet == 2 && count_jet < 2)
+        category_number = 6;
+
+    if (count_fatjet == 1 && count_jet >= 6)
+        category_number = 7;
+    if (count_fatjet == 1 && count_jet == 5)
+        category_number = 8;
+    if (count_fatjet == 1 && count_jet == 4)
+        category_number = 9;
+    if (count_fatjet == 1 && count_jet == 3)
+        category_number = 10;
+    if (count_fatjet == 1 && count_jet == 2)
+        category_number = 11;
+    if (count_fatjet == 1 && count_jet < 2)
+        category_number = 12;
+
+    return category_number;
+}
+
 bool FatJet_kinematic_Select(TLorentzVector FatJet, int FatJet_jetId, float FatJet_msoftdrop)
 {
     if (FatJet.Pt() < 250)
         return false;
-    if (FatJet_jetId <= 0) //seperate something clustered together but not jets
+    if (FatJet_jetId <= 0) // seperate something clustered together but not jets
         return false;
     if (fabs(FatJet.Eta()) > 2.5)
         return false;
@@ -70,10 +120,10 @@ bool Jet_central_Select(TLorentzVector Jet)
 
 bool Jet_kinVBF_select(TLorentzVector Jet)
 {
-   if (Jet.Pt() < 25)
-       return false;
-   if (fabs(Jet.Eta() > 4.7))
-       return false;
+    if (Jet.Pt() < 25)
+        return false;
+    if (fabs(Jet.Eta() > 4.7))
+        return false;
 
     /*      if (Jet_cleanmask[ijet] == 0)
         continue;
@@ -85,7 +135,6 @@ bool Jet_kinVBF_select(TLorentzVector Jet)
 
     return true;
 }
-
 
 bool Electron_LooseId_ttH(TLorentzVector Electron, float Electron_deltaEtaSC, float Electron_dxy, float Electron_dz, float Electron_sip3d, float Electron_miniPFRelIso_all, int Electron_lostHits, bool Electron_mvaFall17V2noIso_WPL)
 {
@@ -157,83 +206,119 @@ bool Muon_LooseId_ttH(TLorentzVector Muon, float Muon_dxy, float Muon_dz, float 
     return true;
 }
 
-
 bool Electron_fakableId_ttH(bool looseId, float pt, bool convVeto, int tightCharge, int lostHits, float JetDeepFlav, bool triggerSafeNoIso, float mvaTTH, bool mvaFall17V2noIso_WP80, float jetRelIso, float WP)
 {
-   if (looseId)return false;
-   if (pt <= 10.)  return false; 
-   if (!convVeto ) return false;
-   if (tightCharge!=2) return false;
-   if (int(lostHits > 0)) return false;
-   if (JetDeepFlav>WP) return false;
-   if (!triggerSafeNoIso) return false;
-   if (mvaTTH<= 0.8) 
-   {
-      if (!mvaFall17V2noIso_WP80) return false; 
-      if (jetRelIso >= 0.7) return false; 
-   }
-   return true;
+    if (looseId)
+        return false;
+    if (pt <= 10.)
+        return false;
+    if (!convVeto)
+        return false;
+    if (tightCharge != 2)
+        return false;
+    if (int(lostHits > 0))
+        return false;
+    if (JetDeepFlav > WP)
+        return false;
+    if (!triggerSafeNoIso)
+        return false;
+    if (mvaTTH <= 0.8)
+    {
+        if (!mvaFall17V2noIso_WP80)
+            return false;
+        if (jetRelIso >= 0.7)
+            return false;
+    }
+    return true;
 }
 
 bool Muon_fakableId_ttH(bool looseId, float pt, float JetDeepFlav, float ptErr, float mvaTTH, float jetRelIso, bool WP)
 {
-  if (looseId)return false;
-  if (pt<=10.) return false;
-  if (JetDeepFlav>WP) return false;
-  if (ptErr / pt >= 0.2) return false;
-  if (mvaTTH <= 0.85) 
-  { 
-     if (jetRelIso >= 0.5) return false;
-  }
-  return true;
+    if (looseId)
+        return false;
+    if (pt <= 10.)
+        return false;
+    if (JetDeepFlav > WP)
+        return false;
+    if (ptErr / pt >= 0.2)
+        return false;
+    if (mvaTTH <= 0.85)
+    {
+        if (jetRelIso >= 0.5)
+            return false;
+    }
+    return true;
 }
 
 bool Electron_tightId_ttH(bool looseId, float pt, bool convVeto, int tightCharge, int lostHits, float JetDeepFlav, bool triggerSafeNoIso, float mvaTTH, float WP)
 {
-   if (looseId)return false;
-   if (pt <= 10.)  return false; 
-   if (!convVeto ) return false;
-   if (tightCharge!=2) return false;
-   if (int(lostHits > 0)) return false;
-   if (JetDeepFlav>WP) return false;
-   if (!triggerSafeNoIso) return false;
-   if (mvaTTH<= 0.8) return false;
-   return true;
+    if (looseId)
+        return false;
+    if (pt <= 10.)
+        return false;
+    if (!convVeto)
+        return false;
+    if (tightCharge != 2)
+        return false;
+    if (int(lostHits > 0))
+        return false;
+    if (JetDeepFlav > WP)
+        return false;
+    if (!triggerSafeNoIso)
+        return false;
+    if (mvaTTH <= 0.8)
+        return false;
+    return true;
 }
 
 bool Muon_tightId_ttH(bool looseId, float pt, float JetDeepFlav, float ptErr, float mvaTTH, bool mediumId, float WP)
 {
-  if (looseId)return false;
-  if (pt<=10.) return false;
-  if (JetDeepFlav>WP) return false;
-  if (ptErr / pt >= 0.2) return false;
-  if (mvaTTH <= 0.85) return false;
-  if (!mediumId) return false;
-  return true;
+    if (looseId)
+        return false;
+    if (pt <= 10.)
+        return false;
+    if (JetDeepFlav > WP)
+        return false;
+    if (ptErr / pt >= 0.2)
+        return false;
+    if (mvaTTH <= 0.85)
+        return false;
+    if (!mediumId)
+        return false;
+    return true;
 }
 
 bool Electron_triggerSafeNoIso(float eta, float deltaEtaSC, float hoe, float eInvMinusPInv, float sieie)
 {
     // Calculate absolute value of supercluster eta
     float SC_absEta = fabs(eta) + deltaEtaSC;
-    if (hoe >= 0.1) return false; 
-    if (eInvMinusPInv <= -0.04) return false; 
-    if (SC_absEta <= 1.479) 
-    {  // Barrel
-        if (sieie >= 0.011) return false; 
+    if (hoe >= 0.1)
+        return false;
+    if (eInvMinusPInv <= -0.04)
+        return false;
+    if (SC_absEta <= 1.479)
+    { // Barrel
+        if (sieie >= 0.011)
+            return false;
     }
     else if (SC_absEta > 1.479 && SC_absEta < 2.5)
-    {  // Endcaps
-       if (sieie >= 0.030) { return false; }
+    { // Endcaps
+        if (sieie >= 0.030)
+        {
+            return false;
+        }
     }
     return true;
 }
 
-//https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation
+// https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation
 float mediumWP(int year)
 {
- if (year == 2016) return 0.2489;
- else if (year == 2017) return 0.3040;
- else return 0.2783;
-} 
-#endif //end define _TOOLS_H_
+    if (year == 2016)
+        return 0.2489;
+    else if (year == 2017)
+        return 0.3040;
+    else
+        return 0.2783;
+}
+#endif // end define _TOOLS_H_
