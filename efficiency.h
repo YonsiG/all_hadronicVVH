@@ -39,6 +39,13 @@ public:
     Float_t genWeight;
     Double_t genEventSumw;
 
+    Bool_t HLT_AK8PFHT800_TrimMass50;
+    Bool_t HLT_PFHT1050;
+    Bool_t HLT_PFJet500;
+    Bool_t HLT_AK8PFJet500;
+    Bool_t HLT_AK8PFJet400_TrimMass30;
+    Bool_t HLT_AK8PFJet420_TrimMass30;
+
     UInt_t nGenPart;
     UInt_t nFatJet;
     UInt_t nJet;
@@ -158,6 +165,13 @@ void efficiency::Initial(const char *rootName, int rootNumber, const char *typeN
     /***************set branches**************/
     runChain->SetBranchAddress("genEventSumw", &genEventSumw);
     fChain->SetBranchAddress("genWeight", &genWeight);
+
+    fChain->SetBranchAddress("HLT_AK8PFHT800_TrimMass50",&HLT_AK8PFHT800_TrimMass50);
+    fChain->SetBranchAddress("HLT_PFHT1050",&HLT_PFHT1050);
+    fChain->SetBranchAddress("HLT_PFJet500",&HLT_PFJet500);
+    fChain->SetBranchAddress("HLT_AK8PFJet500",&HLT_AK8PFJet500);
+    fChain->SetBranchAddress("HLT_AK8PFJet400_TrimMass30",&HLT_AK8PFJet400_TrimMass30);
+    fChain->SetBranchAddress("HLT_AK8PFJet420_TrimMass30",&HLT_AK8PFJet420_TrimMass30);
 
     fChain->SetBranchAddress("nGenPart", &nGenPart);
     fChain->SetBranchAddress("nFatJet", &nFatJet);

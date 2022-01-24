@@ -39,18 +39,18 @@ int main()
   bool IsCutFlow = false;
   bool DoRebin = false;
 
-  char filename1[100] = "../../outfiles/C2V_3/WZH_0_scaled.root";
-  char filename2[100] = "../../outfiles/C2V_3/WZH_0_scaled.root"; //if you only want to draw one plot, use filename1 only
+  char filename1[100] = "../../outfiles/C2V_3/samples_1_3_22/WZH_1_scaled.root";
+  char filename2[100] = "../../outfiles/C2V_3/samples_1_3_22/WZH_1_scaled.root"; //if you only want to draw one plot, use filename1 only
 
-  char plotname1[100] = "matched_VBFJet_Eta0";
+  char plotname1[100] = "matched_VBFJet_Pt0";
   char plotname2[100] = "third_fatjet_btag_score"; //if you only want to draw one plot, use plotname1 only
 
-  char saveFileName[100] = "../../plots/C2V_3/WZH/matched_VBFJet_Eta0.pdf";
+  char saveFileName[100] = "../../plots/C2V_3/WZH/plots_01_20_22/matched_VBFJet_Pt1_0.pdf";
 
-  char Xtitle[100] = "jet Eta";
+  char Xtitle[100] = "jet Pt";
   char Ytitle[100] = "entries";
 
-  char legend1[100] = "jet Eta";
+  char legend1[100] = "jet Pt";
   char legend2[100] = "before_cut";
 
   double minX = 25;    //if SetXRange

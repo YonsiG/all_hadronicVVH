@@ -73,11 +73,34 @@ void efficiency::Loop(const char *typeName)
                      nGenPart, GenPart_status, GenPart_pdgId, GenPart_genPartIdxMother,
                      GenPart_pt, GenPart_eta, GenPart_phi, GenPart_mass);
 
+      int passflag = 1;
+
       if (Is_Hbb != 1)
-         continue; // only consider Generated Hbb events, other inclusive channels are not studied
+         // continue; // only consider Generated Hbb events, other inclusive channels are not studied
+         passflag = 0;
 
       for (int icutflow = 0; icutflow < 14; icutflow++)
          myHists->cutflow[icutflow]->Fill(1.5, weight);
+
+      /*******************trigger********************/
+      bool trig_status = 0;
+      if (HLT_AK8PFHT800_TrimMass50)
+         trig_status = 1;
+      if (HLT_PFHT1050)
+         trig_status = 1;
+      if (HLT_PFJet500)
+         trig_status = 1;
+      if (HLT_AK8PFJet500)
+         trig_status = 1;
+      if (HLT_AK8PFJet400_TrimMass30)
+         trig_status = 1;
+      if (HLT_AK8PFJet420_TrimMass30)
+         trig_status = 1;
+
+      if (trig_status == 0)
+         passflag = 0; // continue;
+      for (int icutflow = 0; icutflow < 14; icutflow++)
+         myHists->cutflow[icutflow]->Fill(2.5, weight);
 
       /**************lepton selection****************/
       int count_lepton = 0;
@@ -97,10 +120,11 @@ void efficiency::Loop(const char *typeName)
       }
 
       if (count_lepton != 0)
-         continue;
+         passflag = 0;
+      // continue;
 
       for (int icutflow = 0; icutflow < 14; icutflow++)
-         myHists->cutflow[icutflow]->Fill(2.5, weight);
+         myHists->cutflow[icutflow]->Fill(3.5, weight);
 
       /****************fatjet selection**************/
       TLorentzVector tempFatJet;
@@ -175,233 +199,248 @@ void efficiency::Loop(const char *typeName)
       /*****************categorization****************/
       if (count_fatjet >= 3)
       {
-         myHists->cutflow[0]->Fill(3.5, weight);
-         myHists->cutflow[1]->Fill(3.5, weight);
-         myHists->cutflow[2]->Fill(3.5, weight);
+         myHists->cutflow[0]->Fill(4.5, weight);
+         myHists->cutflow[1]->Fill(4.5, weight);
+         myHists->cutflow[2]->Fill(4.5, weight);
       }
 
       if (count_fatjet == 2)
       {
-         myHists->cutflow[3]->Fill(3.5, weight);
-         myHists->cutflow[4]->Fill(3.5, weight);
-         myHists->cutflow[5]->Fill(3.5, weight);
-         myHists->cutflow[6]->Fill(3.5, weight);
+         myHists->cutflow[3]->Fill(4.5, weight);
+         myHists->cutflow[4]->Fill(4.5, weight);
+         myHists->cutflow[5]->Fill(4.5, weight);
+         myHists->cutflow[6]->Fill(4.5, weight);
       }
 
       if (count_fatjet == 1)
       {
-         myHists->cutflow[7]->Fill(3.5, weight);
-         myHists->cutflow[8]->Fill(3.5, weight);
-         myHists->cutflow[9]->Fill(3.5, weight);
-         myHists->cutflow[10]->Fill(3.5, weight);
-         myHists->cutflow[11]->Fill(3.5, weight);
-         myHists->cutflow[12]->Fill(3.5, weight);
+         myHists->cutflow[7]->Fill(4.5, weight);
+         myHists->cutflow[8]->Fill(4.5, weight);
+         myHists->cutflow[9]->Fill(4.5, weight);
+         myHists->cutflow[10]->Fill(4.5, weight);
+         myHists->cutflow[11]->Fill(4.5, weight);
+         myHists->cutflow[12]->Fill(4.5, weight);
       }
 
       int category_number = categorize(count_fatjet, count_jet);
-      myHists->cutflow[category_number]->Fill(4.5, weight);
+      myHists->cutflow[category_number]->Fill(5.5, weight);
 
       if (VBF_selection == 1)
-         myHists->cutflow[category_number]->Fill(5.5, weight);
+         myHists->cutflow[category_number]->Fill(6.5, weight);
+
+      if (VBF_selection != 1)
+         passflag = 0;
+
+      cout << "event number: " << iLoop << " pass or not: " << passflag << " njets: " << count_jet << " VBF max mass: " << VBF_max_mass << " VBF max deltaEta: " << VBF_max_DeltaEta << endl;
+      for (int ijet = 0; ijet < count_jet; ijet++)
+      {
+         bool isVBFJet = false;
+         if (ijet == VBF_jet_index[0])
+            isVBFJet = true;
+         if (ijet == VBF_jet_index[1])
+            isVBFJet = true;
+         cout << "VBF Jet flag: " << isVBFJet << " Jet_mass: " << Jet[ijet].M() << " Jet_Pt:" << Jet[ijet].Pt() << " Jet_Eta:" << Jet[ijet].Eta() << " Jet_Phi: " << Jet[ijet].Phi() << endl;
+      }
 
       /****************plot filling******************/
-      myHists->number_of_jets[category_number]->Fill(count_jet, weight);
-      myHists->number_of_central_jets[category_number]->Fill(count_central_jet, weight);
+      /*      myHists->number_of_jets[category_number]->Fill(count_jet, weight);
+            myHists->number_of_central_jets[category_number]->Fill(count_central_jet, weight);
 
-      for (int isort = 0; isort < sort_index; isort++)
-         myHists->fatjet_btag_score->Fill(FatJet_DDBvL_btagsort[isort], weight);
-      if (sort_index > 0)
-         myHists->first_fatjet_btag_score->Fill(FatJet_DDBvL_btagsort[0], weight);
-      if (sort_index > 1)
-         myHists->second_fatjet_btag_score->Fill(FatJet_DDBvL_btagsort[1], weight);
-      if (sort_index > 2)
-         myHists->third_fatjet_btag_score->Fill(FatJet_DDBvL_btagsort[2], weight);
+            for (int isort = 0; isort < sort_index; isort++)
+               myHists->fatjet_btag_score->Fill(FatJet_DDBvL_btagsort[isort], weight);
+            if (sort_index > 0)
+               myHists->first_fatjet_btag_score->Fill(FatJet_DDBvL_btagsort[0], weight);
+            if (sort_index > 1)
+               myHists->second_fatjet_btag_score->Fill(FatJet_DDBvL_btagsort[1], weight);
+            if (sort_index > 2)
+               myHists->third_fatjet_btag_score->Fill(FatJet_DDBvL_btagsort[2], weight);
 
-      if (sort_index > 0)
-      {
-         if (FatJet_btagsort[0].DeltaR(GenBquarkFromH) < 0.8 && FatJet_btagsort[0].DeltaR(GenantiBquarkFromH) < 0.8)
-            myHists->first_fatjet_btag_score_2match->Fill(FatJet_DDBvL_btagsort[0], weight);
-         if (FatJet_btagsort[0].DeltaR(GenBquarkFromH) > 0.8 && FatJet_btagsort[0].DeltaR(GenantiBquarkFromH) < 0.8)
-            myHists->first_fatjet_btag_score_1match->Fill(FatJet_DDBvL_btagsort[0], weight);
-         if (FatJet_btagsort[0].DeltaR(GenBquarkFromH) < 0.8 && FatJet_btagsort[0].DeltaR(GenantiBquarkFromH) > 0.8)
-            myHists->first_fatjet_btag_score_1match->Fill(FatJet_DDBvL_btagsort[0], weight);
-         if (FatJet_btagsort[0].DeltaR(GenBquarkFromH) > 0.8 && FatJet_btagsort[0].DeltaR(GenantiBquarkFromH) > 0.8)
-            myHists->first_fatjet_btag_score_0match->Fill(FatJet_DDBvL_btagsort[0], weight);
-      }
+            if (sort_index > 0)
+            {
+               if (FatJet_btagsort[0].DeltaR(GenBquarkFromH) < 0.8 && FatJet_btagsort[0].DeltaR(GenantiBquarkFromH) < 0.8)
+                  myHists->first_fatjet_btag_score_2match->Fill(FatJet_DDBvL_btagsort[0], weight);
+               if (FatJet_btagsort[0].DeltaR(GenBquarkFromH) > 0.8 && FatJet_btagsort[0].DeltaR(GenantiBquarkFromH) < 0.8)
+                  myHists->first_fatjet_btag_score_1match->Fill(FatJet_DDBvL_btagsort[0], weight);
+               if (FatJet_btagsort[0].DeltaR(GenBquarkFromH) < 0.8 && FatJet_btagsort[0].DeltaR(GenantiBquarkFromH) > 0.8)
+                  myHists->first_fatjet_btag_score_1match->Fill(FatJet_DDBvL_btagsort[0], weight);
+               if (FatJet_btagsort[0].DeltaR(GenBquarkFromH) > 0.8 && FatJet_btagsort[0].DeltaR(GenantiBquarkFromH) > 0.8)
+                  myHists->first_fatjet_btag_score_0match->Fill(FatJet_DDBvL_btagsort[0], weight);
+            }
 
-      if (sort_index > 1)
-      {
-         if (FatJet_btagsort[1].DeltaR(GenBquarkFromH) < 0.8 && FatJet_btagsort[1].DeltaR(GenantiBquarkFromH) < 0.8)
-            myHists->second_fatjet_btag_score_2match->Fill(FatJet_DDBvL_btagsort[1], weight);
-         if (FatJet_btagsort[1].DeltaR(GenBquarkFromH) > 0.8 && FatJet_btagsort[1].DeltaR(GenantiBquarkFromH) < 0.8)
-            myHists->second_fatjet_btag_score_1match->Fill(FatJet_DDBvL_btagsort[1], weight);
-         if (FatJet_btagsort[1].DeltaR(GenBquarkFromH) < 0.8 && FatJet_btagsort[1].DeltaR(GenantiBquarkFromH) > 0.8)
-            myHists->second_fatjet_btag_score_1match->Fill(FatJet_DDBvL_btagsort[1], weight);
-         if (FatJet_btagsort[1].DeltaR(GenBquarkFromH) > 0.8 && FatJet_btagsort[1].DeltaR(GenantiBquarkFromH) > 0.8)
-            myHists->second_fatjet_btag_score_0match->Fill(FatJet_DDBvL_btagsort[1], weight);
-      }
+            if (sort_index > 1)
+            {
+               if (FatJet_btagsort[1].DeltaR(GenBquarkFromH) < 0.8 && FatJet_btagsort[1].DeltaR(GenantiBquarkFromH) < 0.8)
+                  myHists->second_fatjet_btag_score_2match->Fill(FatJet_DDBvL_btagsort[1], weight);
+               if (FatJet_btagsort[1].DeltaR(GenBquarkFromH) > 0.8 && FatJet_btagsort[1].DeltaR(GenantiBquarkFromH) < 0.8)
+                  myHists->second_fatjet_btag_score_1match->Fill(FatJet_DDBvL_btagsort[1], weight);
+               if (FatJet_btagsort[1].DeltaR(GenBquarkFromH) < 0.8 && FatJet_btagsort[1].DeltaR(GenantiBquarkFromH) > 0.8)
+                  myHists->second_fatjet_btag_score_1match->Fill(FatJet_DDBvL_btagsort[1], weight);
+               if (FatJet_btagsort[1].DeltaR(GenBquarkFromH) > 0.8 && FatJet_btagsort[1].DeltaR(GenantiBquarkFromH) > 0.8)
+                  myHists->second_fatjet_btag_score_0match->Fill(FatJet_DDBvL_btagsort[1], weight);
+            }
 
-      if (sort_index > 2)
-      {
-         if (FatJet_btagsort[2].DeltaR(GenBquarkFromH) < 0.8 && FatJet_btagsort[2].DeltaR(GenantiBquarkFromH) < 0.8)
-            myHists->third_fatjet_btag_score_2match->Fill(FatJet_DDBvL_btagsort[2], weight);
-         if (FatJet_btagsort[2].DeltaR(GenBquarkFromH) > 0.8 && FatJet_btagsort[2].DeltaR(GenantiBquarkFromH) < 0.8)
-            myHists->third_fatjet_btag_score_1match->Fill(FatJet_DDBvL_btagsort[2], weight);
-         if (FatJet_btagsort[2].DeltaR(GenBquarkFromH) < 0.8 && FatJet_btagsort[2].DeltaR(GenantiBquarkFromH) > 0.8)
-            myHists->third_fatjet_btag_score_1match->Fill(FatJet_DDBvL_btagsort[2], weight);
-         if (FatJet_btagsort[2].DeltaR(GenBquarkFromH) > 0.8 && FatJet_btagsort[2].DeltaR(GenantiBquarkFromH) > 0.8)
-            myHists->third_fatjet_btag_score_0match->Fill(FatJet_DDBvL_btagsort[2], weight);
-      }
+            if (sort_index > 2)
+            {
+               if (FatJet_btagsort[2].DeltaR(GenBquarkFromH) < 0.8 && FatJet_btagsort[2].DeltaR(GenantiBquarkFromH) < 0.8)
+                  myHists->third_fatjet_btag_score_2match->Fill(FatJet_DDBvL_btagsort[2], weight);
+               if (FatJet_btagsort[2].DeltaR(GenBquarkFromH) > 0.8 && FatJet_btagsort[2].DeltaR(GenantiBquarkFromH) < 0.8)
+                  myHists->third_fatjet_btag_score_1match->Fill(FatJet_DDBvL_btagsort[2], weight);
+               if (FatJet_btagsort[2].DeltaR(GenBquarkFromH) < 0.8 && FatJet_btagsort[2].DeltaR(GenantiBquarkFromH) > 0.8)
+                  myHists->third_fatjet_btag_score_1match->Fill(FatJet_DDBvL_btagsort[2], weight);
+               if (FatJet_btagsort[2].DeltaR(GenBquarkFromH) > 0.8 && FatJet_btagsort[2].DeltaR(GenantiBquarkFromH) > 0.8)
+                  myHists->third_fatjet_btag_score_0match->Fill(FatJet_DDBvL_btagsort[2], weight);
+            }
 
-      if (VBF_selection == 1)
-      {
-         double distance00 = Jet[VBF_jet_index[0]].DeltaR(GenVBFJets[0]);
-         double distance01 = Jet[VBF_jet_index[0]].DeltaR(GenVBFJets[1]);
-         int condition;
-         if (distance00 < distance01)
-            condition = 1; // VBF0&Gen0 VBF1&Gen1
-         if (distance00 > distance01)
-            condition = 2; // VBF0&Gen1 VBF1&Gen0
+            if (VBF_selection == 1)
+            {
+               double distance00 = Jet[VBF_jet_index[0]].DeltaR(GenVBFJets[0]);
+               double distance01 = Jet[VBF_jet_index[0]].DeltaR(GenVBFJets[1]);
+               int condition;
+               if (distance00 < distance01)
+                  condition = 1; // VBF0&Gen0 VBF1&Gen1
+               if (distance00 > distance01)
+                  condition = 2; // VBF0&Gen1 VBF1&Gen0
 
-         double distance10 = Jet[VBF_jet_index[1]].DeltaR(GenVBFJets[0]);
-         double distance11 = Jet[VBF_jet_index[1]].DeltaR(GenVBFJets[1]);
+               double distance10 = Jet[VBF_jet_index[1]].DeltaR(GenVBFJets[0]);
+               double distance11 = Jet[VBF_jet_index[1]].DeltaR(GenVBFJets[1]);
 
-         if (condition == 1 && distance00 < 0.4 && distance11 < 0.4)
-         {
-            myHists->VBFJet_leadingPt_2match->Fill(Jet[VBF_jet_index[0]].Pt(), weight);
-            myHists->VBFJet_subleadingPt_2match->Fill(Jet[VBF_jet_index[1]].Pt(), weight);
-            myHists->VBFJet_Mjj_2match->Fill(VBF_max_mass, weight);
-            myHists->VBFJet_DeltaEta_2match_total->Fill(VBF_max_DeltaEta, weight);
-            myHists->VBFJet_DeltaEta_2match[category_number]->Fill(VBF_max_DeltaEta, weight);
+               if (condition == 1 && distance00 < 0.4 && distance11 < 0.4)
+               {
+                  myHists->VBFJet_leadingPt_2match->Fill(Jet[VBF_jet_index[0]].Pt(), weight);
+                  myHists->VBFJet_subleadingPt_2match->Fill(Jet[VBF_jet_index[1]].Pt(), weight);
+                  myHists->VBFJet_Mjj_2match->Fill(VBF_max_mass, weight);
+                  myHists->VBFJet_DeltaEta_2match_total->Fill(VBF_max_DeltaEta, weight);
+                  myHists->VBFJet_DeltaEta_2match[category_number]->Fill(VBF_max_DeltaEta, weight);
 
-            myHists->matched_VBFJet_Pt[category_number]->Fill(Jet[VBF_jet_index[0]].Pt(), weight);
-            myHists->matched_VBFJet_Pt[category_number]->Fill(Jet[VBF_jet_index[1]].Pt(), weight);
-            myHists->matched_VBFJet_Pt_total->Fill(Jet[VBF_jet_index[0]].Pt(), weight);
-            myHists->matched_VBFJet_Pt_total->Fill(Jet[VBF_jet_index[1]].Pt(), weight);
+                  myHists->matched_VBFJet_Pt[category_number]->Fill(Jet[VBF_jet_index[0]].Pt(), weight);
+                  myHists->matched_VBFJet_Pt[category_number]->Fill(Jet[VBF_jet_index[1]].Pt(), weight);
+                  myHists->matched_VBFJet_Pt_total->Fill(Jet[VBF_jet_index[0]].Pt(), weight);
+                  myHists->matched_VBFJet_Pt_total->Fill(Jet[VBF_jet_index[1]].Pt(), weight);
 
-            myHists->matched_VBFJet_Eta[category_number]->Fill(Jet[VBF_jet_index[0]].Eta(), weight);
-            myHists->matched_VBFJet_Eta[category_number]->Fill(Jet[VBF_jet_index[1]].Eta(), weight);
-            myHists->matched_VBFJet_Eta_total->Fill(Jet[VBF_jet_index[0]].Eta(), weight);
-            myHists->matched_VBFJet_Eta_total->Fill(Jet[VBF_jet_index[1]].Eta(), weight);
+                  myHists->matched_VBFJet_Eta[category_number]->Fill(Jet[VBF_jet_index[0]].Eta(), weight);
+                  myHists->matched_VBFJet_Eta[category_number]->Fill(Jet[VBF_jet_index[1]].Eta(), weight);
+                  myHists->matched_VBFJet_Eta_total->Fill(Jet[VBF_jet_index[0]].Eta(), weight);
+                  myHists->matched_VBFJet_Eta_total->Fill(Jet[VBF_jet_index[1]].Eta(), weight);
 
-            myHists->matched_VBFJet_qgl[category_number]->Fill(Jet_qgl[VBF_jet_index[0]], weight);
-            myHists->matched_VBFJet_qgl[category_number]->Fill(Jet_qgl[VBF_jet_index[1]], weight);
-            myHists->matched_VBFJet_qgl_total->Fill(Jet_qgl[VBF_jet_index[0]], weight);
-            myHists->matched_VBFJet_qgl_total->Fill(Jet_qgl[VBF_jet_index[1]], weight);
-         }
-         if (condition == 2 && distance01 < 0.4 && distance10 < 0.4)
-         {
-            myHists->VBFJet_leadingPt_2match->Fill(Jet[VBF_jet_index[0]].Pt(), weight);
-            myHists->VBFJet_subleadingPt_2match->Fill(Jet[VBF_jet_index[1]].Pt(), weight);
-            myHists->VBFJet_Mjj_2match->Fill(VBF_max_mass, weight);
-            myHists->VBFJet_DeltaEta_2match_total->Fill(VBF_max_DeltaEta, weight);
-            myHists->VBFJet_DeltaEta_2match[category_number]->Fill(VBF_max_DeltaEta, weight);
+                  myHists->matched_VBFJet_qgl[category_number]->Fill(Jet_qgl[VBF_jet_index[0]], weight);
+                  myHists->matched_VBFJet_qgl[category_number]->Fill(Jet_qgl[VBF_jet_index[1]], weight);
+                  myHists->matched_VBFJet_qgl_total->Fill(Jet_qgl[VBF_jet_index[0]], weight);
+                  myHists->matched_VBFJet_qgl_total->Fill(Jet_qgl[VBF_jet_index[1]], weight);
+               }
+               if (condition == 2 && distance01 < 0.4 && distance10 < 0.4)
+               {
+                  myHists->VBFJet_leadingPt_2match->Fill(Jet[VBF_jet_index[0]].Pt(), weight);
+                  myHists->VBFJet_subleadingPt_2match->Fill(Jet[VBF_jet_index[1]].Pt(), weight);
+                  myHists->VBFJet_Mjj_2match->Fill(VBF_max_mass, weight);
+                  myHists->VBFJet_DeltaEta_2match_total->Fill(VBF_max_DeltaEta, weight);
+                  myHists->VBFJet_DeltaEta_2match[category_number]->Fill(VBF_max_DeltaEta, weight);
 
-            myHists->matched_VBFJet_Pt[category_number]->Fill(Jet[VBF_jet_index[0]].Pt(), weight);
-            myHists->matched_VBFJet_Pt[category_number]->Fill(Jet[VBF_jet_index[1]].Pt(), weight);
-            myHists->matched_VBFJet_Pt_total->Fill(Jet[VBF_jet_index[0]].Pt(), weight);
-            myHists->matched_VBFJet_Pt_total->Fill(Jet[VBF_jet_index[1]].Pt(), weight);
+                  myHists->matched_VBFJet_Pt[category_number]->Fill(Jet[VBF_jet_index[0]].Pt(), weight);
+                  myHists->matched_VBFJet_Pt[category_number]->Fill(Jet[VBF_jet_index[1]].Pt(), weight);
+                  myHists->matched_VBFJet_Pt_total->Fill(Jet[VBF_jet_index[0]].Pt(), weight);
+                  myHists->matched_VBFJet_Pt_total->Fill(Jet[VBF_jet_index[1]].Pt(), weight);
 
-            myHists->matched_VBFJet_Eta[category_number]->Fill(Jet[VBF_jet_index[0]].Eta(), weight);
-            myHists->matched_VBFJet_Eta[category_number]->Fill(Jet[VBF_jet_index[1]].Eta(), weight);
-            myHists->matched_VBFJet_Eta_total->Fill(Jet[VBF_jet_index[0]].Eta(), weight);
-            myHists->matched_VBFJet_Eta_total->Fill(Jet[VBF_jet_index[1]].Eta(), weight);
+                  myHists->matched_VBFJet_Eta[category_number]->Fill(Jet[VBF_jet_index[0]].Eta(), weight);
+                  myHists->matched_VBFJet_Eta[category_number]->Fill(Jet[VBF_jet_index[1]].Eta(), weight);
+                  myHists->matched_VBFJet_Eta_total->Fill(Jet[VBF_jet_index[0]].Eta(), weight);
+                  myHists->matched_VBFJet_Eta_total->Fill(Jet[VBF_jet_index[1]].Eta(), weight);
 
-            myHists->matched_VBFJet_qgl[category_number]->Fill(Jet_qgl[VBF_jet_index[0]], weight);
-            myHists->matched_VBFJet_qgl[category_number]->Fill(Jet_qgl[VBF_jet_index[1]], weight);
-            myHists->matched_VBFJet_qgl_total->Fill(Jet_qgl[VBF_jet_index[0]], weight);
-            myHists->matched_VBFJet_qgl_total->Fill(Jet_qgl[VBF_jet_index[1]], weight);
-         }
+                  myHists->matched_VBFJet_qgl[category_number]->Fill(Jet_qgl[VBF_jet_index[0]], weight);
+                  myHists->matched_VBFJet_qgl[category_number]->Fill(Jet_qgl[VBF_jet_index[1]], weight);
+                  myHists->matched_VBFJet_qgl_total->Fill(Jet_qgl[VBF_jet_index[0]], weight);
+                  myHists->matched_VBFJet_qgl_total->Fill(Jet_qgl[VBF_jet_index[1]], weight);
+               }
 
-         if (condition == 1 && distance00 < 0.4 && distance11 > 0.4)
-         {
-            myHists->VBFJet_leadingPt_1match->Fill(Jet[VBF_jet_index[0]].Pt(), weight);
-            myHists->VBFJet_subleadingPt_1match->Fill(Jet[VBF_jet_index[1]].Pt(), weight);
-            myHists->VBFJet_Mjj_1match->Fill(VBF_max_mass, weight);
-            myHists->VBFJet_DeltaEta_1match_total->Fill(VBF_max_DeltaEta, weight);
-            myHists->VBFJet_DeltaEta_1match[category_number]->Fill(VBF_max_DeltaEta, weight);
+               if (condition == 1 && distance00 < 0.4 && distance11 > 0.4)
+               {
+                  myHists->VBFJet_leadingPt_1match->Fill(Jet[VBF_jet_index[0]].Pt(), weight);
+                  myHists->VBFJet_subleadingPt_1match->Fill(Jet[VBF_jet_index[1]].Pt(), weight);
+                  myHists->VBFJet_Mjj_1match->Fill(VBF_max_mass, weight);
+                  myHists->VBFJet_DeltaEta_1match_total->Fill(VBF_max_DeltaEta, weight);
+                  myHists->VBFJet_DeltaEta_1match[category_number]->Fill(VBF_max_DeltaEta, weight);
 
-            myHists->matched_VBFJet_Pt[category_number]->Fill(Jet[VBF_jet_index[0]].Pt(), weight);
-            myHists->matched_VBFJet_Pt_total->Fill(Jet[VBF_jet_index[0]].Pt(), weight);
+                  myHists->matched_VBFJet_Pt[category_number]->Fill(Jet[VBF_jet_index[0]].Pt(), weight);
+                  myHists->matched_VBFJet_Pt_total->Fill(Jet[VBF_jet_index[0]].Pt(), weight);
 
-            myHists->matched_VBFJet_Eta[category_number]->Fill(Jet[VBF_jet_index[0]].Eta(), weight);
-            myHists->matched_VBFJet_Eta_total->Fill(Jet[VBF_jet_index[0]].Eta(), weight);
+                  myHists->matched_VBFJet_Eta[category_number]->Fill(Jet[VBF_jet_index[0]].Eta(), weight);
+                  myHists->matched_VBFJet_Eta_total->Fill(Jet[VBF_jet_index[0]].Eta(), weight);
 
-            myHists->matched_VBFJet_qgl[category_number]->Fill(Jet_qgl[VBF_jet_index[0]], weight);
-            myHists->matched_VBFJet_qgl_total->Fill(Jet_qgl[VBF_jet_index[0]], weight);
-         }
+                  myHists->matched_VBFJet_qgl[category_number]->Fill(Jet_qgl[VBF_jet_index[0]], weight);
+                  myHists->matched_VBFJet_qgl_total->Fill(Jet_qgl[VBF_jet_index[0]], weight);
+               }
 
-         if (condition == 1 && distance00 > 0.4 && distance11 < 0.4)
-         {
-            myHists->VBFJet_leadingPt_1match->Fill(Jet[VBF_jet_index[0]].Pt(), weight);
-            myHists->VBFJet_subleadingPt_1match->Fill(Jet[VBF_jet_index[1]].Pt(), weight);
-            myHists->VBFJet_Mjj_1match->Fill(VBF_max_mass, weight);
-            myHists->VBFJet_DeltaEta_1match_total->Fill(VBF_max_DeltaEta, weight);
-            myHists->VBFJet_DeltaEta_1match[category_number]->Fill(VBF_max_DeltaEta, weight);
+               if (condition == 1 && distance00 > 0.4 && distance11 < 0.4)
+               {
+                  myHists->VBFJet_leadingPt_1match->Fill(Jet[VBF_jet_index[0]].Pt(), weight);
+                  myHists->VBFJet_subleadingPt_1match->Fill(Jet[VBF_jet_index[1]].Pt(), weight);
+                  myHists->VBFJet_Mjj_1match->Fill(VBF_max_mass, weight);
+                  myHists->VBFJet_DeltaEta_1match_total->Fill(VBF_max_DeltaEta, weight);
+                  myHists->VBFJet_DeltaEta_1match[category_number]->Fill(VBF_max_DeltaEta, weight);
 
-            myHists->matched_VBFJet_Pt[category_number]->Fill(Jet[VBF_jet_index[1]].Pt(), weight);
-            myHists->matched_VBFJet_Pt_total->Fill(Jet[VBF_jet_index[1]].Pt(), weight);
+                  myHists->matched_VBFJet_Pt[category_number]->Fill(Jet[VBF_jet_index[1]].Pt(), weight);
+                  myHists->matched_VBFJet_Pt_total->Fill(Jet[VBF_jet_index[1]].Pt(), weight);
 
-            myHists->matched_VBFJet_Eta[category_number]->Fill(Jet[VBF_jet_index[1]].Eta(), weight);
-            myHists->matched_VBFJet_Eta_total->Fill(Jet[VBF_jet_index[1]].Eta(), weight);
+                  myHists->matched_VBFJet_Eta[category_number]->Fill(Jet[VBF_jet_index[1]].Eta(), weight);
+                  myHists->matched_VBFJet_Eta_total->Fill(Jet[VBF_jet_index[1]].Eta(), weight);
 
-            myHists->matched_VBFJet_qgl[category_number]->Fill(Jet_qgl[VBF_jet_index[1]], weight);
-            myHists->matched_VBFJet_qgl_total->Fill(Jet_qgl[VBF_jet_index[1]], weight);
-         }
+                  myHists->matched_VBFJet_qgl[category_number]->Fill(Jet_qgl[VBF_jet_index[1]], weight);
+                  myHists->matched_VBFJet_qgl_total->Fill(Jet_qgl[VBF_jet_index[1]], weight);
+               }
 
-         if (condition == 2 && distance01 < 0.4 && distance10 > 0.4)
-         {
-            myHists->VBFJet_leadingPt_1match->Fill(Jet[VBF_jet_index[0]].Pt(), weight);
-            myHists->VBFJet_subleadingPt_1match->Fill(Jet[VBF_jet_index[1]].Pt(), weight);
-            myHists->VBFJet_Mjj_1match->Fill(VBF_max_mass, weight);
-            myHists->VBFJet_DeltaEta_1match_total->Fill(VBF_max_DeltaEta, weight);
-            myHists->VBFJet_DeltaEta_1match[category_number]->Fill(VBF_max_DeltaEta, weight);
+               if (condition == 2 && distance01 < 0.4 && distance10 > 0.4)
+               {
+                  myHists->VBFJet_leadingPt_1match->Fill(Jet[VBF_jet_index[0]].Pt(), weight);
+                  myHists->VBFJet_subleadingPt_1match->Fill(Jet[VBF_jet_index[1]].Pt(), weight);
+                  myHists->VBFJet_Mjj_1match->Fill(VBF_max_mass, weight);
+                  myHists->VBFJet_DeltaEta_1match_total->Fill(VBF_max_DeltaEta, weight);
+                  myHists->VBFJet_DeltaEta_1match[category_number]->Fill(VBF_max_DeltaEta, weight);
 
-            myHists->matched_VBFJet_Pt[category_number]->Fill(Jet[VBF_jet_index[0]].Pt(), weight);
-            myHists->matched_VBFJet_Pt_total->Fill(Jet[VBF_jet_index[0]].Pt(), weight);
+                  myHists->matched_VBFJet_Pt[category_number]->Fill(Jet[VBF_jet_index[0]].Pt(), weight);
+                  myHists->matched_VBFJet_Pt_total->Fill(Jet[VBF_jet_index[0]].Pt(), weight);
 
-            myHists->matched_VBFJet_Eta[category_number]->Fill(Jet[VBF_jet_index[0]].Eta(), weight);
-            myHists->matched_VBFJet_Eta_total->Fill(Jet[VBF_jet_index[0]].Eta(), weight);
+                  myHists->matched_VBFJet_Eta[category_number]->Fill(Jet[VBF_jet_index[0]].Eta(), weight);
+                  myHists->matched_VBFJet_Eta_total->Fill(Jet[VBF_jet_index[0]].Eta(), weight);
 
-            myHists->matched_VBFJet_qgl[category_number]->Fill(Jet_qgl[VBF_jet_index[0]], weight);
-            myHists->matched_VBFJet_qgl_total->Fill(Jet_qgl[VBF_jet_index[0]], weight);
-         }
-         if (condition == 2 && distance01 > 0.4 && distance10 < 0.4)
-         {
-            myHists->VBFJet_leadingPt_1match->Fill(Jet[VBF_jet_index[0]].Pt(), weight);
-            myHists->VBFJet_subleadingPt_1match->Fill(Jet[VBF_jet_index[1]].Pt(), weight);
-            myHists->VBFJet_Mjj_1match->Fill(VBF_max_mass, weight);
-            myHists->VBFJet_DeltaEta_1match_total->Fill(VBF_max_DeltaEta, weight);
-            myHists->VBFJet_DeltaEta_1match[category_number]->Fill(VBF_max_DeltaEta, weight);
+                  myHists->matched_VBFJet_qgl[category_number]->Fill(Jet_qgl[VBF_jet_index[0]], weight);
+                  myHists->matched_VBFJet_qgl_total->Fill(Jet_qgl[VBF_jet_index[0]], weight);
+               }
+               if (condition == 2 && distance01 > 0.4 && distance10 < 0.4)
+               {
+                  myHists->VBFJet_leadingPt_1match->Fill(Jet[VBF_jet_index[0]].Pt(), weight);
+                  myHists->VBFJet_subleadingPt_1match->Fill(Jet[VBF_jet_index[1]].Pt(), weight);
+                  myHists->VBFJet_Mjj_1match->Fill(VBF_max_mass, weight);
+                  myHists->VBFJet_DeltaEta_1match_total->Fill(VBF_max_DeltaEta, weight);
+                  myHists->VBFJet_DeltaEta_1match[category_number]->Fill(VBF_max_DeltaEta, weight);
 
-            myHists->matched_VBFJet_Pt[category_number]->Fill(Jet[VBF_jet_index[1]].Pt(), weight);
-            myHists->matched_VBFJet_Pt_total->Fill(Jet[VBF_jet_index[1]].Pt(), weight);
+                  myHists->matched_VBFJet_Pt[category_number]->Fill(Jet[VBF_jet_index[1]].Pt(), weight);
+                  myHists->matched_VBFJet_Pt_total->Fill(Jet[VBF_jet_index[1]].Pt(), weight);
 
-            myHists->matched_VBFJet_Eta[category_number]->Fill(Jet[VBF_jet_index[1]].Eta(), weight);
-            myHists->matched_VBFJet_Eta_total->Fill(Jet[VBF_jet_index[1]].Eta(), weight);
+                  myHists->matched_VBFJet_Eta[category_number]->Fill(Jet[VBF_jet_index[1]].Eta(), weight);
+                  myHists->matched_VBFJet_Eta_total->Fill(Jet[VBF_jet_index[1]].Eta(), weight);
 
-            myHists->matched_VBFJet_qgl[category_number]->Fill(Jet_qgl[VBF_jet_index[1]], weight);
-            myHists->matched_VBFJet_qgl_total->Fill(Jet_qgl[VBF_jet_index[1]], weight);
-         }
+                  myHists->matched_VBFJet_qgl[category_number]->Fill(Jet_qgl[VBF_jet_index[1]], weight);
+                  myHists->matched_VBFJet_qgl_total->Fill(Jet_qgl[VBF_jet_index[1]], weight);
+               }
 
-         if (condition == 1 && distance00 > 0.4 && distance11 > 0.4)
-         {
-            myHists->VBFJet_leadingPt_0match->Fill(Jet[VBF_jet_index[0]].Pt(), weight);
-            myHists->VBFJet_subleadingPt_0match->Fill(Jet[VBF_jet_index[1]].Pt(), weight);
-            myHists->VBFJet_Mjj_0match->Fill(VBF_max_mass, weight);
-            myHists->VBFJet_DeltaEta_0match_total->Fill(VBF_max_DeltaEta, weight);
-            myHists->VBFJet_DeltaEta_0match[category_number]->Fill(VBF_max_DeltaEta, weight);
-         }
+               if (condition == 1 && distance00 > 0.4 && distance11 > 0.4)
+               {
+                  myHists->VBFJet_leadingPt_0match->Fill(Jet[VBF_jet_index[0]].Pt(), weight);
+                  myHists->VBFJet_subleadingPt_0match->Fill(Jet[VBF_jet_index[1]].Pt(), weight);
+                  myHists->VBFJet_Mjj_0match->Fill(VBF_max_mass, weight);
+                  myHists->VBFJet_DeltaEta_0match_total->Fill(VBF_max_DeltaEta, weight);
+                  myHists->VBFJet_DeltaEta_0match[category_number]->Fill(VBF_max_DeltaEta, weight);
+               }
 
-         if (condition == 2 && distance01 > 0.4 && distance10 > 0.4)
-         {
-            myHists->VBFJet_leadingPt_0match->Fill(Jet[VBF_jet_index[0]].Pt(), weight);
-            myHists->VBFJet_subleadingPt_0match->Fill(Jet[VBF_jet_index[1]].Pt(), weight);
-            myHists->VBFJet_Mjj_0match->Fill(VBF_max_mass, weight);
-            myHists->VBFJet_DeltaEta_0match_total->Fill(VBF_max_DeltaEta, weight);
-            myHists->VBFJet_DeltaEta_0match[category_number]->Fill(VBF_max_DeltaEta, weight);
-         }
-      }
+               if (condition == 2 && distance01 > 0.4 && distance10 > 0.4)
+               {
+                  myHists->VBFJet_leadingPt_0match->Fill(Jet[VBF_jet_index[0]].Pt(), weight);
+                  myHists->VBFJet_subleadingPt_0match->Fill(Jet[VBF_jet_index[1]].Pt(), weight);
+                  myHists->VBFJet_Mjj_0match->Fill(VBF_max_mass, weight);
+                  myHists->VBFJet_DeltaEta_0match_total->Fill(VBF_max_DeltaEta, weight);
+                  myHists->VBFJet_DeltaEta_0match[category_number]->Fill(VBF_max_DeltaEta, weight);
+               }
+            }
+      */
       /*
       if (FatJet_btagDDBvL[maxindex] > 0.7)
       {
