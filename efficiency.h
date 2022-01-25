@@ -134,7 +134,7 @@ public:
 efficiency::efficiency(const char *infileName, const char *typeName, const char *fileNumber)
 {
     myHists = new makeHists();
-    TString histName = "../outfiles/C2V_4/" + (TString)typeName + "_" + (TString)fileNumber + "_selected.root";
+    TString histName = "../outfiles/C2V_3/" + (TString)typeName + "_" + (TString)fileNumber + "_selected.root";
     myHists->createHists(histName);
 }
 

@@ -41,13 +41,17 @@ double getXsection(string TypeName)
 {
     double xsection;
     if (TypeName == string("OSWWH"))
-        xsection = 5.652;
+        xsection = 8.23; //C2V=3
+//        xsection = 16.92; //C2V=4
     if (TypeName == string("SSWWH"))
-        xsection = 3.559;
+        xsection = 5.19; //C2V=3
+//        xsection = 11.04; //C2V=4
     if (TypeName == string("WZH"))
-        xsection = 3.742;
+        xsection = 5.37; //C2V=3
+//        xsection = 11.23; //C2V=4
     if (TypeName == string("ZZH"))
-        xsection = 2.994;
+        xsection = 4.24; //C2V=3
+//        xsection = 9.32; //C2V=4
     return xsection;
 }
 
