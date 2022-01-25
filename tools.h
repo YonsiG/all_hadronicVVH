@@ -126,7 +126,7 @@ bool Jet_kinVBF_select(TLorentzVector Jet)
 {
     if (Jet.Pt() < 25)
         return false;
-    if (fabs(Jet.Eta() > 4.7))
+    if (fabs(Jet.Eta()) > 4.7)
         return false;
 
     /*      if (Jet_cleanmask[ijet] == 0)
