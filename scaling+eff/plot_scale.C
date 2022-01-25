@@ -24,8 +24,8 @@ using namespace std;
 
 int main()
 {
-    char infileName[100] = "../../outfiles/C2V_3/ZZH_test_selected.root";
-    char outfileName[100] = "../../outfiles/C2V_3/ZZH_test_scaled.root";
+    char infileName[100] = "../../outfiles/C2V_4/ZZH_2_selected.root";
+    char outfileName[100] = "../../outfiles/C2V_4/ZZH_2_scaled.root";
 
     TFile *inputFile = new TFile(infileName);
     TH1D *weight_Scale = (TH1D *)inputFile->Get("weight_Scale");
