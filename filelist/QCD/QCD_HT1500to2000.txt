@@ -1,0 +1,2 @@
+/hadoop/cms/store/user/legianni/skimNanoVVH-Hadronic__v1/QCD_HT1500to2000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/skimNano-VVH__v1/220125_205820/0000/tree_1.root
+/hadoop/cms/store/user/legianni/skimNanoVVH-Hadronic__v1/QCD_HT1500to2000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/skimNano-VVH__v1/220125_205820/0000/tree_2.root

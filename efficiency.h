@@ -134,7 +134,7 @@ public:
 efficiency::efficiency(const char *infileName, const char *typeName, const char *fileNumber)
 {
     myHists = new makeHists();
-    TString histName = "../outfiles/C2V_3/" + (TString)typeName + "_" + (TString)fileNumber + "_selected.root";
+    TString histName = "../outfiles/" + (TString)typeName + "_" + (TString)fileNumber + "_selected.root";
     myHists->createHists(histName);
 }
 
@@ -187,7 +187,7 @@ void efficiency::Initial(const char *rootName, int rootNumber, const char *typeN
     fChain->SetBranchAddress("GenPart_eta", GenPart_eta);
     fChain->SetBranchAddress("GenPart_phi", GenPart_phi);
 
-    fChain->SetBranchAddress("FatJet_btagDDBvL", FatJet_btagDDBvL);
+//    fChain->SetBranchAddress("FatJet_btagDDBvL", FatJet_btagDDBvL);
     fChain->SetBranchAddress("FatJet_eta", FatJet_eta);
     fChain->SetBranchAddress("FatJet_phi", FatJet_phi);
     fChain->SetBranchAddress("FatJet_pt", FatJet_pt);

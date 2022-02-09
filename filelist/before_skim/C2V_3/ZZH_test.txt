@@ -1,0 +1,1 @@
+/hadoop/cms/store/user/phchang/VBSHWWSignalGeneration/RunIISummer20UL18_VBSZZH_incl_C2V_3_Azure_v1/merged/output_0.root

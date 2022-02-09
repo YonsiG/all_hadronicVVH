@@ -41,17 +41,55 @@ double getXsection(string TypeName)
 {
     double xsection;
     if (TypeName == string("OSWWH"))
-        xsection = 8.23; //C2V=3
-//        xsection = 16.92; //C2V=4
+        xsection = 8.23; // C2V=3
+    //        xsection = 16.92; //C2V=4
     if (TypeName == string("SSWWH"))
-        xsection = 5.19; //C2V=3
-//        xsection = 11.04; //C2V=4
+        xsection = 5.19; // C2V=3
+    //        xsection = 11.04; //C2V=4
     if (TypeName == string("WZH"))
-        xsection = 5.37; //C2V=3
-//        xsection = 11.23; //C2V=4
+        xsection = 5.37; // C2V=3
+    //        xsection = 11.23; //C2V=4
     if (TypeName == string("ZZH"))
-        xsection = 4.24; //C2V=3
-//        xsection = 9.32; //C2V=4
+        xsection = 4.24; // C2V=3
+    //        xsection = 9.32; //C2V=4
+
+    if (TypeName == string("QCD_HT300to500"))
+        xsection = 322600*1000; 
+    if (TypeName == string("QCD_HT500to700"))
+        xsection = 30310*1000; 
+    if (TypeName == string("QCD_HT700to1000"))
+        xsection = 6334*1000; 
+    if (TypeName == string("QCD_HT1000to1500"))
+        xsection = 1088*1000; 
+    if (TypeName == string("QCD_HT1500to2000"))
+        xsection = 99.11*1000; 
+    if (TypeName == string("QCD_HT2000toInf"))
+        xsection = 20.23*1000;   
+
+    if (TypeName == string("WJetsToQQ_HT-200to400"))
+        xsection = 2560*1000; 
+    if (TypeName == string("WJetsToQQ_HT-400to600"))
+        xsection = 278.1*1000; 
+    if (TypeName == string("WJetsToQQ_HT-600to800"))
+        xsection = 59.37*1000;
+    if (TypeName == string("WJetsToQQ_HT-800toInf"))
+        xsection = 28.74*1000; 
+    
+    //ZJets cross section needs further confirmation
+    if (TypeName == string("ZJetsToQQ_HT-200to400"))
+        xsection = 1011; 
+    if (TypeName == string("ZJetsToQQ_HT-400to600"))
+        xsection = 114.1*1000; 
+    if (TypeName == string("ZJetsToQQ_HT-600to800"))
+        xsection = 25.4*1000;
+    if (TypeName == string("ZJetsToQQ_HT-800toInf"))
+        xsection = 12.88*1000; 
+    
+    if (TypeName == string("TTToHadronic"))
+        xsection = 377.96*1000;
+    if (TypeName == string("TTToSemiLeptonic"))
+        xsection = 365.34*1000; 
+
     return xsection;
 }
 

@@ -1,0 +1,16 @@
+/hadoop/cms/store/user/legianni/skimNanoVVH-Hadronic__v1/QCD_HT700to1000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/skimNano-VVH__v1/220125_210141/0000/tree_1.root
+/hadoop/cms/store/user/legianni/skimNanoVVH-Hadronic__v1/QCD_HT700to1000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/skimNano-VVH__v1/220125_210141/0000/tree_2.root
+/hadoop/cms/store/user/legianni/skimNanoVVH-Hadronic__v1/QCD_HT700to1000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/skimNano-VVH__v1/220125_210141/0000/tree_3.root
+/hadoop/cms/store/user/legianni/skimNanoVVH-Hadronic__v1/QCD_HT700to1000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/skimNano-VVH__v1/220125_210141/0000/tree_4.root
+/hadoop/cms/store/user/legianni/skimNanoVVH-Hadronic__v1/QCD_HT700to1000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/skimNano-VVH__v1/220125_210141/0000/tree_5.root
+/hadoop/cms/store/user/legianni/skimNanoVVH-Hadronic__v1/QCD_HT700to1000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/skimNano-VVH__v1/220125_210141/0000/tree_6.root
+/hadoop/cms/store/user/legianni/skimNanoVVH-Hadronic__v1/QCD_HT700to1000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/skimNano-VVH__v1/220125_210141/0000/tree_7.root
+/hadoop/cms/store/user/legianni/skimNanoVVH-Hadronic__v1/QCD_HT700to1000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/skimNano-VVH__v1/220125_210141/0000/tree_8.root
+/hadoop/cms/store/user/legianni/skimNanoVVH-Hadronic__v1/QCD_HT700to1000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/skimNano-VVH__v1/220125_210141/0000/tree_9.root
+/hadoop/cms/store/user/legianni/skimNanoVVH-Hadronic__v1/QCD_HT700to1000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/skimNano-VVH__v1/220125_210141/0000/tree_10.root
+/hadoop/cms/store/user/legianni/skimNanoVVH-Hadronic__v1/QCD_HT700to1000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/skimNano-VVH__v1/220125_210141/0000/tree_11.root
+/hadoop/cms/store/user/legianni/skimNanoVVH-Hadronic__v1/QCD_HT700to1000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/skimNano-VVH__v1/220125_210141/0000/tree_12.root
+/hadoop/cms/store/user/legianni/skimNanoVVH-Hadronic__v1/QCD_HT700to1000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/skimNano-VVH__v1/220125_210141/0000/tree_13.root
+/hadoop/cms/store/user/legianni/skimNanoVVH-Hadronic__v1/QCD_HT700to1000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/skimNano-VVH__v1/220125_210141/0000/tree_14.root
+/hadoop/cms/store/user/legianni/skimNanoVVH-Hadronic__v1/QCD_HT700to1000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/skimNano-VVH__v1/220125_210141/0000/tree_15.root
+/hadoop/cms/store/user/legianni/skimNanoVVH-Hadronic__v1/QCD_HT700to1000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/skimNano-VVH__v1/220125_210141/0000/tree_16.root
