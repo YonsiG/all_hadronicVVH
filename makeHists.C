@@ -85,6 +85,21 @@ void makeHists::createHists(const char *fileName)
     third_fatjet_btag_score_0match = new TH1D("third_fatjet_btag_score_0match", "third_fatjet_btag_score_0match", 100, 0, 1);
     third_fatjet_btag_score_0match->Sumw2();
 
+    fatjet_msoftdrop = new TH1D("fatjet_msoftdrop","fatjet_msoftdrop",100,40,440);
+    fatjet_msoftdrop->Sumw2();
+
+    fatjet_pt = new TH1D("fatjet_pt","fatjet_pt",100,250,2000);
+    fatjet_pt->Sumw2();
+
+    fatjet_eta = new TH1D("fatjet_eta","fatjet_eta",100,-2.5,2.5);
+    fatjet_eta->Sumw2();
+
+    VBF_max_mass = new TH1D("VBF_max_mass","VBF_max_mass",100,500,2500);
+    VBF_max_mass->Sumw2();
+
+    jet_mass = new TH1D("jet_mass","jet_mass",100,0,200);
+    jet_mass->Sumw2();
+
     VBFJet_leadingPt_2match = new TH1D("VBFJet_leadingPt_2match", "VBFJet_leadingPt_2match", 100, 0, 1000);
     VBFJet_leadingPt_2match->Sumw2();
     VBFJet_leadingPt_1match = new TH1D("VBFJet_leadingPt_1match", "VBFJet_leadingPt_1match", 100, 0, 1000);

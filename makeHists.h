@@ -39,6 +39,13 @@ public:
   TH1D *second_fatjet_btag_score_0match;
   TH1D *third_fatjet_btag_score_0match;
 
+  TH1D *fatjet_msoftdrop;
+  TH1D *fatjet_pt;
+  TH1D *fatjet_eta;
+  TH1D *jet_mass;
+
+  TH1D *VBF_max_mass;
+
   TH1D *VBFJet_leadingPt_2match;
   TH1D *VBFJet_leadingPt_1match;
   TH1D *VBFJet_leadingPt_0match;

@@ -22,16 +22,15 @@
 
 using namespace std;
 
-int main()
+void scale(TString fileName)
 {
-    char infileName[100] = "../../outfiles/ZJetsToQQ_HT-600to800_2_selected.root";
-    char outfileName[100] = "../../outfiles/ZJetsToQQ_HT-600to800_2_scaled.root";
-
-    TFile *inputFile = new TFile(infileName);
+    TString infileName_s = "../../outfiles/" + fileName + "_selected.root";
+    TString outfileName_s = "../../outfiles/" + fileName + "_scaled.root";
+    TFile *inputFile = new TFile(infileName_s);
     TH1D *weight_Scale = (TH1D *)inputFile->Get("weight_Scale");
     double scaleNum = 1 / weight_Scale->GetBinContent(1);
 
-    TFile *outputFile = new TFile(outfileName, "RECREATE");
+    TFile *outputFile = new TFile(outfileName_s, "RECREATE");
     char plotname[50];
     TH1D *cutflow[14];
     TH1D *number_of_jets[14];
@@ -70,6 +69,10 @@ int main()
     TH1D *matched_VBFJet_Pt[14];
     TH1D *matched_VBFJet_Eta[14];
     TH1D *matched_VBFJet_qgl[14];
+    TH1D *fatjet_msoftdrop;
+    TH1D *fatjet_pt;
+    TH1D *fatjet_eta;
+    TH1D *VBF_max_mass;
 
     for (int icategory = 0; icategory < 14; icategory++)
     {
@@ -102,6 +105,15 @@ int main()
         matched_VBFJet_Eta[icategory]->Scale(scaleNum);
         matched_VBFJet_qgl[icategory]->Scale(scaleNum);
     }
+
+    fatjet_msoftdrop = (TH1D *)inputFile->Get("fatjet_msoftdrop")->Clone();
+    fatjet_msoftdrop->Scale(scaleNum);
+    fatjet_pt = (TH1D *)inputFile->Get("fatjet_pt")->Clone();
+    fatjet_pt->Scale(scaleNum);
+    fatjet_eta = (TH1D *)inputFile->Get("fatjet_eta")->Clone();
+    fatjet_eta->Scale(scaleNum);
+    VBF_max_mass = (TH1D *)inputFile->Get("VBF_max_mass")->Clone();
+    VBF_max_mass->Scale(scaleNum);
 
     fatjet_btag_score = (TH1D *)inputFile->Get("fatjet_btag_score")->Clone();
     fatjet_btag_score->Scale(scaleNum);
@@ -171,4 +183,43 @@ int main()
     outputFile->cd();
     outputFile->Write();
     outputFile->Close();
+}
+
+int main()
+{
+    TString signalNames[] = {"SSWWH_2", "OSWWH_2", "WZH_2", "ZZH_2"};
+    for (int isize=0; isize<sizeof(signalNames)/sizeof(signalNames[0]); isize++)
+    {
+        scale(signalNames[isize]);
+    }
+
+    TString QCDNames[] = {"QCD_HT300to500_2", "QCD_HT500to700_2", "QCD_HT700to1000_2", "QCD_HT1000to1500_2", "QCD_HT1500to2000_2", "QCD_HT2000toInf_2"};
+    for (int isize=0; isize<sizeof(QCDNames)/sizeof(QCDNames[0]); isize++)
+    {
+        scale(QCDNames[isize]);
+    }
+
+    TString ZJetNames[] = {"ZJetsToQQ_HT-200to400_2", "ZJetsToQQ_HT-400to600_2", "ZJetsToQQ_HT-600to800_2", "ZJetsToQQ_HT-800toInf_2"};
+    for (int isize=0; isize<sizeof(ZJetNames)/sizeof(ZJetNames[0]); isize++)
+    {
+        scale(ZJetNames[isize]);
+    }
+
+    TString WJetNames[] = {"WJetsToQQ_HT-200to400_2", "WJetsToQQ_HT-400to600_2", "WJetsToQQ_HT-600to800_2", "WJetsToQQ_HT-800toInf_2"};
+    for (int isize=0; isize<sizeof(WJetNames)/sizeof(WJetNames[0]); isize++)
+    {
+        scale(WJetNames[isize]);
+    }
+
+    TString TTToHadronicNames[] = {"TTToHadronic_2"};
+    for (int isize=0; isize<sizeof(TTToHadronicNames)/sizeof(TTToHadronicNames[0]); isize++)
+    {
+        scale(TTToHadronicNames[isize]);
+    }
+
+    TString TTToSemiLeptonicNames[] = {"TTToSemiLeptonic_2"};
+    for (int isize=0; isize<sizeof(TTToSemiLeptonicNames)/sizeof(TTToSemiLeptonicNames[0]); isize++)
+    {
+        scale(TTToSemiLeptonicNames[isize]);
+    }
 }

@@ -77,10 +77,8 @@ void efficiency::Loop(const char *typeName)
 
          if (Is_Hbb != 1)
             continue; // only consider Generated Hbb events, other inclusive channels are not studied
-         // passflag = 0;
       }
 
-      int passflag = 1;
       for (int icutflow = 0; icutflow < 14; icutflow++)
          myHists->cutflow[icutflow]->Fill(1.5, weight);
 
@@ -100,7 +98,6 @@ void efficiency::Loop(const char *typeName)
          trig_status = 1;
 
       if (trig_status == 0)
-         // passflag = 0;
          continue;
       for (int icutflow = 0; icutflow < 14; icutflow++)
          myHists->cutflow[icutflow]->Fill(2.5, weight);
@@ -123,7 +120,6 @@ void efficiency::Loop(const char *typeName)
       }
 
       if (count_lepton != 0)
-         // passflag = 0;
          continue;
 
       for (int icutflow = 0; icutflow < 14; icutflow++)
@@ -133,6 +129,7 @@ void efficiency::Loop(const char *typeName)
       TLorentzVector tempFatJet;
       int sort_index = 0;
       double pass_cut_fatjet_btagDDBvL[200]; // temporarily not sorting
+      double pass_cut_fatjet_msoftdrop[200];
       int count_fatjet = 0;
       for (int ifatjet = 0; ifatjet < nFatJet; ifatjet++)
       {
@@ -143,6 +140,7 @@ void efficiency::Loop(const char *typeName)
          count_fatjet++;
          FatJet[sort_index] = tempFatJet;
          pass_cut_fatjet_btagDDBvL[sort_index] = FatJet_btagDDBvL[ifatjet];
+         pass_cut_fatjet_msoftdrop[sort_index] = FatJet_msoftdrop[ifatjet];
          sort_index++;
       }
 
@@ -159,6 +157,7 @@ void efficiency::Loop(const char *typeName)
          }
          FatJet_btagsort[thisfatjet_rank] = FatJet[isort];
          FatJet_DDBvL_btagsort[thisfatjet_rank] = pass_cut_fatjet_btagDDBvL[isort];
+         FatJet_msoftdrop_btagsort[thisfatjet_rank] = pass_cut_fatjet_msoftdrop[isort];
       }
 
       /*****************jet selection****************/
@@ -232,9 +231,8 @@ void efficiency::Loop(const char *typeName)
          myHists->cutflow[category_number]->Fill(6.5, weight);
 
       if (VBF_selection != 1)
-         passflag = 0;
+         continue;
 
-      // cout << "event number: " << iLoop << " pass or not: " << passflag << " njets: " << count_jet << " VBF max mass: " << VBF_max_mass << " VBF max deltaEta: " << VBF_max_DeltaEta << endl;
       for (int ijet = 0; ijet < count_jet; ijet++)
       {
          bool isVBFJet = false;
@@ -242,12 +240,17 @@ void efficiency::Loop(const char *typeName)
             isVBFJet = true;
          if (ijet == VBF_jet_index[1])
             isVBFJet = true;
-         // cout << "VBF Jet flag: " << isVBFJet << " Jet_mass: " << Jet[ijet].M() << " Jet_Pt:" << Jet[ijet].Pt() << " Jet_Eta:" << Jet[ijet].Eta() << " Jet_Phi: " << Jet[ijet].Phi() << endl;
       }
-      cout<<count_fatjet<<" "<<count_jet<<endl;
       /****************plot filling******************/
       myHists->number_of_jets[category_number]->Fill(count_jet, weight);
       myHists->number_of_central_jets[category_number]->Fill(count_central_jet, weight);
+      for (int isort = 0; isort < sort_index; isort++)
+      {
+         myHists->fatjet_msoftdrop->Fill(FatJet_msoftdrop_btagsort[isort],weight);
+         myHists->fatjet_pt->Fill(FatJet[isort].Pt(),weight);
+         myHists->fatjet_eta->Fill(FatJet[isort].Eta(),weight);
+      }
+      myHists->VBF_max_mass->Fill(VBF_max_mass,weight);
 
       for (int isort = 0; isort < sort_index; isort++)
          myHists->fatjet_btag_score->Fill(FatJet_DDBvL_btagsort[isort], weight);

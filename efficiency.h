@@ -114,6 +114,7 @@ public:
     /*************sorting variables****************/
     TLorentzVector FatJet_btagsort[200];
     Float_t FatJet_DDBvL_btagsort[200];
+    Float_t FatJet_msoftdrop_btagsort[200]; 
 
     /******************functions*******************/
     efficiency(const char *infileName, const char *typeName, const char *fileNumber);

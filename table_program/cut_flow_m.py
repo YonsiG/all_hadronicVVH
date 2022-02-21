@@ -24,10 +24,10 @@ def main():
     signal_sample3 =  ROOT.TFile('../../outfiles/WJetsToQQ_HT-600to800_2_scaled.root')
     signal_sample4 =  ROOT.TFile('../../outfiles/WJetsToQQ_HT-800toInf_2_scaled.root')
 
-    temp1 = signal_sample1.Get('cutflow0')
-    temp2 = signal_sample2.Get('cutflow0')
-    temp3 = signal_sample3.Get('cutflow0')
-    temp4 = signal_sample4.Get('cutflow0')
+    temp1 = signal_sample1.Get('cutflow3')
+    temp2 = signal_sample2.Get('cutflow3')
+    temp3 = signal_sample3.Get('cutflow3')
+    temp4 = signal_sample4.Get('cutflow3')
 
     for i in range(20):
         exec ("signal1%s = temp1.GetBinContent(%s)"%(i+1,i+1))
@@ -35,7 +35,7 @@ def main():
         exec ("signal3%s = temp3.GetBinContent(%s)"%(i+1,i+1))
         exec ("signal4%s = temp4.GetBinContent(%s)"%(i+1,i+1))
 
-    outname = '../../tables/cut_info_WJet.txt'
+    outname = '../../tables/cut_info_WJet_2+4.txt'
     table_name = "WJetsToQQ$\_$HT"
 
     fout_script = open(outname,'w')
@@ -53,8 +53,8 @@ def main():
     print("%-30s%-25s%-25s%-25s%-25s"%('Selected Hbb at Gen level  ',round(signal12,3),round(signal22,3),round(signal32,3),round(signal42,3)))
     print("%-30s%-25s%-25s%-25s%-25s"%('Trigger                    ',round(signal13,3),round(signal23,3),round(signal33,3),round(signal43,3)))
     print("%-30s%-25s%-25s%-25s%-25s"%('0 lepton                   ',round(signal14,3),round(signal24,3),round(signal34,3),round(signal44,3)))
-    print("%-30s%-25s%-25s%-25s%-25s"%('3+ fatjets                 ',round(signal15,3),round(signal25,3),round(signal35,3),round(signal45,3)))
-    print("%-30s%-25s%-25s%-25s%-25s"%('2+ jets                    ',round(signal16,3),round(signal26,3),round(signal36,3),round(signal46,3)))
+    print("%-30s%-25s%-25s%-25s%-25s"%('2+ fatjets                 ',round(signal15,3),round(signal25,3),round(signal35,3),round(signal45,3)))
+    print("%-30s%-25s%-25s%-25s%-25s"%('4+ jets                    ',round(signal16,3),round(signal26,3),round(signal36,3),round(signal46,3)))
     print("%-30s%-25s%-25s%-25s%-25s"%('VBF cut2                   ',round(signal17,3),round(signal27,3),round(signal37,3),round(signal47,3)))
 
     fout_script.write('%-30s&%-25s&%-25s&%-25s&%-25s%-5s\n'%('Cut','200to400','400to600','600to800','800toInf',r'\\'))
@@ -64,13 +64,14 @@ def main():
     fout_script.write('%-30s&%-25s&%-25s&%-25s&%-25s%-5s\n'%('Selected Hbb at Gen level  ',round(signal12,3),round(signal22,3),round(signal32,3),round(signal42,3),r'\\'))
     fout_script.write('%-30s&%-25s&%-25s&%-25s&%-25s%-5s\n'%('Trigger                    ',round(signal13,3),round(signal23,3),round(signal33,3),round(signal43,3),r'\\'))
     fout_script.write('%-30s&%-25s&%-25s&%-25s&%-25s%-5s\n'%('0 lepton                   ',round(signal14,3),round(signal24,3),round(signal34,3),round(signal44,3),r'\\'))
-    fout_script.write('%-30s&%-25s&%-25s&%-25s&%-25s%-5s\n'%('3+ fatjets                 ',round(signal15,3),round(signal25,3),round(signal35,3),round(signal45,3),r'\\'))
-    fout_script.write('%-30s&%-25s&%-25s&%-25s&%-25s%-5s\n'%('2+ jets                    ',round(signal16,3),round(signal26,3),round(signal36,3),round(signal46,3),r'\\'))
+    fout_script.write('%-30s&%-25s&%-25s&%-25s&%-25s%-5s\n'%('2+ fatjets                 ',round(signal15,3),round(signal25,3),round(signal35,3),round(signal45,3),r'\\'))
+    fout_script.write('%-30s&%-25s&%-25s&%-25s&%-25s%-5s\n'%('4+ jets                    ',round(signal16,3),round(signal26,3),round(signal36,3),round(signal46,3),r'\\'))
     fout_script.write('%-30s&%-25s&%-25s&%-25s&%-25s%-5s\n'%('VBF cut2                   ',round(signal17,3),round(signal27,3),round(signal37,3),round(signal47,3),r'\\'))
 
     fout_script.write('\\end{tabular}\n')
     fout_script.write('\\caption{'+table_name+'}\n')
     fout_script.write('\\label{'+table_name+'}\n')
+    fout_script.write('~\\\\\n')
     fout_script.write('\\end{table}\n')
 
     fout_script.close()
