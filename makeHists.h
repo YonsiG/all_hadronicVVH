@@ -19,6 +19,7 @@ public:
   TH1D *weight_Scale;
   TH1D *cutflow[14];
 
+  TH1D *number_of_fatjets[14];
   TH1D *number_of_jets[14];
   TH1D *number_of_central_jets[14];
 
@@ -39,12 +40,19 @@ public:
   TH1D *second_fatjet_btag_score_0match;
   TH1D *third_fatjet_btag_score_0match;
 
-  TH1D *fatjet_msoftdrop;
-  TH1D *fatjet_pt;
-  TH1D *fatjet_eta;
-  TH1D *jet_mass;
+  TH1D *fatjet_msoftdrop[14][3];
+  TH1D *fatjet_pt[14][3];
+  TH1D *fatjet_eta[14][3];
+  TH1D *fatjet_WvsQCD[14][3];
+  TH1D *fatjet_mass[14][3];
+  TH1D *fatjet_Xbb_modified[14][3];
+  TH1D *fatjet_Xcc[14][3];
+  TH1D *fatjet_Xqq[14][3];
+  TH1D *fatjet_QCD[14][3];
 
-  TH1D *VBF_max_mass;
+  TH1D *VBF_max_mass[14];
+
+  TH1D *jet_mass;
 
   TH1D *VBFJet_leadingPt_2match;
   TH1D *VBFJet_leadingPt_1match;
@@ -72,8 +80,6 @@ public:
   TH1D *matched_VBFJet_Pt[14];
   TH1D *matched_VBFJet_Eta[14];
   TH1D *matched_VBFJet_qgl[14];
-
-
 
   void createHists(const char *fileName);
   void saveHists();

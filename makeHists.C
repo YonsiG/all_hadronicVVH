@@ -24,6 +24,9 @@ void makeHists::createHists(const char *fileName)
         sprintf(plotname, "cutflow%i", icategory);
         cutflow[icategory] = new TH1D(plotname, plotname, 20, 0, 20);
 
+        sprintf(plotname, "number_of_fatjets%i", icategory);
+        number_of_fatjets[icategory] = new TH1D(plotname, plotname, 10, 0, 10);
+
         sprintf(plotname, "number_of_jets%i", icategory);
         number_of_jets[icategory] = new TH1D(plotname, plotname, 10, 0, 10);
 
@@ -53,6 +56,48 @@ void makeHists::createHists(const char *fileName)
         sprintf(plotname, "matched_VBFJet_qgl%i", icategory);
         matched_VBFJet_qgl[icategory] = new TH1D(plotname, plotname, 100, 0, 1);
         matched_VBFJet_qgl[icategory]->Sumw2();
+
+        for (int ifatjet=0; ifatjet<3; ifatjet++){
+            sprintf(plotname, "fatjet_msoftdrop%i_%i", icategory, ifatjet);
+            fatjet_msoftdrop[icategory][ifatjet] = new TH1D(plotname,plotname,100,40,1000);
+            fatjet_msoftdrop[icategory][ifatjet]->Sumw2();
+
+            sprintf(plotname, "fatjet_pt%i_%i", icategory, ifatjet);
+            fatjet_pt[icategory][ifatjet] = new TH1D(plotname,plotname,100,250,3000);
+            fatjet_pt[icategory][ifatjet]->Sumw2();
+
+            sprintf(plotname, "fatjet_eta%i_%i", icategory, ifatjet);
+            fatjet_eta[icategory][ifatjet] = new TH1D(plotname,plotname,100,-2.5,2.5);
+            fatjet_eta[icategory][ifatjet]->Sumw2();
+
+            sprintf(plotname, "fatjet_WvsQCD%i_%i", icategory, ifatjet);
+            fatjet_WvsQCD[icategory][ifatjet] = new TH1D(plotname,plotname,100,0,1);
+            fatjet_WvsQCD[icategory][ifatjet]->Sumw2();
+
+            sprintf(plotname, "fatjet_mass%i_%i", icategory, ifatjet);
+            fatjet_mass[icategory][ifatjet] = new TH1D(plotname,plotname,100,40,1000);
+            fatjet_mass[icategory][ifatjet]->Sumw2();
+
+            sprintf(plotname, "fatjet_Xbb_modified%i_%i", icategory, ifatjet);
+            fatjet_Xbb_modified[icategory][ifatjet] = new TH1D(plotname,plotname,100,0,1);
+            fatjet_Xbb_modified[icategory][ifatjet]->Sumw2();
+
+            sprintf(plotname, "fatjet_Xcc%i_%i", icategory, ifatjet);
+            fatjet_Xcc[icategory][ifatjet] = new TH1D(plotname,plotname,100,0,1);
+            fatjet_Xcc[icategory][ifatjet]->Sumw2();
+
+            sprintf(plotname, "fatjet_Xqq%i_%i", icategory, ifatjet);
+            fatjet_Xqq[icategory][ifatjet] = new TH1D(plotname,plotname,100,0,1);
+            fatjet_Xqq[icategory][ifatjet]->Sumw2();
+
+            sprintf(plotname, "fatjet_QCD%i_%i", icategory, ifatjet);
+            fatjet_QCD[icategory][ifatjet] = new TH1D(plotname,plotname,100,0,1);
+            fatjet_QCD[icategory][ifatjet]->Sumw2();
+        }
+
+        sprintf(plotname, "VBF_max_mass%i", icategory);
+        VBF_max_mass[icategory] = new TH1D(plotname,plotname,100,500,2500);
+        VBF_max_mass[icategory]->Sumw2();
     }
 
     fatjet_btag_score = new TH1D("fatjet_btag_score", "fatjet_btag_score", 100, 0, 1);
@@ -84,18 +129,6 @@ void makeHists::createHists(const char *fileName)
     second_fatjet_btag_score_0match->Sumw2();
     third_fatjet_btag_score_0match = new TH1D("third_fatjet_btag_score_0match", "third_fatjet_btag_score_0match", 100, 0, 1);
     third_fatjet_btag_score_0match->Sumw2();
-
-    fatjet_msoftdrop = new TH1D("fatjet_msoftdrop","fatjet_msoftdrop",100,40,440);
-    fatjet_msoftdrop->Sumw2();
-
-    fatjet_pt = new TH1D("fatjet_pt","fatjet_pt",100,250,2000);
-    fatjet_pt->Sumw2();
-
-    fatjet_eta = new TH1D("fatjet_eta","fatjet_eta",100,-2.5,2.5);
-    fatjet_eta->Sumw2();
-
-    VBF_max_mass = new TH1D("VBF_max_mass","VBF_max_mass",100,500,2500);
-    VBF_max_mass->Sumw2();
 
     jet_mass = new TH1D("jet_mass","jet_mass",100,0,200);
     jet_mass->Sumw2();

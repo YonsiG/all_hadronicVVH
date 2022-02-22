@@ -60,13 +60,18 @@ public:
     Float_t GenPart_eta[200];
     Float_t GenPart_phi[200];
 
-    Float_t FatJet_btagDDBvL[200];
     Float_t FatJet_eta[200];
     Float_t FatJet_pt[200];
     Float_t FatJet_phi[200];
     Float_t FatJet_mass[200];
     Int_t FatJet_jetId[200];
     Float_t FatJet_msoftdrop[200];
+    Float_t FatJet_particleNet_WvsQCD[200];
+    Float_t FatJet_particleNet_mass[200];
+    Float_t FatJet_particleNetMD_Xbb[200];
+    Float_t FatJet_particleNetMD_Xcc[200];
+    Float_t FatJet_particleNetMD_Xqq[200];
+    Float_t FatJet_particleNetMD_QCD[200];
 
     Float_t Jet_eta[200];
     Float_t Jet_phi[200];
@@ -113,8 +118,13 @@ public:
 
     /*************sorting variables****************/
     TLorentzVector FatJet_btagsort[200];
-    Float_t FatJet_DDBvL_btagsort[200];
     Float_t FatJet_msoftdrop_btagsort[200]; 
+    Float_t FatJet_WvsQCD_btagsort[200];
+    Float_t FatJet_mass_btagsort[200];
+    Float_t FatJet_Xbb_modified_btagsort[200];
+    Float_t FatJet_Xcc_btagsort[200];
+    Float_t FatJet_Xqq_btagsort[200];
+    Float_t FatJet_QCD_btagsort[200];
 
     /******************functions*******************/
     efficiency(const char *infileName, const char *typeName, const char *fileNumber);
@@ -188,13 +198,18 @@ void efficiency::Initial(const char *rootName, int rootNumber, const char *typeN
     fChain->SetBranchAddress("GenPart_eta", GenPart_eta);
     fChain->SetBranchAddress("GenPart_phi", GenPart_phi);
 
-//    fChain->SetBranchAddress("FatJet_btagDDBvL", FatJet_btagDDBvL);
     fChain->SetBranchAddress("FatJet_eta", FatJet_eta);
     fChain->SetBranchAddress("FatJet_phi", FatJet_phi);
     fChain->SetBranchAddress("FatJet_pt", FatJet_pt);
     fChain->SetBranchAddress("FatJet_mass", FatJet_mass);
     fChain->SetBranchAddress("FatJet_jetId", FatJet_jetId);
     fChain->SetBranchAddress("FatJet_msoftdrop", FatJet_msoftdrop);
+    fChain->SetBranchAddress("FatJet_particleNet_WvsQCD", FatJet_particleNet_WvsQCD);
+    fChain->SetBranchAddress("FatJet_particleNet_mass", FatJet_particleNet_mass);
+    fChain->SetBranchAddress("FatJet_particleNetMD_Xbb", FatJet_particleNetMD_Xbb);
+    fChain->SetBranchAddress("FatJet_particleNetMD_Xcc", FatJet_particleNetMD_Xcc);
+    fChain->SetBranchAddress("FatJet_particleNetMD_Xqq", FatJet_particleNetMD_QCD);
+    fChain->SetBranchAddress("FatJet_particleNetMD_QCD", FatJet_particleNetMD_QCD);
 
     fChain->SetBranchAddress("Jet_eta", Jet_eta);
     fChain->SetBranchAddress("Jet_phi", Jet_phi);

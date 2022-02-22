@@ -17,6 +17,20 @@ def draw_plot(plotname="fatjet_msoftdrop", title="myTitle", log=True):
     WJetplot = WJetfile.Get(plotname)
     ZJetplot = ZJetfile.Get(plotname)
 
+    #draw overflow
+    signalplot.SetBinContent(1, signalplot.GetBinContent(1) + signalplot.GetBinContent(0))
+    signalplot.SetBinContent(signalplot.GetNbinsX(), signalplot.GetBinContent(signalplot.GetNbinsX() + 1) + signalplot.GetBinContent(signalplot.GetNbinsX()))
+    QCDplot.SetBinContent(1, QCDplot.GetBinContent(1) + QCDplot.GetBinContent(0))
+    QCDplot.SetBinContent(QCDplot.GetNbinsX(), QCDplot.GetBinContent(QCDplot.GetNbinsX() + 1) + QCDplot.GetBinContent(QCDplot.GetNbinsX()))
+    TTToHadronicplot.SetBinContent(1, TTToHadronicplot.GetBinContent(1) + TTToHadronicplot.GetBinContent(0))
+    TTToHadronicplot.SetBinContent(TTToHadronicplot.GetNbinsX(), TTToHadronicplot.GetBinContent(TTToHadronicplot.GetNbinsX() + 1) + TTToHadronicplot.GetBinContent(TTToHadronicplot.GetNbinsX()))
+    TTToSemiLeptonicplot.SetBinContent(1, TTToSemiLeptonicplot.GetBinContent(1) + TTToSemiLeptonicplot.GetBinContent(0))
+    TTToSemiLeptonicplot.SetBinContent(TTToSemiLeptonicplot.GetNbinsX(), TTToSemiLeptonicplot.GetBinContent(TTToSemiLeptonicplot.GetNbinsX() + 1) + TTToSemiLeptonicplot.GetBinContent(TTToSemiLeptonicplot.GetNbinsX()))
+    WJetplot.SetBinContent(1, WJetplot.GetBinContent(1) + WJetplot.GetBinContent(0))
+    WJetplot.SetBinContent(WJetplot.GetNbinsX(), WJetplot.GetBinContent(WJetplot.GetNbinsX() + 1) + WJetplot.GetBinContent(WJetplot.GetNbinsX()))
+    ZJetplot.SetBinContent(1, ZJetplot.GetBinContent(1) + ZJetplot.GetBinContent(0))
+    ZJetplot.SetBinContent(ZJetplot.GetNbinsX(), ZJetplot.GetBinContent(ZJetplot.GetNbinsX() + 1) + ZJetplot.GetBinContent(ZJetplot.GetNbinsX()))
+
     #buid stack
     stack = ROOT.THStack("stack","")
     WJetplot.SetFillColor(ROOT.kOrange+3)
@@ -68,16 +82,57 @@ def draw_plot(plotname="fatjet_msoftdrop", title="myTitle", log=True):
 
     #print and save
     if log==True:
-        canvas.SaveAs("../../plots/" + plotname + "_s+b_log.pdf")
+        canvas.SaveAs("../../plots/" + plotname + "_s+b_log.png")
     if log==False:
-        canvas.SaveAs("../../plots/" + plotname + "_s+b_linear.pdf")
+        canvas.SaveAs("../../plots/" + plotname + "_s+b_linear.png")
 
 
 ROOT.gStyle.SetOptStat(0000)
 
-listofplots=["fatjet_msoftdrop", "fatjet_pt", "fatjet_eta", "VBF_max_mass"]
+listofplots1=["fatjet_msoftdrop0_0", "fatjet_msoftdrop0_1", "fatjet_msoftdrop0_2",
+                "fatjet_pt0_0", "fatjet_pt0_1", "fatjet_pt0_2",
+                "fatjet_eta0_0", "fatjet_eta0_1", "fatjet_eta0_2",
+                "fatjet_WvsQCD0_0", "fatjet_WvsQCD0_1", "fatjet_WvsQCD0_2",
+                #"fatjet_mass0_0", "fatjet_mass0_1", "fatjet_mass0_2",
+                "fatjet_Xbb_modified0_0", "fatjet_Xbb_modified0_1", "fatjet_Xbb_modified0_2",
+                "fatjet_Xcc0_0", "fatjet_Xcc0_1", "fatjet_Xcc0_2",
+                "fatjet_Xqq0_0", "fatjet_Xqq0_1", "fatjet_Xqq0_2",
+                "fatjet_QCD0_0", "fatjet_QCD0_1", "fatjet_QCD0_2",
+                "VBF_max_mass0"]
 
-for plot in listofplots:
+for plot in listofplots1:
+    title=plot
+    draw_plot(plot, title, True)
+    draw_plot(plot, title, False)
+
+listofplots2=["fatjet_msoftdrop3_0", "fatjet_msoftdrop3_1", "fatjet_msoftdrop3_2",
+                "fatjet_pt3_0", "fatjet_pt3_1", "fatjet_pt3_2",
+                "fatjet_eta3_0", "fatjet_eta3_1", "fatjet_eta3_2",
+                "fatjet_WvsQCD3_0", "fatjet_WvsQCD3_1", "fatjet_WvsQCD3_2",
+                #"fatjet_mass3_0", "fatjet_mass3_1", "fatjet_mass3_2",
+                "fatjet_Xbb_modified3_0", "fatjet_Xbb_modified3_1", "fatjet_Xbb_modified3_2",
+                "fatjet_Xcc3_0", "fatjet_Xcc3_1", "fatjet_Xcc3_2",
+                "fatjet_Xqq3_0", "fatjet_Xqq3_1", "fatjet_Xqq3_2",
+                "fatjet_QCD3_0", "fatjet_QCD3_1", "fatjet_QCD3_2",
+                "VBF_max_mass0"]
+
+for plot in listofplots2:
+    title=plot
+    draw_plot(plot, title, True)
+    draw_plot(plot, title, False)
+
+listofplots3=["fatjet_msoftdrop4_0", "fatjet_msoftdrop4_1", "fatjet_msoftdrop4_2",
+                "fatjet_pt4_0", "fatjet_pt4_1", "fatjet_pt4_2",
+                "fatjet_eta4_0", "fatjet_eta4_1", "fatjet_eta4_2",
+                "fatjet_WvsQCD4_0", "fatjet_WvsQCD4_1", "fatjet_WvsQCD4_2",
+                #"fatjet_mass4_0", "fatjet_mass4_1", "fatjet_mass4_2",
+                "fatjet_Xbb_modified4_0", "fatjet_Xbb_modified4_1", "fatjet_Xbb_modified4_2",
+                "fatjet_Xcc4_0", "fatjet_Xcc4_1", "fatjet_Xcc4_2",
+                "fatjet_Xqq4_0", "fatjet_Xqq4_1", "fatjet_Xqq4_2",
+                "fatjet_QCD4_0", "fatjet_QCD4_1", "fatjet_QCD4_2",
+                "VBF_max_mass0"]
+
+for plot in listofplots3:
     title=plot
     draw_plot(plot, title, True)
     draw_plot(plot, title, False)
