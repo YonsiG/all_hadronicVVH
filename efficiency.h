@@ -125,6 +125,7 @@ public:
     Float_t FatJet_Xcc_btagsort[200];
     Float_t FatJet_Xqq_btagsort[200];
     Float_t FatJet_QCD_btagsort[200];
+    Float_t FatJet_Xccqq_modified_btagsort[200];
 
     /******************functions*******************/
     efficiency(const char *infileName, const char *typeName, const char *fileNumber);
@@ -208,7 +209,7 @@ void efficiency::Initial(const char *rootName, int rootNumber, const char *typeN
     fChain->SetBranchAddress("FatJet_particleNet_mass", FatJet_particleNet_mass);
     fChain->SetBranchAddress("FatJet_particleNetMD_Xbb", FatJet_particleNetMD_Xbb);
     fChain->SetBranchAddress("FatJet_particleNetMD_Xcc", FatJet_particleNetMD_Xcc);
-    fChain->SetBranchAddress("FatJet_particleNetMD_Xqq", FatJet_particleNetMD_QCD);
+    fChain->SetBranchAddress("FatJet_particleNetMD_Xqq", FatJet_particleNetMD_Xqq);
     fChain->SetBranchAddress("FatJet_particleNetMD_QCD", FatJet_particleNetMD_QCD);
 
     fChain->SetBranchAddress("Jet_eta", Jet_eta);

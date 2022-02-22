@@ -93,6 +93,10 @@ void makeHists::createHists(const char *fileName)
             sprintf(plotname, "fatjet_QCD%i_%i", icategory, ifatjet);
             fatjet_QCD[icategory][ifatjet] = new TH1D(plotname,plotname,100,0,1);
             fatjet_QCD[icategory][ifatjet]->Sumw2();
+
+            sprintf(plotname, "fatjet_Xccqq_modified%i_%i", icategory, ifatjet);
+            fatjet_Xccqq_modified[icategory][ifatjet] = new TH1D(plotname,plotname,100,0,1);
+            fatjet_Xccqq_modified[icategory][ifatjet]->Sumw2();
         }
 
         sprintf(plotname, "VBF_max_mass%i", icategory);

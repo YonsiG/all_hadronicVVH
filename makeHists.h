@@ -49,6 +49,7 @@ public:
   TH1D *fatjet_Xcc[14][3];
   TH1D *fatjet_Xqq[14][3];
   TH1D *fatjet_QCD[14][3];
+  TH1D *fatjet_Xccqq_modified[14][3];
 
   TH1D *VBF_max_mass[14];
 
