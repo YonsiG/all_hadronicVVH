@@ -130,6 +130,7 @@ void efficiency::Loop(const char *typeName)
       int sort_index = 0;
       double pass_cut_fatjet_msoftdrop[200];
       double pass_cut_fatjet_WvsQCD[200];
+      double pass_cut_fatjet_ZvsQCD[200];
       double pass_cut_fatjet_mass[200];
       double pass_cut_fatjet_Xbb_modified[200];
       double pass_cut_fatjet_Xcc[200];
@@ -147,6 +148,7 @@ void efficiency::Loop(const char *typeName)
          FatJet[sort_index] = tempFatJet;
          pass_cut_fatjet_msoftdrop[sort_index] = FatJet_msoftdrop[ifatjet];
          pass_cut_fatjet_WvsQCD[sort_index] = FatJet_particleNet_WvsQCD[ifatjet];
+         pass_cut_fatjet_ZvsQCD[sort_index] = FatJet_particleNet_ZvsQCD[ifatjet];
          pass_cut_fatjet_mass[sort_index] = FatJet_particleNet_mass[ifatjet];
          pass_cut_fatjet_Xbb_modified[sort_index] = FatJet_particleNetMD_Xbb[ifatjet]/(FatJet_particleNetMD_QCD[ifatjet] + FatJet_particleNetMD_Xbb[ifatjet]);
          pass_cut_fatjet_Xcc[sort_index] = FatJet_particleNetMD_Xcc[ifatjet];
@@ -171,6 +173,7 @@ void efficiency::Loop(const char *typeName)
          FatJet_btagsort[thisfatjet_rank] = FatJet[isort];
          FatJet_msoftdrop_btagsort[thisfatjet_rank] = pass_cut_fatjet_msoftdrop[isort];
          FatJet_WvsQCD_btagsort[thisfatjet_rank] = pass_cut_fatjet_WvsQCD[isort];
+         FatJet_ZvsQCD_btagsort[thisfatjet_rank] = pass_cut_fatjet_ZvsQCD[isort];
          FatJet_mass_btagsort[thisfatjet_rank] = pass_cut_fatjet_mass[isort];
          FatJet_Xbb_modified_btagsort[thisfatjet_rank] = pass_cut_fatjet_Xbb_modified[isort];
          FatJet_Xcc_btagsort[thisfatjet_rank] = pass_cut_fatjet_Xcc[isort];
@@ -259,6 +262,15 @@ void efficiency::Loop(const char *typeName)
             isVBFJet = true;
       }
 
+      /****************event selection*******************/
+      if (FatJet_Xbb_modified_btagsort[0]<0.9)
+         continue;
+      myHists->cutflow[category_number]->Fill(7.5, weight);
+
+      if (FatJet_WvsQCD_btagsort[1]<0.9)
+         continue;
+      myHists->cutflow[category_number]->Fill(8.5, weight);
+
       /****************plot filling******************/
       myHists->number_of_fatjets[category_number]->Fill(count_fatjet, weight);
       myHists->number_of_jets[category_number]->Fill(count_jet, weight);
@@ -268,6 +280,7 @@ void efficiency::Loop(const char *typeName)
       myHists->fatjet_pt[category_number][0]->Fill(FatJet_btagsort[0].Pt(),weight);
       myHists->fatjet_eta[category_number][0]->Fill(FatJet_btagsort[0].Eta(),weight);
       myHists->fatjet_WvsQCD[category_number][0]->Fill(FatJet_WvsQCD_btagsort[0],weight);
+      myHists->fatjet_ZvsQCD[category_number][0]->Fill(FatJet_ZvsQCD_btagsort[0],weight);
       myHists->fatjet_mass[category_number][0]->Fill(FatJet_mass_btagsort[0],weight);
       myHists->fatjet_Xbb_modified[category_number][0]->Fill(FatJet_Xbb_modified_btagsort[0],weight);
       myHists->fatjet_Xcc[category_number][0]->Fill(FatJet_Xcc_btagsort[0],weight);
@@ -280,6 +293,7 @@ void efficiency::Loop(const char *typeName)
          myHists->fatjet_pt[category_number][1]->Fill(FatJet_btagsort[1].Pt(),weight);
          myHists->fatjet_eta[category_number][1]->Fill(FatJet_btagsort[1].Eta(),weight);
          myHists->fatjet_WvsQCD[category_number][1]->Fill(FatJet_WvsQCD_btagsort[1],weight);
+         myHists->fatjet_ZvsQCD[category_number][1]->Fill(FatJet_ZvsQCD_btagsort[1],weight);
          myHists->fatjet_mass[category_number][1]->Fill(FatJet_mass_btagsort[1],weight);
          myHists->fatjet_Xbb_modified[category_number][1]->Fill(FatJet_Xbb_modified_btagsort[1],weight);
          myHists->fatjet_Xcc[category_number][1]->Fill(FatJet_Xcc_btagsort[1],weight);
@@ -293,6 +307,7 @@ void efficiency::Loop(const char *typeName)
          myHists->fatjet_pt[category_number][2]->Fill(FatJet_btagsort[2].Pt(),weight);
          myHists->fatjet_eta[category_number][2]->Fill(FatJet_btagsort[2].Eta(),weight);
          myHists->fatjet_WvsQCD[category_number][2]->Fill(FatJet_WvsQCD_btagsort[2],weight);
+         myHists->fatjet_ZvsQCD[category_number][2]->Fill(FatJet_ZvsQCD_btagsort[2],weight);
          myHists->fatjet_mass[category_number][2]->Fill(FatJet_mass_btagsort[2],weight);
          myHists->fatjet_Xbb_modified[category_number][2]->Fill(FatJet_Xbb_modified_btagsort[2],weight);
          myHists->fatjet_Xcc[category_number][2]->Fill(FatJet_Xcc_btagsort[2],weight);
@@ -302,6 +317,7 @@ void efficiency::Loop(const char *typeName)
       }
 
       myHists->VBF_max_mass[category_number]->Fill(VBF_max_mass,weight);
+      myHists->VBF_deltaEta[category_number]->Fill(fabs(Jet[VBF_jet_index[0]].Eta()-Jet[VBF_jet_index[1]].Eta()),weight);
 
       for (int isort = 0; isort < sort_index; isort++)
          myHists->fatjet_btag_score->Fill(FatJet_Xbb_modified_btagsort[isort], weight);

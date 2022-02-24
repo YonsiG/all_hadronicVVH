@@ -1,3 +1,4 @@
+from numbers import Integral
 import ROOT
 
 def draw_plot(plotname="fatjet_msoftdrop", title="myTitle", log=True):
@@ -49,12 +50,12 @@ def draw_plot(plotname="fatjet_msoftdrop", title="myTitle", log=True):
     legend = ROOT.TLegend(0.7,0.83,0.95,0.97)
     legend.SetTextFont(60)
     legend.SetTextSize(0.02)
-    legend.AddEntry(signalplot,"signal")
-    legend.AddEntry(QCDplot, "QCD")
-    legend.AddEntry(TTToHadronicplot, "TTToHadronic")
-    legend.AddEntry(TTToSemiLeptonicplot, "TTToSemiLeptonic")
-    legend.AddEntry(WJetplot,"WJet")
-    legend.AddEntry(ZJetplot,"ZJet")
+    legend.AddEntry(signalplot,"signal %.2f"%(signalplot.Integral()))
+    legend.AddEntry(QCDplot, "QCD %.2f"%(QCDplot.Integral()))
+    legend.AddEntry(TTToHadronicplot, "TTToHadronic %.2f"%(TTToHadronicplot.Integral()))
+    legend.AddEntry(TTToSemiLeptonicplot, "TTToSemiLeptonic %.2f"%(TTToSemiLeptonicplot.Integral()))
+    legend.AddEntry(WJetplot,"WJet %.2f"%(WJetplot.Integral()))
+    legend.AddEntry(ZJetplot,"ZJet %.2f"%(ZJetplot.Integral()))
 
     if log==True:
         QCDplot.GetYaxis().SetRangeUser(10e-2,10e8)
@@ -93,11 +94,13 @@ listofplots1=["fatjet_msoftdrop0_0", "fatjet_msoftdrop0_1", "fatjet_msoftdrop0_2
                 "fatjet_pt0_0", "fatjet_pt0_1", "fatjet_pt0_2",
                 "fatjet_eta0_0", "fatjet_eta0_1", "fatjet_eta0_2",
                 "fatjet_WvsQCD0_0", "fatjet_WvsQCD0_1", "fatjet_WvsQCD0_2",
+                "fatjet_ZvsQCD0_0", "fatjet_ZvsQCD0_1", "fatjet_ZvsQCD0_2",
                 #"fatjet_mass0_0", "fatjet_mass0_1", "fatjet_mass0_2",
                 "fatjet_Xbb_modified0_0", "fatjet_Xbb_modified0_1", "fatjet_Xbb_modified0_2",
                 "fatjet_Xcc0_0", "fatjet_Xcc0_1", "fatjet_Xcc0_2",
                 "fatjet_Xqq0_0", "fatjet_Xqq0_1", "fatjet_Xqq0_2",
                 "fatjet_QCD0_0", "fatjet_QCD0_1", "fatjet_QCD0_2",
+                "fatjet_Xccqq_modified0_0", "fatjet_Xccqq_modified0_1", "fatjet_Xccqq_modified0_2",
                 "VBF_max_mass0"]
 
 for plot in listofplots1:
@@ -109,12 +112,14 @@ listofplots2=["fatjet_msoftdrop3_0", "fatjet_msoftdrop3_1", "fatjet_msoftdrop3_2
                 "fatjet_pt3_0", "fatjet_pt3_1", "fatjet_pt3_2",
                 "fatjet_eta3_0", "fatjet_eta3_1", "fatjet_eta3_2",
                 "fatjet_WvsQCD3_0", "fatjet_WvsQCD3_1", "fatjet_WvsQCD3_2",
+                "fatjet_ZvsQCD0_0", "fatjet_ZvsQCD0_1", "fatjet_ZvsQCD0_2",
                 #"fatjet_mass3_0", "fatjet_mass3_1", "fatjet_mass3_2",
                 "fatjet_Xbb_modified3_0", "fatjet_Xbb_modified3_1", "fatjet_Xbb_modified3_2",
                 "fatjet_Xcc3_0", "fatjet_Xcc3_1", "fatjet_Xcc3_2",
                 "fatjet_Xqq3_0", "fatjet_Xqq3_1", "fatjet_Xqq3_2",
                 "fatjet_QCD3_0", "fatjet_QCD3_1", "fatjet_QCD3_2",
-                "VBF_max_mass0"]
+                "fatjet_Xccqq_modified3_0", "fatjet_Xccqq_modified3_1", "fatjet_Xccqq_modified3_2",
+                "VBF_max_mass3"]
 
 for plot in listofplots2:
     title=plot
@@ -125,12 +130,14 @@ listofplots3=["fatjet_msoftdrop4_0", "fatjet_msoftdrop4_1", "fatjet_msoftdrop4_2
                 "fatjet_pt4_0", "fatjet_pt4_1", "fatjet_pt4_2",
                 "fatjet_eta4_0", "fatjet_eta4_1", "fatjet_eta4_2",
                 "fatjet_WvsQCD4_0", "fatjet_WvsQCD4_1", "fatjet_WvsQCD4_2",
+                "fatjet_ZvsQCD0_0", "fatjet_ZvsQCD0_1", "fatjet_ZvsQCD0_2",
                 #"fatjet_mass4_0", "fatjet_mass4_1", "fatjet_mass4_2",
                 "fatjet_Xbb_modified4_0", "fatjet_Xbb_modified4_1", "fatjet_Xbb_modified4_2",
                 "fatjet_Xcc4_0", "fatjet_Xcc4_1", "fatjet_Xcc4_2",
                 "fatjet_Xqq4_0", "fatjet_Xqq4_1", "fatjet_Xqq4_2",
                 "fatjet_QCD4_0", "fatjet_QCD4_1", "fatjet_QCD4_2",
-                "VBF_max_mass0"]
+                "fatjet_Xccqq_modified4_0", "fatjet_Xccqq_modified4_1", "fatjet_Xccqq_modified4_2",
+                "VBF_max_mass4"]
 
 for plot in listofplots3:
     title=plot

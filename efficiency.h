@@ -67,6 +67,7 @@ public:
     Int_t FatJet_jetId[200];
     Float_t FatJet_msoftdrop[200];
     Float_t FatJet_particleNet_WvsQCD[200];
+    Float_t FatJet_particleNet_ZvsQCD[200];
     Float_t FatJet_particleNet_mass[200];
     Float_t FatJet_particleNetMD_Xbb[200];
     Float_t FatJet_particleNetMD_Xcc[200];
@@ -120,6 +121,7 @@ public:
     TLorentzVector FatJet_btagsort[200];
     Float_t FatJet_msoftdrop_btagsort[200]; 
     Float_t FatJet_WvsQCD_btagsort[200];
+    Float_t FatJet_ZvsQCD_btagsort[200];
     Float_t FatJet_mass_btagsort[200];
     Float_t FatJet_Xbb_modified_btagsort[200];
     Float_t FatJet_Xcc_btagsort[200];
@@ -206,6 +208,7 @@ void efficiency::Initial(const char *rootName, int rootNumber, const char *typeN
     fChain->SetBranchAddress("FatJet_jetId", FatJet_jetId);
     fChain->SetBranchAddress("FatJet_msoftdrop", FatJet_msoftdrop);
     fChain->SetBranchAddress("FatJet_particleNet_WvsQCD", FatJet_particleNet_WvsQCD);
+    fChain->SetBranchAddress("FatJet_particleNet_ZvsQCD", FatJet_particleNet_ZvsQCD);
     fChain->SetBranchAddress("FatJet_particleNet_mass", FatJet_particleNet_mass);
     fChain->SetBranchAddress("FatJet_particleNetMD_Xbb", FatJet_particleNetMD_Xbb);
     fChain->SetBranchAddress("FatJet_particleNetMD_Xcc", FatJet_particleNetMD_Xcc);
@@ -239,7 +242,6 @@ void efficiency::Initial(const char *rootName, int rootNumber, const char *typeN
     fChain->SetBranchAddress("Muon_sip3d", Muon_sip3d);
     fChain->SetBranchAddress("Muon_miniPFRelIso_all", Muon_miniPFRelIso_all);
     fChain->SetBranchAddress("Muon_looseId", Muon_looseId);
-
 }
 
 void efficiency::End(int rootNumber)

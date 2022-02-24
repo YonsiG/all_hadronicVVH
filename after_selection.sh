@@ -4,4 +4,3 @@ cd scaling+eff/
 cd ../../outfiles/
 . merge.sh
 cd ../source/plot_program/
-. stack_plots.py

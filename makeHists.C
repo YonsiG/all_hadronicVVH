@@ -74,6 +74,10 @@ void makeHists::createHists(const char *fileName)
             fatjet_WvsQCD[icategory][ifatjet] = new TH1D(plotname,plotname,100,0,1);
             fatjet_WvsQCD[icategory][ifatjet]->Sumw2();
 
+            sprintf(plotname, "fatjet_ZvsQCD%i_%i", icategory, ifatjet);
+            fatjet_ZvsQCD[icategory][ifatjet] = new TH1D(plotname,plotname,100,0,1);
+            fatjet_ZvsQCD[icategory][ifatjet]->Sumw2();
+
             sprintf(plotname, "fatjet_mass%i_%i", icategory, ifatjet);
             fatjet_mass[icategory][ifatjet] = new TH1D(plotname,plotname,100,40,1000);
             fatjet_mass[icategory][ifatjet]->Sumw2();
@@ -102,6 +106,10 @@ void makeHists::createHists(const char *fileName)
         sprintf(plotname, "VBF_max_mass%i", icategory);
         VBF_max_mass[icategory] = new TH1D(plotname,plotname,100,500,2500);
         VBF_max_mass[icategory]->Sumw2();
+
+        sprintf(plotname, "VBF_deltaEta%i", icategory);
+        VBF_deltaEta[icategory] = new TH1D(plotname,plotname,100,500,2500);
+        VBF_deltaEta[icategory]->Sumw2();
     }
 
     fatjet_btag_score = new TH1D("fatjet_btag_score", "fatjet_btag_score", 100, 0, 1);

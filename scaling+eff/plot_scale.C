@@ -74,11 +74,13 @@ void scale(TString fileName)
     TH1D *fatjet_pt[14][3];
     TH1D *fatjet_eta[14][3];
     TH1D *fatjet_WvsQCD[14][3];
+    TH1D *fatjet_ZvsQCD[14][3];
     TH1D *fatjet_mass[14][3];
     TH1D *fatjet_Xbb_modified[14][3];
     TH1D *fatjet_Xcc[14][3];
     TH1D *fatjet_Xqq[14][3];
     TH1D *fatjet_QCD[14][3];
+    TH1D *fatjet_Xccqq_modified[14][3];
     TH1D *VBF_max_mass[14];
 
     for (int icategory = 0; icategory < 14; icategory++)
@@ -125,8 +127,12 @@ void scale(TString fileName)
             fatjet_pt[icategory][ifatjet] = (TH1D *)inputFile->Get(plotname)->Clone();
             sprintf(plotname, "fatjet_eta%i_%i", icategory, ifatjet);
             fatjet_eta[icategory][ifatjet] = (TH1D *)inputFile->Get(plotname)->Clone();
+            sprintf(plotname, "fatjet_QCD%i_%i", icategory, ifatjet);
+            fatjet_QCD[icategory][ifatjet] = (TH1D *)inputFile->Get(plotname)->Clone();
             sprintf(plotname, "fatjet_WvsQCD%i_%i", icategory, ifatjet);
             fatjet_WvsQCD[icategory][ifatjet] = (TH1D *)inputFile->Get(plotname)->Clone();
+            sprintf(plotname, "fatjet_ZvsQCD%i_%i", icategory, ifatjet);
+            fatjet_ZvsQCD[icategory][ifatjet] = (TH1D *)inputFile->Get(plotname)->Clone();
 //            sprintf(plotname, "fatjet_mass%i_%i", icategory, ifatjet);
  //           fatjet_mass[icategory][ifatjet] = (TH1D *)inputFile->Get(plotname)->Clone();
             sprintf(plotname, "fatjet_Xbb_modified%i_%i", icategory, ifatjet);
@@ -137,15 +143,20 @@ void scale(TString fileName)
             fatjet_Xqq[icategory][ifatjet] = (TH1D *)inputFile->Get(plotname)->Clone();
             sprintf(plotname, "fatjet_QCD%i_%i", icategory, ifatjet);
             fatjet_QCD[icategory][ifatjet] = (TH1D *)inputFile->Get(plotname)->Clone();
+            sprintf(plotname, "fatjet_Xccqq_modified%i_%i", icategory, ifatjet);
+            fatjet_Xccqq_modified[icategory][ifatjet] = (TH1D *)inputFile->Get(plotname)->Clone();
+
             fatjet_msoftdrop[icategory][ifatjet]->Scale(scaleNum);
             fatjet_pt[icategory][ifatjet]->Scale(scaleNum);
             fatjet_eta[icategory][ifatjet]->Scale(scaleNum);
             fatjet_WvsQCD[icategory][ifatjet]->Scale(scaleNum);
+            fatjet_ZvsQCD[icategory][ifatjet]->Scale(scaleNum);
 //            fatjet_mass[icategory][ifatjet]->Scale(scaleNum);
             fatjet_Xbb_modified[icategory][ifatjet]->Scale(scaleNum);
             fatjet_Xcc[icategory][ifatjet]->Scale(scaleNum);
             fatjet_Xqq[icategory][ifatjet]->Scale(scaleNum);
             fatjet_QCD[icategory][ifatjet]->Scale(scaleNum);
+            fatjet_Xccqq_modified[icategory][ifatjet]->Scale(scaleNum);
         }
     }
 
