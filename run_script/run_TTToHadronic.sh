@@ -1,3 +1,3 @@
 #/bin/bash
 cd ..
-./efficiency.exe filelist/TTToHadronic/filelist.txt TTToHadronic 2
+./efficiency.exe filelist/TTToHadronic/2018/filelist.txt TTToHadronic 2

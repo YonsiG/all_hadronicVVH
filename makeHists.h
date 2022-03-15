@@ -45,6 +45,7 @@ public:
   TH1D *fatjet_eta[14][3];
   TH1D *fatjet_WvsQCD[14][3];
   TH1D *fatjet_ZvsQCD[14][3];
+  TH1D *fatjet_HbbvsQCD[14][3];
   TH1D *fatjet_mass[14][3];
   TH1D *fatjet_Xbb_modified[14][3];
   TH1D *fatjet_Xcc[14][3];
@@ -54,6 +55,9 @@ public:
 
   TH1D *VBF_max_mass[14];
   TH1D *VBF_deltaEta[14];
+
+  TH1D *ST[14];
+  TH1D *mVVV[14];
 
   TH1D *jet_mass;
 

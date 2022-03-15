@@ -1,0 +1,10 @@
+/hadoop/cms/store/user/legianni/skimNanoVVH-Hadronic__v2/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v1/220309_222801/0000/tree_1.root
+/hadoop/cms/store/user/legianni/skimNanoVVH-Hadronic__v2/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v1/220309_222801/0000/tree_10.root
+/hadoop/cms/store/user/legianni/skimNanoVVH-Hadronic__v2/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v1/220309_222801/0000/tree_11.root
+/hadoop/cms/store/user/legianni/skimNanoVVH-Hadronic__v2/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v1/220309_222801/0000/tree_2.root
+/hadoop/cms/store/user/legianni/skimNanoVVH-Hadronic__v2/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v1/220309_222801/0000/tree_4.root
+/hadoop/cms/store/user/legianni/skimNanoVVH-Hadronic__v2/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v1/220309_222801/0000/tree_5.root
+/hadoop/cms/store/user/legianni/skimNanoVVH-Hadronic__v2/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v1/220309_222801/0000/tree_6.root
+/hadoop/cms/store/user/legianni/skimNanoVVH-Hadronic__v2/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v1/220309_222801/0000/tree_7.root
+/hadoop/cms/store/user/legianni/skimNanoVVH-Hadronic__v2/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v1/220309_222801/0000/tree_8.root
+/hadoop/cms/store/user/legianni/skimNanoVVH-Hadronic__v2/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v1/220309_222801/0000/tree_9.root

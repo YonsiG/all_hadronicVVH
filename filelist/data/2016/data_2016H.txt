@@ -1,0 +1,2 @@
+/hadoop/cms/store/user/legianni/skimNanoVVH-Hadronic__v2/JetHT/Run2016H-UL2016_MiniAODv2_NanoAODv9-v1/220310_000604/0000/tree_3.root
+/hadoop/cms/store/user/legianni/skimNanoVVH-Hadronic__v2/JetHT/Run2016H-UL2016_MiniAODv2_NanoAODv9-v1/220310_000604/0000/tree_4.root

@@ -82,6 +82,9 @@ void scale(TString fileName)
     TH1D *fatjet_QCD[14][3];
     TH1D *fatjet_Xccqq_modified[14][3];
     TH1D *VBF_max_mass[14];
+    TH1D *VBF_deltaEta[14];
+    TH1D *ST[14];
+    TH1D *mVVV[14];
 
     for (int icategory = 0; icategory < 14; icategory++)
     {
@@ -107,6 +110,12 @@ void scale(TString fileName)
         matched_VBFJet_qgl[icategory] = (TH1D *)inputFile->Get(plotname)->Clone();
         sprintf(plotname, "VBF_max_mass%i", icategory);
         VBF_max_mass[icategory] = (TH1D *)inputFile->Get(plotname)->Clone();
+        sprintf(plotname, "VBF_deltaEta%i", icategory);
+        VBF_deltaEta[icategory] = (TH1D *)inputFile->Get(plotname)->Clone();
+        sprintf(plotname, "ST%i", icategory);
+        ST[icategory] = (TH1D *)inputFile->Get(plotname)->Clone();
+        sprintf(plotname, "mVVV%i", icategory);
+        mVVV[icategory] = (TH1D *)inputFile->Get(plotname)->Clone();
 
         cutflow[icategory]->Scale(scaleNum);
         number_of_fatjets[icategory]->Scale(scaleNum);
@@ -119,7 +128,9 @@ void scale(TString fileName)
         matched_VBFJet_Eta[icategory]->Scale(scaleNum);
         matched_VBFJet_qgl[icategory]->Scale(scaleNum);
         VBF_max_mass[icategory]->Scale(scaleNum);
-
+        VBF_deltaEta[icategory]->Scale(scaleNum);
+        ST[icategory]->Scale(scaleNum);
+        mVVV[icategory]->Scale(scaleNum);
         for (int ifatjet=0; ifatjet<3; ifatjet++){
             sprintf(plotname, "fatjet_msoftdrop%i_%i", icategory, ifatjet);
             fatjet_msoftdrop[icategory][ifatjet] = (TH1D *)inputFile->Get(plotname)->Clone();

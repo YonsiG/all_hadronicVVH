@@ -101,7 +101,8 @@ listofplots1=["fatjet_msoftdrop0_0", "fatjet_msoftdrop0_1", "fatjet_msoftdrop0_2
                 "fatjet_Xqq0_0", "fatjet_Xqq0_1", "fatjet_Xqq0_2",
                 "fatjet_QCD0_0", "fatjet_QCD0_1", "fatjet_QCD0_2",
                 "fatjet_Xccqq_modified0_0", "fatjet_Xccqq_modified0_1", "fatjet_Xccqq_modified0_2",
-                "VBF_max_mass0"]
+                "VBF_max_mass0", "VBF_deltaEta0",
+                "ST0", "mVVV0"]
 
 for plot in listofplots1:
     title=plot
@@ -119,7 +120,8 @@ listofplots2=["fatjet_msoftdrop3_0", "fatjet_msoftdrop3_1", "fatjet_msoftdrop3_2
                 "fatjet_Xqq3_0", "fatjet_Xqq3_1", "fatjet_Xqq3_2",
                 "fatjet_QCD3_0", "fatjet_QCD3_1", "fatjet_QCD3_2",
                 "fatjet_Xccqq_modified3_0", "fatjet_Xccqq_modified3_1", "fatjet_Xccqq_modified3_2",
-                "VBF_max_mass3"]
+                "VBF_max_mass3", "VBF_deltaEta3",
+                "ST3", "mVVV3"]
 
 for plot in listofplots2:
     title=plot
@@ -137,7 +139,8 @@ listofplots3=["fatjet_msoftdrop4_0", "fatjet_msoftdrop4_1", "fatjet_msoftdrop4_2
                 "fatjet_Xqq4_0", "fatjet_Xqq4_1", "fatjet_Xqq4_2",
                 "fatjet_QCD4_0", "fatjet_QCD4_1", "fatjet_QCD4_2",
                 "fatjet_Xccqq_modified4_0", "fatjet_Xccqq_modified4_1", "fatjet_Xccqq_modified4_2",
-                "VBF_max_mass4"]
+                "VBF_max_mass4", "VBF_deltaEta4",
+                "ST4", "mVVV4"]
 
 for plot in listofplots3:
     title=plot

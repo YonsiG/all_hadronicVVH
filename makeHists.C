@@ -59,7 +59,7 @@ void makeHists::createHists(const char *fileName)
 
         for (int ifatjet=0; ifatjet<3; ifatjet++){
             sprintf(plotname, "fatjet_msoftdrop%i_%i", icategory, ifatjet);
-            fatjet_msoftdrop[icategory][ifatjet] = new TH1D(plotname,plotname,100,40,1000);
+            fatjet_msoftdrop[icategory][ifatjet] = new TH1D(plotname,plotname,100,0,500);
             fatjet_msoftdrop[icategory][ifatjet]->Sumw2();
 
             sprintf(plotname, "fatjet_pt%i_%i", icategory, ifatjet);
@@ -77,6 +77,10 @@ void makeHists::createHists(const char *fileName)
             sprintf(plotname, "fatjet_ZvsQCD%i_%i", icategory, ifatjet);
             fatjet_ZvsQCD[icategory][ifatjet] = new TH1D(plotname,plotname,100,0,1);
             fatjet_ZvsQCD[icategory][ifatjet]->Sumw2();
+
+            sprintf(plotname, "fatjet_HbbvsQCD%i_%i", icategory, ifatjet);
+            fatjet_HbbvsQCD[icategory][ifatjet] = new TH1D(plotname,plotname,100,0,1);
+            fatjet_HbbvsQCD[icategory][ifatjet]->Sumw2();
 
             sprintf(plotname, "fatjet_mass%i_%i", icategory, ifatjet);
             fatjet_mass[icategory][ifatjet] = new TH1D(plotname,plotname,100,40,1000);
@@ -108,8 +112,16 @@ void makeHists::createHists(const char *fileName)
         VBF_max_mass[icategory]->Sumw2();
 
         sprintf(plotname, "VBF_deltaEta%i", icategory);
-        VBF_deltaEta[icategory] = new TH1D(plotname,plotname,100,500,2500);
+        VBF_deltaEta[icategory] = new TH1D(plotname,plotname,100,0,10);
         VBF_deltaEta[icategory]->Sumw2();
+
+        sprintf(plotname, "ST%i", icategory);
+        ST[icategory] = new TH1D(plotname, plotname, 100, 500, 5000);
+        ST[icategory]->Sumw2();
+
+        sprintf(plotname, "mVVV%i", icategory);
+        mVVV[icategory] = new TH1D(plotname, plotname, 100, 100, 5000);
+        mVVV[icategory]->Sumw2();
     }
 
     fatjet_btag_score = new TH1D("fatjet_btag_score", "fatjet_btag_score", 100, 0, 1);
@@ -175,7 +187,7 @@ void makeHists::createHists(const char *fileName)
 
     matched_VBFJet_Pt_total = new TH1D("matched_VBFJet_Pt_total", "matched_VBFJet_Pt_total", 100, 0, 1000);
     matched_VBFJet_Pt_total->Sumw2();
-    matched_VBFJet_Eta_total = new TH1D("matched_VBFJet_Eta_total", "matched_VBFJet_Eta_total", 100, -5, 5);
+    matched_VBFJet_Eta_total = new TH1D("matched_VBFJet_Eta_total", "matched_VBFJet_Eta_total", 100, 0, 10);
     matched_VBFJet_Eta_total->Sumw2();
     matched_VBFJet_qgl_total = new TH1D("matched_VBFJet_qgl_total", "matched_VBFJet_qgl_total", 100, 0, 1);
     matched_VBFJet_qgl_total->Sumw2();

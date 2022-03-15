@@ -1,0 +1,4 @@
+/hadoop/cms/store/user/legianni/skimNanoVVH-Hadronic__v2/JetHT/Run2018B-UL2018_MiniAODv2_NanoAODv9-v1/220310_001416/0000/tree_1.root
+/hadoop/cms/store/user/legianni/skimNanoVVH-Hadronic__v2/JetHT/Run2018B-UL2018_MiniAODv2_NanoAODv9-v1/220310_001416/0000/tree_2.root
+/hadoop/cms/store/user/legianni/skimNanoVVH-Hadronic__v2/JetHT/Run2018B-UL2018_MiniAODv2_NanoAODv9-v1/220310_001416/0000/tree_3.root
+/hadoop/cms/store/user/legianni/skimNanoVVH-Hadronic__v2/JetHT/Run2018B-UL2018_MiniAODv2_NanoAODv9-v1/220310_001416/0000/tree_4.root

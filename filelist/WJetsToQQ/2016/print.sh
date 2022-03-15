@@ -1,0 +1,9 @@
+#!/bin/bash
+printf '%s\n' "/hadoop/cms/store/user/legianni/skimNanoVVH-Hadronic__v2/WJetsToQQ_HT-200to400_TuneCP5_13TeV-madgraphMLM-pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v2/"*"/0000"/*.root > WJetsToQQ_HT-200to400_preVFP.txt
+printf '%s\n' "/hadoop/cms/store/user/legianni/skimNanoVVH-Hadronic__v2/WJetsToQQ_HT-400to600_TuneCP5_13TeV-madgraphMLM-pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v2/"*"/0000"/*.root > WJetsToQQ_HT-400to600_preVFP.txt
+printf '%s\n' "/hadoop/cms/store/user/legianni/skimNanoVVH-Hadronic__v2/WJetsToQQ_HT-600to800_TuneCP5_13TeV-madgraphMLM-pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v2/"*"/0000"/*.root > WJetsToQQ_HT-600to800_preVFP.txt
+printf '%s\n' "/hadoop/cms/store/user/legianni/skimNanoVVH-Hadronic__v2/WJetsToQQ_HT-800toInf_TuneCP5_13TeV-madgraphMLM-pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v2/"*"/0000"/*.root > WJetsToQQ_HT-800toInf_preVFP.txt
+printf '%s\n' "/hadoop/cms/store/user/legianni/skimNanoVVH-Hadronic__v2/WJetsToQQ_HT-200to400_TuneCP5_13TeV-madgraphMLM-pythia8/RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v2/"*"/0000"/*.root > WJetsToQQ_HT-200to400_postVFP.txt.txt
+printf '%s\n' "/hadoop/cms/store/user/legianni/skimNanoVVH-Hadronic__v2/WJetsToQQ_HT-400to600_TuneCP5_13TeV-madgraphMLM-pythia8/RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v2/"*"/0000"/*.root > WJetsToQQ_HT-400to600_postVFP.txt.txt
+printf '%s\n' "/hadoop/cms/store/user/legianni/skimNanoVVH-Hadronic__v2/WJetsToQQ_HT-600to800_TuneCP5_13TeV-madgraphMLM-pythia8/RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v2/"*"/0000"/*.root > WJetsToQQ_HT-600to800_postVFP.txt.txt
+printf '%s\n' "/hadoop/cms/store/user/legianni/skimNanoVVH-Hadronic__v2/WJetsToQQ_HT-800toInf_TuneCP5_13TeV-madgraphMLM-pythia8/RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v2/"*"/0000"/*.root > WJetsToQQ_HT-800toInf_postVFP.txt.txt

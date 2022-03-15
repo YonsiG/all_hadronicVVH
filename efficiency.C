@@ -126,11 +126,15 @@ void efficiency::Loop(const char *typeName)
          myHists->cutflow[icutflow]->Fill(3.5, weight);
 
       /****************fatjet selection**************/
+
+      bool XbbMD = true;
+      
       TLorentzVector tempFatJet;
       int sort_index = 0;
       double pass_cut_fatjet_msoftdrop[200];
       double pass_cut_fatjet_WvsQCD[200];
       double pass_cut_fatjet_ZvsQCD[200];
+      double pass_cut_fatjet_HbbvsQCD[200];
       double pass_cut_fatjet_mass[200];
       double pass_cut_fatjet_Xbb_modified[200];
       double pass_cut_fatjet_Xcc[200];
@@ -149,6 +153,7 @@ void efficiency::Loop(const char *typeName)
          pass_cut_fatjet_msoftdrop[sort_index] = FatJet_msoftdrop[ifatjet];
          pass_cut_fatjet_WvsQCD[sort_index] = FatJet_particleNet_WvsQCD[ifatjet];
          pass_cut_fatjet_ZvsQCD[sort_index] = FatJet_particleNet_ZvsQCD[ifatjet];
+         pass_cut_fatjet_HbbvsQCD[sort_index] = FatJet_particleNet_HbbvsQCD[ifatjet];
          pass_cut_fatjet_mass[sort_index] = FatJet_particleNet_mass[ifatjet];
          pass_cut_fatjet_Xbb_modified[sort_index] = FatJet_particleNetMD_Xbb[ifatjet]/(FatJet_particleNetMD_QCD[ifatjet] + FatJet_particleNetMD_Xbb[ifatjet]);
          pass_cut_fatjet_Xcc[sort_index] = FatJet_particleNetMD_Xcc[ifatjet];
@@ -167,13 +172,18 @@ void efficiency::Loop(const char *typeName)
          {
             if (isort == irankindex)
                continue;
-            if (pass_cut_fatjet_Xbb_modified[isort] < pass_cut_fatjet_Xbb_modified[irankindex])
-               thisfatjet_rank++;
+            if (!XbbMD)
+               if (pass_cut_fatjet_HbbvsQCD[isort] < pass_cut_fatjet_HbbvsQCD[irankindex])
+                  thisfatjet_rank++;
+            if (XbbMD)
+               if (pass_cut_fatjet_Xbb_modified[isort] < pass_cut_fatjet_Xbb_modified[irankindex])
+                  thisfatjet_rank++;
          }
          FatJet_btagsort[thisfatjet_rank] = FatJet[isort];
          FatJet_msoftdrop_btagsort[thisfatjet_rank] = pass_cut_fatjet_msoftdrop[isort];
          FatJet_WvsQCD_btagsort[thisfatjet_rank] = pass_cut_fatjet_WvsQCD[isort];
          FatJet_ZvsQCD_btagsort[thisfatjet_rank] = pass_cut_fatjet_ZvsQCD[isort];
+         FatJet_HbbvsQCD_btagsort[thisfatjet_rank] = pass_cut_fatjet_HbbvsQCD[isort];
          FatJet_mass_btagsort[thisfatjet_rank] = pass_cut_fatjet_mass[isort];
          FatJet_Xbb_modified_btagsort[thisfatjet_rank] = pass_cut_fatjet_Xbb_modified[isort];
          FatJet_Xcc_btagsort[thisfatjet_rank] = pass_cut_fatjet_Xcc[isort];
@@ -253,115 +263,197 @@ void efficiency::Loop(const char *typeName)
          continue;
       myHists->cutflow[category_number]->Fill(6.5, weight);
 
+      /***********sorting the other fatjets other than the first one*******/
+      for(int isort = 0; isort<sort_index; isort++)
+      {
+         int thisfatjet_rank = 0;
+         if (XbbMD)
+         {
+            if (isort>0)
+            {
+               thisfatjet_rank = 1;
+               for (int irankidx=1; irankidx<sort_index; irankidx++)
+               {
+                  if (isort == irankidx)
+                     continue;
+                  if (FatJet_Xccqq_modified_btagsort[isort]<FatJet_Xccqq_modified_btagsort[irankidx])
+                     thisfatjet_rank++;
+               }
+            }
+         }
+            
+         FatJet_allsort[thisfatjet_rank] = FatJet_btagsort[isort];
+         FatJet_msoftdrop_allsort[thisfatjet_rank] = FatJet_msoftdrop_btagsort[isort];
+         FatJet_WvsQCD_allsort[thisfatjet_rank] = FatJet_WvsQCD_btagsort[isort];
+         FatJet_ZvsQCD_allsort[thisfatjet_rank] = FatJet_ZvsQCD_btagsort[isort];
+         FatJet_HbbvsQCD_allsort[thisfatjet_rank] = FatJet_HbbvsQCD_btagsort[isort];
+         FatJet_mass_allsort[thisfatjet_rank] = FatJet_mass_btagsort[isort];
+         FatJet_Xbb_modified_allsort[thisfatjet_rank] = FatJet_Xbb_modified_btagsort[isort];
+         FatJet_Xcc_allsort[thisfatjet_rank] = FatJet_Xcc_btagsort[isort];
+         FatJet_Xqq_allsort[thisfatjet_rank] = FatJet_Xqq_btagsort[isort];
+         FatJet_QCD_allsort[thisfatjet_rank] = FatJet_QCD_btagsort[isort];
+         FatJet_Xccqq_modified_allsort[thisfatjet_rank] = FatJet_Xccqq_modified_btagsort[isort];
+
+         if (!XbbMD) thisfatjet_rank++;
+      }
+
+      /*************variables reconstruction****************/
+      double ST=0;
+      for (int ifatjet = 0; ifatjet < sort_index; ifatjet++)
+      {
+         ST = ST + FatJet[ifatjet].Pt();
+      }
+
       for (int ijet = 0; ijet < count_jet; ijet++)
       {
-         bool isVBFJet = false;
          if (ijet == VBF_jet_index[0])
-            isVBFJet = true;
+            continue;
          if (ijet == VBF_jet_index[1])
-            isVBFJet = true;
+            continue;
+         ST = ST + Jet[ijet].Pt();
       }
 
       /****************event selection*******************/
-      if (FatJet_Xbb_modified_btagsort[0]<0.9)
-         continue;
+      if (XbbMD)
+         if (FatJet_Xbb_modified_allsort[0]<0.9)
+            continue;
+      if (!XbbMD)
+         if (FatJet_HbbvsQCD_allsort[0]<0.9)
+            continue;
       myHists->cutflow[category_number]->Fill(7.5, weight);
 
-      if (FatJet_WvsQCD_btagsort[1]<0.9)
-         continue;
+      if (XbbMD)
+         if (FatJet_Xccqq_modified_allsort[1]<0.9)
+                     continue;
+      if (!XbbMD)
+         if (FatJet_ZvsQCD_allsort[1]<0.9)
+            continue;
       myHists->cutflow[category_number]->Fill(8.5, weight);
+
+      if (category_number==0)
+         if (XbbMD)
+            if (FatJet_Xccqq_modified_allsort[2]<0.9)
+               continue;
+         if(!XbbMD)
+            if (FatJet_ZvsQCD_allsort[2]<0.9)
+               continue;
+      myHists->cutflow[category_number]->Fill(9.5, weight);
+
+      if (ST<1800) 
+         continue;
+      myHists->cutflow[category_number]->Fill(10.5, weight);
+
+      if (fabs(Jet[VBF_jet_index[0]].Eta()-Jet[VBF_jet_index[1]].Eta())<4.5)
+         continue;
+      myHists->cutflow[category_number]->Fill(11.5, weight);
+
+      if (sort_index>2){
+         float mass_VVV = (FatJet_allsort[0]+FatJet_allsort[1]+FatJet_allsort[2]).M();
+         if (mass_VVV<2200)
+            continue;
+      }
+      myHists->cutflow[category_number]->Fill(12.5, weight);
 
       /****************plot filling******************/
       myHists->number_of_fatjets[category_number]->Fill(count_fatjet, weight);
       myHists->number_of_jets[category_number]->Fill(count_jet, weight);
       myHists->number_of_central_jets[category_number]->Fill(count_central_jet, weight);
 
-      myHists->fatjet_msoftdrop[category_number][0]->Fill(FatJet_msoftdrop_btagsort[0],weight);
-      myHists->fatjet_pt[category_number][0]->Fill(FatJet_btagsort[0].Pt(),weight);
-      myHists->fatjet_eta[category_number][0]->Fill(FatJet_btagsort[0].Eta(),weight);
-      myHists->fatjet_WvsQCD[category_number][0]->Fill(FatJet_WvsQCD_btagsort[0],weight);
-      myHists->fatjet_ZvsQCD[category_number][0]->Fill(FatJet_ZvsQCD_btagsort[0],weight);
-      myHists->fatjet_mass[category_number][0]->Fill(FatJet_mass_btagsort[0],weight);
-      myHists->fatjet_Xbb_modified[category_number][0]->Fill(FatJet_Xbb_modified_btagsort[0],weight);
-      myHists->fatjet_Xcc[category_number][0]->Fill(FatJet_Xcc_btagsort[0],weight);
-      myHists->fatjet_Xqq[category_number][0]->Fill(FatJet_Xqq_btagsort[0],weight);
-      myHists->fatjet_QCD[category_number][0]->Fill(FatJet_QCD_btagsort[0],weight);
-      myHists->fatjet_Xccqq_modified[category_number][0]->Fill(FatJet_Xccqq_modified_btagsort[0],weight);
+      myHists->fatjet_msoftdrop[category_number][0]->Fill(FatJet_msoftdrop_allsort[0],weight);
+      myHists->fatjet_pt[category_number][0]->Fill(FatJet_allsort[0].Pt(),weight);
+      myHists->fatjet_eta[category_number][0]->Fill(FatJet_allsort[0].Eta(),weight);
+      myHists->fatjet_WvsQCD[category_number][0]->Fill(FatJet_WvsQCD_allsort[0],weight);
+      myHists->fatjet_ZvsQCD[category_number][0]->Fill(FatJet_ZvsQCD_allsort[0],weight);
+      myHists->fatjet_HbbvsQCD[category_number][0]->Fill(FatJet_HbbvsQCD_allsort[0],weight);
+      myHists->fatjet_mass[category_number][0]->Fill(FatJet_mass_allsort[0],weight);
+      myHists->fatjet_Xbb_modified[category_number][0]->Fill(FatJet_Xbb_modified_allsort[0],weight);
+      myHists->fatjet_Xcc[category_number][0]->Fill(FatJet_Xcc_allsort[0],weight);
+      myHists->fatjet_Xqq[category_number][0]->Fill(FatJet_Xqq_allsort[0],weight);
+      myHists->fatjet_QCD[category_number][0]->Fill(FatJet_QCD_allsort[0],weight);
+      myHists->fatjet_Xccqq_modified[category_number][0]->Fill(FatJet_Xccqq_modified_allsort[0],weight);
+      myHists->ST[category_number]->Fill(ST,weight);
+
+      if (sort_index>2){
+         float mass_VVV = (FatJet_allsort[0]+FatJet_allsort[1]+FatJet_allsort[2]).M();
+         myHists->mVVV[category_number]->Fill(mass_VVV, weight);
+      }
 
       if (sort_index>1){
-         myHists->fatjet_msoftdrop[category_number][1]->Fill(FatJet_msoftdrop_btagsort[1],weight);
-         myHists->fatjet_pt[category_number][1]->Fill(FatJet_btagsort[1].Pt(),weight);
-         myHists->fatjet_eta[category_number][1]->Fill(FatJet_btagsort[1].Eta(),weight);
-         myHists->fatjet_WvsQCD[category_number][1]->Fill(FatJet_WvsQCD_btagsort[1],weight);
-         myHists->fatjet_ZvsQCD[category_number][1]->Fill(FatJet_ZvsQCD_btagsort[1],weight);
-         myHists->fatjet_mass[category_number][1]->Fill(FatJet_mass_btagsort[1],weight);
-         myHists->fatjet_Xbb_modified[category_number][1]->Fill(FatJet_Xbb_modified_btagsort[1],weight);
-         myHists->fatjet_Xcc[category_number][1]->Fill(FatJet_Xcc_btagsort[1],weight);
-         myHists->fatjet_Xqq[category_number][1]->Fill(FatJet_Xqq_btagsort[1],weight);
-         myHists->fatjet_QCD[category_number][1]->Fill(FatJet_QCD_btagsort[1],weight);
-         myHists->fatjet_Xccqq_modified[category_number][1]->Fill(FatJet_Xccqq_modified_btagsort[1],weight);
+         myHists->fatjet_msoftdrop[category_number][1]->Fill(FatJet_msoftdrop_allsort[1],weight);
+         myHists->fatjet_pt[category_number][1]->Fill(FatJet_allsort[1].Pt(),weight);
+         myHists->fatjet_eta[category_number][1]->Fill(FatJet_allsort[1].Eta(),weight);
+         myHists->fatjet_WvsQCD[category_number][1]->Fill(FatJet_WvsQCD_allsort[1],weight);
+         myHists->fatjet_ZvsQCD[category_number][1]->Fill(FatJet_ZvsQCD_allsort[1],weight);
+         myHists->fatjet_mass[category_number][1]->Fill(FatJet_mass_allsort[1],weight);
+         myHists->fatjet_HbbvsQCD[category_number][1]->Fill(FatJet_HbbvsQCD_allsort[1],weight);
+         myHists->fatjet_Xbb_modified[category_number][1]->Fill(FatJet_Xbb_modified_allsort[1],weight);
+         myHists->fatjet_Xcc[category_number][1]->Fill(FatJet_Xcc_allsort[1],weight);
+         myHists->fatjet_Xqq[category_number][1]->Fill(FatJet_Xqq_allsort[1],weight);
+         myHists->fatjet_QCD[category_number][1]->Fill(FatJet_QCD_allsort[1],weight);
+         myHists->fatjet_Xccqq_modified[category_number][1]->Fill(FatJet_Xccqq_modified_allsort[1],weight);
       }
 
       if (sort_index>2){
-         myHists->fatjet_msoftdrop[category_number][2]->Fill(FatJet_msoftdrop_btagsort[2],weight);
-         myHists->fatjet_pt[category_number][2]->Fill(FatJet_btagsort[2].Pt(),weight);
-         myHists->fatjet_eta[category_number][2]->Fill(FatJet_btagsort[2].Eta(),weight);
-         myHists->fatjet_WvsQCD[category_number][2]->Fill(FatJet_WvsQCD_btagsort[2],weight);
-         myHists->fatjet_ZvsQCD[category_number][2]->Fill(FatJet_ZvsQCD_btagsort[2],weight);
-         myHists->fatjet_mass[category_number][2]->Fill(FatJet_mass_btagsort[2],weight);
-         myHists->fatjet_Xbb_modified[category_number][2]->Fill(FatJet_Xbb_modified_btagsort[2],weight);
-         myHists->fatjet_Xcc[category_number][2]->Fill(FatJet_Xcc_btagsort[2],weight);
-         myHists->fatjet_Xqq[category_number][2]->Fill(FatJet_Xqq_btagsort[2],weight);
-         myHists->fatjet_QCD[category_number][2]->Fill(FatJet_QCD_btagsort[2],weight);
-         myHists->fatjet_Xccqq_modified[category_number][2]->Fill(FatJet_Xccqq_modified_btagsort[2],weight);
+         myHists->fatjet_msoftdrop[category_number][2]->Fill(FatJet_msoftdrop_allsort[2],weight);
+         myHists->fatjet_pt[category_number][2]->Fill(FatJet_allsort[2].Pt(),weight);
+         myHists->fatjet_eta[category_number][2]->Fill(FatJet_allsort[2].Eta(),weight);
+         myHists->fatjet_WvsQCD[category_number][2]->Fill(FatJet_WvsQCD_allsort[2],weight);
+         myHists->fatjet_ZvsQCD[category_number][2]->Fill(FatJet_ZvsQCD_allsort[2],weight);
+         myHists->fatjet_HbbvsQCD[category_number][2]->Fill(FatJet_HbbvsQCD_allsort[2],weight);
+         myHists->fatjet_mass[category_number][2]->Fill(FatJet_mass_allsort[2],weight);
+         myHists->fatjet_Xbb_modified[category_number][2]->Fill(FatJet_Xbb_modified_allsort[2],weight);
+         myHists->fatjet_Xcc[category_number][2]->Fill(FatJet_Xcc_allsort[2],weight);
+         myHists->fatjet_Xqq[category_number][2]->Fill(FatJet_Xqq_allsort[2],weight);
+         myHists->fatjet_QCD[category_number][2]->Fill(FatJet_QCD_allsort[2],weight);
+         myHists->fatjet_Xccqq_modified[category_number][2]->Fill(FatJet_Xccqq_modified_allsort[2],weight);
       }
 
       myHists->VBF_max_mass[category_number]->Fill(VBF_max_mass,weight);
       myHists->VBF_deltaEta[category_number]->Fill(fabs(Jet[VBF_jet_index[0]].Eta()-Jet[VBF_jet_index[1]].Eta()),weight);
 
       for (int isort = 0; isort < sort_index; isort++)
-         myHists->fatjet_btag_score->Fill(FatJet_Xbb_modified_btagsort[isort], weight);
+         myHists->fatjet_btag_score->Fill(FatJet_Xbb_modified_allsort[isort], weight);
       if (sort_index > 0)
-         myHists->first_fatjet_btag_score->Fill(FatJet_Xbb_modified_btagsort[0], weight);
+         myHists->first_fatjet_btag_score->Fill(FatJet_Xbb_modified_allsort[0], weight);
       if (sort_index > 1)
-         myHists->second_fatjet_btag_score->Fill(FatJet_Xbb_modified_btagsort[1], weight);
+         myHists->second_fatjet_btag_score->Fill(FatJet_Xbb_modified_allsort[1], weight);
       if (sort_index > 2)
-         myHists->third_fatjet_btag_score->Fill(FatJet_Xbb_modified_btagsort[2], weight);
+         myHists->third_fatjet_btag_score->Fill(FatJet_Xbb_modified_allsort[2], weight);
 
       if (sort_index > 0)
       {
-         if (FatJet_btagsort[0].DeltaR(GenBquarkFromH) < 0.8 && FatJet_btagsort[0].DeltaR(GenantiBquarkFromH) < 0.8)
-            myHists->first_fatjet_btag_score_2match->Fill(FatJet_Xbb_modified_btagsort[0], weight);
-         if (FatJet_btagsort[0].DeltaR(GenBquarkFromH) > 0.8 && FatJet_btagsort[0].DeltaR(GenantiBquarkFromH) < 0.8)
-            myHists->first_fatjet_btag_score_1match->Fill(FatJet_Xbb_modified_btagsort[0], weight);
-         if (FatJet_btagsort[0].DeltaR(GenBquarkFromH) < 0.8 && FatJet_btagsort[0].DeltaR(GenantiBquarkFromH) > 0.8)
-            myHists->first_fatjet_btag_score_1match->Fill(FatJet_Xbb_modified_btagsort[0], weight);
-         if (FatJet_btagsort[0].DeltaR(GenBquarkFromH) > 0.8 && FatJet_btagsort[0].DeltaR(GenantiBquarkFromH) > 0.8)
-            myHists->first_fatjet_btag_score_0match->Fill(FatJet_Xbb_modified_btagsort[0], weight);
+         if (FatJet_allsort[0].DeltaR(GenBquarkFromH) < 0.8 && FatJet_allsort[0].DeltaR(GenantiBquarkFromH) < 0.8)
+            myHists->first_fatjet_btag_score_2match->Fill(FatJet_Xbb_modified_allsort[0], weight);
+         if (FatJet_allsort[0].DeltaR(GenBquarkFromH) > 0.8 && FatJet_allsort[0].DeltaR(GenantiBquarkFromH) < 0.8)
+            myHists->first_fatjet_btag_score_1match->Fill(FatJet_Xbb_modified_allsort[0], weight);
+         if (FatJet_allsort[0].DeltaR(GenBquarkFromH) < 0.8 && FatJet_allsort[0].DeltaR(GenantiBquarkFromH) > 0.8)
+            myHists->first_fatjet_btag_score_1match->Fill(FatJet_Xbb_modified_allsort[0], weight);
+         if (FatJet_allsort[0].DeltaR(GenBquarkFromH) > 0.8 && FatJet_allsort[0].DeltaR(GenantiBquarkFromH) > 0.8)
+            myHists->first_fatjet_btag_score_0match->Fill(FatJet_Xbb_modified_allsort[0], weight);
       }
 
       if (sort_index > 1)
       {
-         if (FatJet_btagsort[1].DeltaR(GenBquarkFromH) < 0.8 && FatJet_btagsort[1].DeltaR(GenantiBquarkFromH) < 0.8)
-            myHists->second_fatjet_btag_score_2match->Fill(FatJet_Xbb_modified_btagsort[1], weight);
-         if (FatJet_btagsort[1].DeltaR(GenBquarkFromH) > 0.8 && FatJet_btagsort[1].DeltaR(GenantiBquarkFromH) < 0.8)
-            myHists->second_fatjet_btag_score_1match->Fill(FatJet_Xbb_modified_btagsort[1], weight);
-         if (FatJet_btagsort[1].DeltaR(GenBquarkFromH) < 0.8 && FatJet_btagsort[1].DeltaR(GenantiBquarkFromH) > 0.8)
-            myHists->second_fatjet_btag_score_1match->Fill(FatJet_Xbb_modified_btagsort[1], weight);
-         if (FatJet_btagsort[1].DeltaR(GenBquarkFromH) > 0.8 && FatJet_btagsort[1].DeltaR(GenantiBquarkFromH) > 0.8)
-            myHists->second_fatjet_btag_score_0match->Fill(FatJet_Xbb_modified_btagsort[1], weight);
+         if (FatJet_allsort[1].DeltaR(GenBquarkFromH) < 0.8 && FatJet_allsort[1].DeltaR(GenantiBquarkFromH) < 0.8)
+            myHists->second_fatjet_btag_score_2match->Fill(FatJet_Xbb_modified_allsort[1], weight);
+         if (FatJet_allsort[1].DeltaR(GenBquarkFromH) > 0.8 && FatJet_allsort[1].DeltaR(GenantiBquarkFromH) < 0.8)
+            myHists->second_fatjet_btag_score_1match->Fill(FatJet_Xbb_modified_allsort[1], weight);
+         if (FatJet_allsort[1].DeltaR(GenBquarkFromH) < 0.8 && FatJet_allsort[1].DeltaR(GenantiBquarkFromH) > 0.8)
+            myHists->second_fatjet_btag_score_1match->Fill(FatJet_Xbb_modified_allsort[1], weight);
+         if (FatJet_allsort[1].DeltaR(GenBquarkFromH) > 0.8 && FatJet_allsort[1].DeltaR(GenantiBquarkFromH) > 0.8)
+            myHists->second_fatjet_btag_score_0match->Fill(FatJet_Xbb_modified_allsort[1], weight);
       }
 
       if (sort_index > 2)
       {
-         if (FatJet_btagsort[2].DeltaR(GenBquarkFromH) < 0.8 && FatJet_btagsort[2].DeltaR(GenantiBquarkFromH) < 0.8)
-            myHists->third_fatjet_btag_score_2match->Fill(FatJet_Xbb_modified_btagsort[2], weight);
-         if (FatJet_btagsort[2].DeltaR(GenBquarkFromH) > 0.8 && FatJet_btagsort[2].DeltaR(GenantiBquarkFromH) < 0.8)
-            myHists->third_fatjet_btag_score_1match->Fill(FatJet_Xbb_modified_btagsort[2], weight);
-         if (FatJet_btagsort[2].DeltaR(GenBquarkFromH) < 0.8 && FatJet_btagsort[2].DeltaR(GenantiBquarkFromH) > 0.8)
-            myHists->third_fatjet_btag_score_1match->Fill(FatJet_Xbb_modified_btagsort[2], weight);
-         if (FatJet_btagsort[2].DeltaR(GenBquarkFromH) > 0.8 && FatJet_btagsort[2].DeltaR(GenantiBquarkFromH) > 0.8)
-            myHists->third_fatjet_btag_score_0match->Fill(FatJet_Xbb_modified_btagsort[2], weight);
+         if (FatJet_allsort[2].DeltaR(GenBquarkFromH) < 0.8 && FatJet_allsort[2].DeltaR(GenantiBquarkFromH) < 0.8)
+            myHists->third_fatjet_btag_score_2match->Fill(FatJet_Xbb_modified_allsort[2], weight);
+         if (FatJet_allsort[2].DeltaR(GenBquarkFromH) > 0.8 && FatJet_allsort[2].DeltaR(GenantiBquarkFromH) < 0.8)
+            myHists->third_fatjet_btag_score_1match->Fill(FatJet_Xbb_modified_allsort[2], weight);
+         if (FatJet_allsort[2].DeltaR(GenBquarkFromH) < 0.8 && FatJet_allsort[2].DeltaR(GenantiBquarkFromH) > 0.8)
+            myHists->third_fatjet_btag_score_1match->Fill(FatJet_Xbb_modified_allsort[2], weight);
+         if (FatJet_allsort[2].DeltaR(GenBquarkFromH) > 0.8 && FatJet_allsort[2].DeltaR(GenantiBquarkFromH) > 0.8)
+            myHists->third_fatjet_btag_score_0match->Fill(FatJet_Xbb_modified_allsort[2], weight);
       }
 
       if (VBF_selection == 1)

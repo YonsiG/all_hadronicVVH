@@ -68,6 +68,7 @@ public:
     Float_t FatJet_msoftdrop[200];
     Float_t FatJet_particleNet_WvsQCD[200];
     Float_t FatJet_particleNet_ZvsQCD[200];
+    Float_t FatJet_particleNet_HbbvsQCD[200];
     Float_t FatJet_particleNet_mass[200];
     Float_t FatJet_particleNetMD_Xbb[200];
     Float_t FatJet_particleNetMD_Xcc[200];
@@ -122,6 +123,7 @@ public:
     Float_t FatJet_msoftdrop_btagsort[200]; 
     Float_t FatJet_WvsQCD_btagsort[200];
     Float_t FatJet_ZvsQCD_btagsort[200];
+    Float_t FatJet_HbbvsQCD_btagsort[200];
     Float_t FatJet_mass_btagsort[200];
     Float_t FatJet_Xbb_modified_btagsort[200];
     Float_t FatJet_Xcc_btagsort[200];
@@ -129,6 +131,17 @@ public:
     Float_t FatJet_QCD_btagsort[200];
     Float_t FatJet_Xccqq_modified_btagsort[200];
 
+    TLorentzVector FatJet_allsort[200];
+    Float_t FatJet_msoftdrop_allsort[200]; 
+    Float_t FatJet_WvsQCD_allsort[200];
+    Float_t FatJet_ZvsQCD_allsort[200];
+    Float_t FatJet_HbbvsQCD_allsort[200];
+    Float_t FatJet_mass_allsort[200];
+    Float_t FatJet_Xbb_modified_allsort[200];
+    Float_t FatJet_Xcc_allsort[200];
+    Float_t FatJet_Xqq_allsort[200];
+    Float_t FatJet_QCD_allsort[200];
+    Float_t FatJet_Xccqq_modified_allsort[200];
     /******************functions*******************/
     efficiency(const char *infileName, const char *typeName, const char *fileNumber);
     virtual ~efficiency();
@@ -209,6 +222,7 @@ void efficiency::Initial(const char *rootName, int rootNumber, const char *typeN
     fChain->SetBranchAddress("FatJet_msoftdrop", FatJet_msoftdrop);
     fChain->SetBranchAddress("FatJet_particleNet_WvsQCD", FatJet_particleNet_WvsQCD);
     fChain->SetBranchAddress("FatJet_particleNet_ZvsQCD", FatJet_particleNet_ZvsQCD);
+    fChain->SetBranchAddress("FatJet_particleNet_HbbvsQCD", FatJet_particleNet_HbbvsQCD);
     fChain->SetBranchAddress("FatJet_particleNet_mass", FatJet_particleNet_mass);
     fChain->SetBranchAddress("FatJet_particleNetMD_Xbb", FatJet_particleNetMD_Xbb);
     fChain->SetBranchAddress("FatJet_particleNetMD_Xcc", FatJet_particleNetMD_Xcc);

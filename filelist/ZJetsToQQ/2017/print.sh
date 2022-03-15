@@ -1,0 +1,5 @@
+#!/bin/bash
+printf '%s\n' "/hadoop/cms/store/user/legianni/skimNanoVVH-Hadronic__v2/ZJetsToQQ_HT-200to400_TuneCP5_13TeV-madgraphMLM-pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2/"*"/0000"/*.root > ZJetsToQQ_HT-200to400.txt
+printf '%s\n' "/hadoop/cms/store/user/legianni/skimNanoVVH-Hadronic__v2/ZJetsToQQ_HT-400to600_TuneCP5_13TeV-madgraphMLM-pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2/"*"/0000"/*.root > ZJetsToQQ_HT-400to600.txt
+printf '%s\n' "/hadoop/cms/store/user/legianni/skimNanoVVH-Hadronic__v2/ZJetsToQQ_HT-600to800_TuneCP5_13TeV-madgraphMLM-pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2/"*"/0000"/*.root > ZJetsToQQ_HT-600to800.txt
+printf '%s\n' "/hadoop/cms/store/user/legianni/skimNanoVVH-Hadronic__v2/ZJetsToQQ_HT-800toInf_TuneCP5_13TeV-madgraphMLM-pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2/"*"/0000"/*.root > ZJetsToQQ_HT-800toInf.txt

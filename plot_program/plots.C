@@ -27,31 +27,31 @@ using namespace std;
 int main()
 {
   /*******Switches********/
-  bool Compare = false; //if you want to draw two plots, please set it true
+  bool Compare = true; //if you want to draw two plots, please set it true
   bool Stack = false;
   bool DoRatio = false; //if you want to draw the ratio beneath the plots, please set it true (Set Compare mode true first)
   bool DoLogy = false;
-  bool SetXRange = false;
+  bool SetXRange = true;
   bool SetYRange = false;
   bool Normalize = false;      //Set Compare mode first, normalize to plot1
-  bool NormalizeToOne = false; //Set Compare mode first
+  bool NormalizeToOne = true; //Set Compare mode first
   bool DoSave = true;          //Save as pdf version
   bool IsCutFlow = false;
   bool DoRebin = false;
 
-  char filename1[100] = "../../outfiles/C2V_3/samples_1_3_22/WZH_1_scaled.root";
-  char filename2[100] = "../../outfiles/C2V_3/samples_1_3_22/WZH_1_scaled.root"; //if you only want to draw one plot, use filename1 only
+  char filename1[100] = "../../outfiles/HbbvsQCD/after_selection/WvsQCD/ZZH_2_scaled.root";
+  char filename2[100] = "../../outfiles/HbbvsQCD/after_selection/ZvsQCD/ZZH_2_scaled.root"; //if you only want to draw one plot, use filename1 only
 
-  char plotname1[100] = "matched_VBFJet_Pt0";
-  char plotname2[100] = "third_fatjet_btag_score"; //if you only want to draw one plot, use plotname1 only
+  char plotname1[100] = "fatjet_msoftdrop0_1";
+  char plotname2[100] = "fatjet_msoftdrop0_1"; //if you only want to draw one plot, use plotname1 only
 
-  char saveFileName[100] = "../../plots/C2V_3/WZH/plots_01_20_22/matched_VBFJet_Pt1_0.pdf";
+  char saveFileName[100] = "../../plots/HbbvsQCD/after_selection/fatjetmsoftdrop_comparison0_1.pdf";
 
-  char Xtitle[100] = "jet Pt";
+  char Xtitle[100] = "fatjet msoftdrop";
   char Ytitle[100] = "entries";
 
-  char legend1[100] = "jet Pt";
-  char legend2[100] = "before_cut";
+  char legend1[100] = "ZZH(WvsQCD cut)";
+  char legend2[100] = "ZZH(ZvsQCD cut)";
 
   double minX = 25;    //if SetXRange
   double maxX = 120;   //if SetXRange
