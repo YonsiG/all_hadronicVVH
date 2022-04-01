@@ -1,0 +1,9 @@
+/hadoop/cms/store/user/legianni/skimNanoVVH-Hadronic__v2/WW_TuneCP5_13TeV-pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v1/220309_233228/0000/tree_1.root
+/hadoop/cms/store/user/legianni/skimNanoVVH-Hadronic__v2/WW_TuneCP5_13TeV-pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v1/220309_233228/0000/tree_10.root
+/hadoop/cms/store/user/legianni/skimNanoVVH-Hadronic__v2/WW_TuneCP5_13TeV-pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v1/220309_233228/0000/tree_2.root
+/hadoop/cms/store/user/legianni/skimNanoVVH-Hadronic__v2/WW_TuneCP5_13TeV-pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v1/220309_233228/0000/tree_3.root
+/hadoop/cms/store/user/legianni/skimNanoVVH-Hadronic__v2/WW_TuneCP5_13TeV-pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v1/220309_233228/0000/tree_4.root
+/hadoop/cms/store/user/legianni/skimNanoVVH-Hadronic__v2/WW_TuneCP5_13TeV-pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v1/220309_233228/0000/tree_5.root
+/hadoop/cms/store/user/legianni/skimNanoVVH-Hadronic__v2/WW_TuneCP5_13TeV-pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v1/220309_233228/0000/tree_6.root
+/hadoop/cms/store/user/legianni/skimNanoVVH-Hadronic__v2/WW_TuneCP5_13TeV-pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v1/220309_233228/0000/tree_7.root
+/hadoop/cms/store/user/legianni/skimNanoVVH-Hadronic__v2/WW_TuneCP5_13TeV-pythia8/RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v1/220309_233228/0000/tree_9.root

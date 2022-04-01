@@ -90,6 +90,16 @@ double getXsection(string TypeName)
     if (TypeName == string("TTToSemiLeptonic"))
         xsection = 365.34*1000; 
 
+    if (TypeName == string("WW"))
+        xsection = 75.8*1000; 
+    if (TypeName == string("WZ"))
+        xsection = 27.6*1000; 
+    if (TypeName == string("ZZ"))
+        xsection = 12.14*1000; 
+    if (TypeName == string("ttW"))
+        xsection = 0.4611*1000; 
+    if (TypeName == string("ttZ"))
+        xsection = 0.5407*1000; 
     return xsection;
 }
 

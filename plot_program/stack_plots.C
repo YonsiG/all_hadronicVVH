@@ -28,14 +28,15 @@ using namespace std;
 
 int main()
 {
-   bool isLog = 0;
+   bool isLog = 1;
 
-   TFile *signalfile = new TFile("../../outfiles/signal_merged_2_scaled.root");
-   TFile *QCDfile = new TFile("../../outfiles/QCD_merged_2_scaled.root");
-   TFile *TTToHadronicfile = new TFile("../../outfiles/TTToHadronic_2_scaled.root");
-   TFile *TTToSemiLeptonicfile = new TFile("../../outfiles/TTToSemiLeptonic_2_scaled.root");
-   TFile *WJetfile = new TFile("../../outfiles/WJet_merged_2_scaled.root");
-   TFile *ZJetfile = new TFile("../../outfiles/ZJet_merged_2_scaled.root");
+   TFile *signalfile = new TFile("../../outfiles/XbbMD/selection4/signal_merged_2_scaled.root");
+   TFile *QCDfile = new TFile("../../outfiles/XbbMD/selection4/QCD_merged_2_scaled.root");
+   TFile *TTToHadronicfile = new TFile("../../outfiles/XbbMD/selection4/TTToHadronic_2_scaled.root");
+   TFile *TTToSemiLeptonicfile = new TFile("../../outfiles/XbbMD/selection4/TTToSemiLeptonic_2_scaled.root");
+   TFile *WJetfile = new TFile("../../outfiles/XbbMD/selection4/WJet_merged_2_scaled.root");
+   TFile *ZJetfile = new TFile("../../outfiles/XbbMD/selection4/ZJet_merged_2_scaled.root");
+   TFile *datafile = new TFile("../../outfiles/XbbMD/selection4/data_2_selected.root");
 
    string histName = "fatjet_pt_s+b";
 
@@ -47,17 +48,13 @@ int main()
 
    gStyle->SetOptStat(0000);
 
-   TH1D *signalplot = (TH1D *)signalfile->Get("fatjet_pt");
-   TH1D *QCDplot = (TH1D *)QCDfile->Get("fatjet_pt");
-   TH1D *TTToHadronicplot = (TH1D *)TTToHadronicfile->Get("fatjet_pt");
-   TH1D *TTToSemiLeptonicplot = (TH1D *)TTToSemiLeptonicfile->Get("fatjet_pt");
-   TH1D *WJetplot = (TH1D *)WJetfile->Get("fatjet_pt");
-   TH1D *ZJetplot = (TH1D *)ZJetfile->Get("fatjet_pt");
-   TH1D *dataplot = (TH1D *)QCDplot->Clone();
-   dataplot->Add(TTToHadronicplot);
-   dataplot->Add(TTToSemiLeptonicplot);
-   dataplot->Add(WJetplot);
-   dataplot->Add(ZJetplot);
+   TH1D *signalplot = (TH1D *)signalfile->Get("ST0");
+   TH1D *QCDplot = (TH1D *)QCDfile->Get("ST0");
+   TH1D *TTToHadronicplot = (TH1D *)TTToHadronicfile->Get("ST0");
+   TH1D *TTToSemiLeptonicplot = (TH1D *)TTToSemiLeptonicfile->Get("ST0");
+   TH1D *WJetplot = (TH1D *)WJetfile->Get("ST0");
+   TH1D *ZJetplot = (TH1D *)ZJetfile->Get("ST0");
+   TH1D *dataplot = (TH1D *)datafile->Get("ST0");
 
    signalplot->Rebin(4);
    QCDplot->Rebin(4);
@@ -88,7 +85,7 @@ int main()
       pad1->SetLogy();
    pad1->cd();
 
-   signalplot->GetYaxis()->SetRangeUser(10e-2, 10e8);
+   signalplot->GetYaxis()->SetRangeUser(10e-2, 30);
    signalplot->GetXaxis()->SetRangeUser(-5, 1000);
    //   signalplot->GetYaxis()->SetMinimum(10e-2);
    signalplot->SetTitle("");
@@ -101,7 +98,7 @@ int main()
    signalplot->GetYaxis()->SetTitleFont(70);
    signalplot->GetYaxis()->SetLabelSize(0.03);
    signalplot->GetYaxis()->SetLabelFont(70);
-   signalplot->GetXaxis()->SetTitle("fatjet pt / GeV");
+   signalplot->GetXaxis()->SetTitle("ST / GeV");
    signalplot->GetXaxis()->SetTitleSize(0.04);
    signalplot->GetXaxis()->SetTitleOffset(1);
    signalplot->GetXaxis()->SetTitleFont(70);
@@ -111,17 +108,17 @@ int main()
    dataplot->SetLineColor(kBlack);
    dataplot->SetMarkerStyle(20);
    //   dataplot->GetXaxis()->SetRangeUser(-5,1000);
-   dataplot->GetYaxis()->SetRangeUser(10e-2, 10e8);
+   dataplot->GetYaxis()->SetRangeUser(10e-2, 30);
    //   QCDplot->GetXaxis()->SetRangeUser(0,1000);
-   QCDplot->GetYaxis()->SetRangeUser(10e-2, 10e8);
+   QCDplot->GetYaxis()->SetRangeUser(10e-2, 30);
    //   TTToHadronicplot->GetXaxis()->SetRangeUser(0,1000);
-   TTToHadronicplot->GetYaxis()->SetRangeUser(10e-2, 10e8);
+   TTToHadronicplot->GetYaxis()->SetRangeUser(10e-2, 30);
    //   TTToSemiLeptonicplot->GetXaxis()->SetRangeUser(0, 1000);
-   TTToSemiLeptonicplot->GetYaxis()->SetRangeUser(10e-2, 10e8);
+   TTToSemiLeptonicplot->GetYaxis()->SetRangeUser(10e-2, 30);
    //   WJetplot->GetXaxis()->SetRangeUser(0, 1000);
-   WJetplot->GetYaxis()->SetRangeUser(10e-2, 10e8);
+   WJetplot->GetYaxis()->SetRangeUser(10e-2, 30);
    //   ZJetplot->GetXaxis()->SetRangeUser(0, 1000);
-   ZJetplot->GetYaxis()->SetRangeUser(10e-2, 10e8);
+   ZJetplot->GetYaxis()->SetRangeUser(10e-2, 30);
 
    stack->Add(QCDplot);
    stack->Add(TTToHadronicplot);

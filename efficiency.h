@@ -190,8 +190,26 @@ void efficiency::Initial(const char *rootName, int rootNumber, const char *typeN
         isRead = false;
 
     /***************set branches**************/
-    runChain->SetBranchAddress("genEventSumw", &genEventSumw);
-    fChain->SetBranchAddress("genWeight", &genWeight);
+    if (string(typeName).find(string("data")) == string::npos){
+        // if it's not data file
+        runChain->SetBranchAddress("genEventSumw", &genEventSumw);
+        fChain->SetBranchAddress("genWeight", &genWeight);
+
+        fChain->SetBranchAddress("nGenPart", &nGenPart);
+
+        fChain->SetBranchAddress("GenPart_pdgId", GenPart_pdgId);
+        fChain->SetBranchAddress("GenPart_genPartIdxMother", GenPart_genPartIdxMother);
+        fChain->SetBranchAddress("GenPart_status", GenPart_status);
+        fChain->SetBranchAddress("GenPart_mass", GenPart_mass);
+        fChain->SetBranchAddress("GenPart_pt", GenPart_pt);
+        fChain->SetBranchAddress("GenPart_eta", GenPart_eta);
+        fChain->SetBranchAddress("GenPart_phi", GenPart_phi);
+    }
+
+    fChain->SetBranchAddress("nFatJet", &nFatJet);
+    fChain->SetBranchAddress("nJet", &nJet);
+    fChain->SetBranchAddress("nElectron", &nElectron);
+    fChain->SetBranchAddress("nMuon", &nMuon);
 
     fChain->SetBranchAddress("HLT_AK8PFHT800_TrimMass50",&HLT_AK8PFHT800_TrimMass50);
     fChain->SetBranchAddress("HLT_PFHT1050",&HLT_PFHT1050);
@@ -199,20 +217,6 @@ void efficiency::Initial(const char *rootName, int rootNumber, const char *typeN
     fChain->SetBranchAddress("HLT_AK8PFJet500",&HLT_AK8PFJet500);
     fChain->SetBranchAddress("HLT_AK8PFJet400_TrimMass30",&HLT_AK8PFJet400_TrimMass30);
     fChain->SetBranchAddress("HLT_AK8PFJet420_TrimMass30",&HLT_AK8PFJet420_TrimMass30);
-
-    fChain->SetBranchAddress("nGenPart", &nGenPart);
-    fChain->SetBranchAddress("nFatJet", &nFatJet);
-    fChain->SetBranchAddress("nJet", &nJet);
-    fChain->SetBranchAddress("nElectron", &nElectron);
-    fChain->SetBranchAddress("nMuon", &nMuon);
-
-    fChain->SetBranchAddress("GenPart_pdgId", GenPart_pdgId);
-    fChain->SetBranchAddress("GenPart_genPartIdxMother", GenPart_genPartIdxMother);
-    fChain->SetBranchAddress("GenPart_status", GenPart_status);
-    fChain->SetBranchAddress("GenPart_mass", GenPart_mass);
-    fChain->SetBranchAddress("GenPart_pt", GenPart_pt);
-    fChain->SetBranchAddress("GenPart_eta", GenPart_eta);
-    fChain->SetBranchAddress("GenPart_phi", GenPart_phi);
 
     fChain->SetBranchAddress("FatJet_eta", FatJet_eta);
     fChain->SetBranchAddress("FatJet_phi", FatJet_phi);

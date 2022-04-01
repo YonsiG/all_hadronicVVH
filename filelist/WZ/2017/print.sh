@@ -1,0 +1,2 @@
+#!/bin/bash
+printf '%s\n' "/hadoop/cms/store/user/legianni/skimNanoVVH-Hadronic__v2/WZ_TuneCP5_13TeV-pythia8/RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v1/"*"/0000"/*.root > WZ_TuneCP5_13TeV.txt

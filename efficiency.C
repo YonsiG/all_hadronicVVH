@@ -44,12 +44,18 @@ void efficiency::Loop(const char *typeName)
 
    /********defining total weights***********/
    int weightnum = runChain->GetEntries();
-   for (int iweight = 0; iweight < weightnum; iweight++)
-   {
-      runChain->GetEntry(iweight);
-      myHists->weight_Scale->Fill(0.5, genEventSumw);
+   if (string(typeName).find(string("data")) == string::npos){
+      // if it's not data file
+      for (int iweight = 0; iweight < weightnum; iweight++)
+      {
+         runChain->GetEntry(iweight);
+         myHists->weight_Scale->Fill(0.5, genEventSumw);
+      }
    }
-
+   else{
+      // if it is data file
+      myHists->weight_Scale->Fill(0.5, 1);
+   }
    Int_t Nentries = fChain->GetEntries();
 
    /*****************************************/
@@ -62,7 +68,19 @@ void efficiency::Loop(const char *typeName)
       Sta_TotalNumber++;
       Sta_FileEventNumber++;
 
-      double weight = double(genWeight * xsection * 137.0);
+      double weight;
+      if (string(typeName).find(string("data")) != string::npos){
+         //if it is data file
+         weight = 1;
+         if (string(typeName).find(string("data_2018")) != string::npos) weight = double(137 / 59.83);
+         if (string(typeName).find(string("data_2017")) != string::npos) weight = double(137 / 41.48);
+         if (string(typeName).find(string("data_2016")) != string::npos) weight = double(137 / 36.33);
+      }
+      else{
+         // if it is not data file
+         weight = double(genWeight * xsection * 137.0);
+      }
+
       for (int icutflow = 0; icutflow < 14; icutflow++)
          myHists->cutflow[icutflow]->Fill(0.5, weight);
 
@@ -97,8 +115,8 @@ void efficiency::Loop(const char *typeName)
       if (HLT_AK8PFJet420_TrimMass30)
          trig_status = 1;
 
-      if (trig_status == 0)
-         continue;
+      //if (trig_status == 0)
+      //   continue;
       for (int icutflow = 0; icutflow < 14; icutflow++)
          myHists->cutflow[icutflow]->Fill(2.5, weight);
 
@@ -119,8 +137,8 @@ void efficiency::Loop(const char *typeName)
             count_lepton++;
       }
 
-      if (count_lepton != 0)
-         continue;
+      //if (count_lepton != 0)
+      //   continue;
 
       for (int icutflow = 0; icutflow < 14; icutflow++)
          myHists->cutflow[icutflow]->Fill(3.5, weight);
@@ -142,12 +160,14 @@ void efficiency::Loop(const char *typeName)
       double pass_cut_fatjet_QCD[200];
       double pass_cut_fatjet_Xccqq_modified[200];
       int count_fatjet = 0;
+
       for (int ifatjet = 0; ifatjet < nFatJet; ifatjet++)
       {
          tempFatJet.SetPtEtaPhiM(FatJet_pt[ifatjet], FatJet_eta[ifatjet], FatJet_phi[ifatjet], FatJet_mass[ifatjet]);
          bool Fatjet_kinematic_filter = FatJet_kinematic_Select(tempFatJet, FatJet_jetId[ifatjet], FatJet_msoftdrop[ifatjet]);
          if (Fatjet_kinematic_filter == false)
             continue;
+
          count_fatjet++;
          FatJet[sort_index] = tempFatJet;
          pass_cut_fatjet_msoftdrop[sort_index] = FatJet_msoftdrop[ifatjet];
@@ -259,8 +279,8 @@ void efficiency::Loop(const char *typeName)
       int category_number = categorize(count_fatjet, count_jet);
       myHists->cutflow[category_number]->Fill(5.5, weight);
 
-      if (VBF_selection != 1)
-         continue;
+      //if (VBF_selection != 1)
+      //   continue;
       myHists->cutflow[category_number]->Fill(6.5, weight);
 
       /***********sorting the other fatjets other than the first one*******/
@@ -315,42 +335,45 @@ void efficiency::Loop(const char *typeName)
 
       /****************event selection*******************/
       if (XbbMD)
-         if (FatJet_Xbb_modified_allsort[0]<0.9)
+         //if (FatJet_Xbb_modified_allsort[0]<0.9)
+         if (FatJet_Xbb_modified_allsort[0]<0.8)
             continue;
       if (!XbbMD)
-         if (FatJet_HbbvsQCD_allsort[0]<0.9)
-            continue;
+         //if (FatJet_HbbvsQCD_allsort[0]<0.9)
+         //   continue;
       myHists->cutflow[category_number]->Fill(7.5, weight);
 
       if (XbbMD)
-         if (FatJet_Xccqq_modified_allsort[1]<0.9)
-                     continue;
-      if (!XbbMD)
-         if (FatJet_ZvsQCD_allsort[1]<0.9)
+         //if (FatJet_Xccqq_modified_allsort[1]<0.9)
+         if (FatJet_Xccqq_modified_allsort[1]<0.8)
             continue;
+      if (!XbbMD)
+         //if (FatJet_ZvsQCD_allsort[1]<0.9)
+         //   continue;
       myHists->cutflow[category_number]->Fill(8.5, weight);
 
       if (category_number==0)
          if (XbbMD)
-            if (FatJet_Xccqq_modified_allsort[2]<0.9)
+            //if (FatJet_Xccqq_modified_allsort[2]<0.9)
+            if (FatJet_Xccqq_modified_allsort[2]<0.8)
                continue;
          if(!XbbMD)
-            if (FatJet_ZvsQCD_allsort[2]<0.9)
-               continue;
+            //if (FatJet_ZvsQCD_allsort[2]<0.9)
+            //   continue;
       myHists->cutflow[category_number]->Fill(9.5, weight);
 
-      if (ST<1800) 
-         continue;
+      //if (ST<1800) 
+      //   continue;
       myHists->cutflow[category_number]->Fill(10.5, weight);
 
-      if (fabs(Jet[VBF_jet_index[0]].Eta()-Jet[VBF_jet_index[1]].Eta())<4.5)
-         continue;
+      //if (fabs(Jet[VBF_jet_index[0]].Eta()-Jet[VBF_jet_index[1]].Eta())<4.5)
+      //   continue;
       myHists->cutflow[category_number]->Fill(11.5, weight);
 
       if (sort_index>2){
          float mass_VVV = (FatJet_allsort[0]+FatJet_allsort[1]+FatJet_allsort[2]).M();
-         if (mass_VVV<2200)
-            continue;
+         //if (mass_VVV<2200)
+         //   continue;
       }
       myHists->cutflow[category_number]->Fill(12.5, weight);
 

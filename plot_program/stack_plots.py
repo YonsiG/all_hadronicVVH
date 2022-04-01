@@ -1,7 +1,11 @@
+from curses import can_change_color
+from hashlib import new
 from numbers import Integral
+from tkinter.tix import Tree
 import ROOT
+import copy
 
-def draw_plot(plotname="fatjet_msoftdrop", title="myTitle", log=True):
+def draw_plot(plotname="fatjet_msoftdrop", title="myTitle", log=True, compare_data=True, DoRatio=True):
     #open file
     signalfile = ROOT.TFile("../../outfiles/signal_merged_2_scaled.root")
     QCDfile = ROOT.TFile("../../outfiles/QCD_merged_2_scaled.root")
@@ -9,18 +13,33 @@ def draw_plot(plotname="fatjet_msoftdrop", title="myTitle", log=True):
     TTToSemiLeptonicfile = ROOT.TFile("../../outfiles/TTToSemiLeptonic_2_scaled.root")
     WJetfile = ROOT.TFile("../../outfiles/WJet_merged_2_scaled.root")
     ZJetfile = ROOT.TFile("../../outfiles/ZJet_merged_2_scaled.root")
+    if compare_data:
+        datafile = ROOT.TFile("../../outfiles/data_2018_2_selected.root")
 
     #get historam
     signalplot = signalfile.Get(plotname)
+    if compare_data:
+        dataplot = datafile.Get(plotname)
+        dataplot.Rebin(4)
     QCDplot = QCDfile.Get(plotname)
     TTToHadronicplot = TTToHadronicfile.Get(plotname)
     TTToSemiLeptonicplot = TTToSemiLeptonicfile.Get(plotname)
     WJetplot = WJetfile.Get(plotname)
     ZJetplot = ZJetfile.Get(plotname)
 
+    signalplot.Rebin(4)
+    QCDplot.Rebin(4)
+    TTToHadronicplot.Rebin(4)
+    TTToSemiLeptonicplot.Rebin(4)
+    WJetplot.Rebin(4)
+    ZJetplot.Rebin(4)
+
     #draw overflow
     signalplot.SetBinContent(1, signalplot.GetBinContent(1) + signalplot.GetBinContent(0))
     signalplot.SetBinContent(signalplot.GetNbinsX(), signalplot.GetBinContent(signalplot.GetNbinsX() + 1) + signalplot.GetBinContent(signalplot.GetNbinsX()))
+    if compare_data:
+        dataplot.SetBinContent(1, dataplot.GetBinContent(1) + dataplot.GetBinContent(0))
+        dataplot.SetBinContent(dataplot.GetNbinsX(), dataplot.GetBinContent(dataplot.GetNbinsX() + 1) + dataplot.GetBinContent(dataplot.GetNbinsX()))
     QCDplot.SetBinContent(1, QCDplot.GetBinContent(1) + QCDplot.GetBinContent(0))
     QCDplot.SetBinContent(QCDplot.GetNbinsX(), QCDplot.GetBinContent(QCDplot.GetNbinsX() + 1) + QCDplot.GetBinContent(QCDplot.GetNbinsX()))
     TTToHadronicplot.SetBinContent(1, TTToHadronicplot.GetBinContent(1) + TTToHadronicplot.GetBinContent(0))
@@ -51,6 +70,8 @@ def draw_plot(plotname="fatjet_msoftdrop", title="myTitle", log=True):
     legend.SetTextFont(60)
     legend.SetTextSize(0.02)
     legend.AddEntry(signalplot,"signal %.2f"%(signalplot.Integral()))
+    if compare_data:
+        legend.AddEntry(dataplot,"data %.2f"%(dataplot.Integral()))
     legend.AddEntry(QCDplot, "QCD %.2f"%(QCDplot.Integral()))
     legend.AddEntry(TTToHadronicplot, "TTToHadronic %.2f"%(TTToHadronicplot.Integral()))
     legend.AddEntry(TTToSemiLeptonicplot, "TTToSemiLeptonic %.2f"%(TTToSemiLeptonicplot.Integral()))
@@ -64,29 +85,63 @@ def draw_plot(plotname="fatjet_msoftdrop", title="myTitle", log=True):
         WJetplot.GetYaxis().SetRangeUser(10e-2,10e8)
         ZJetplot.GetYaxis().SetRangeUser(10e-2,10e8)
         signalplot.GetYaxis().SetRangeUser(10e-2,10e8)
+        if compare_data:
+            dataplot.GetYaxis().SetRangeUser(10e-2,10e8)
 
     #define canvas
     canvas = ROOT.TCanvas("canvas","canvas",800,800)
-    if log==True:
-        ROOT.gPad.SetLogy(1)
 
-    #plot data,stack, signal  
+    if DoRatio==True:
+        MCplot = copy.deepcopy(QCDplot)
+        MCplot.Add(TTToHadronicplot)
+        MCplot.Add(TTToSemiLeptonicplot)
+        MCplot.Add(WJetplot)
+        MCplot.Add(ZJetplot)
+        ratioplot=copy.deepcopy(dataplot)
+        ratioplot.Divide(MCplot)
+        ratioplot.SetTitle(";"+title+";data / MC")
+        pad1 = ROOT.TPad("pad1","pad1",0,0.3,1,1)
+        pad2 = ROOT.TPad("pad2","pad2",0,0,1,0.3)
+        pad1.Draw()
+        pad2.Draw()
+        pad2.cd()
+        ratioplot.Draw("E0")
+
+    if DoRatio==False:
+        pad1 = ROOT.TPad("pad1","pad1",0,0,1,1)
+        pad1.Draw()
+
+    pad1.cd()
+    if log==True:
+        pad1.SetLogy()
+        #ROOT.gPad.SetLogy(1)
+
+    #plot data,stack, signal, data  
     if log==True:
         signalplot.Draw("Hist")
         stack.Draw("Hist same")
         signalplot.Draw("H same")
+        if compare_data:
+            dataplot.Draw("E0 same")
 
     if log==False:
         stack.Draw("Hist")
         signalplot.Draw("H same")
+        if compare_data:
+            dataplot.Draw("E0 same")
     legend.Draw()
 
     #print and save
     if log==True:
-        canvas.SaveAs("../../plots/" + plotname + "_s+b_log.png")
+        if compare_data==False:
+            canvas.SaveAs("../../plots/" + plotname + "_s+b_log.png")
+        if compare_data==True:
+            canvas.SaveAs("../../plots/" + plotname + "_mc+data_log.png")
     if log==False:
-        canvas.SaveAs("../../plots/" + plotname + "_s+b_linear.png")
-
+        if compare_data==False:
+            canvas.SaveAs("../../plots/" + plotname + "_s+b_linear.png")
+        if compare_data==True:
+            canvas.SaveAs("../../plots/" + plotname + "_mc+data_linear.png")
 
 ROOT.gStyle.SetOptStat(0000)
 
@@ -106,8 +161,8 @@ listofplots1=["fatjet_msoftdrop0_0", "fatjet_msoftdrop0_1", "fatjet_msoftdrop0_2
 
 for plot in listofplots1:
     title=plot
-    draw_plot(plot, title, True)
-    draw_plot(plot, title, False)
+    draw_plot(plot, title, False, True, True)
+    draw_plot(plot, title, True, True, True)
 
 listofplots2=["fatjet_msoftdrop3_0", "fatjet_msoftdrop3_1", "fatjet_msoftdrop3_2",
                 "fatjet_pt3_0", "fatjet_pt3_1", "fatjet_pt3_2",
@@ -125,8 +180,8 @@ listofplots2=["fatjet_msoftdrop3_0", "fatjet_msoftdrop3_1", "fatjet_msoftdrop3_2
 
 for plot in listofplots2:
     title=plot
-    draw_plot(plot, title, True)
-    draw_plot(plot, title, False)
+    draw_plot(plot, title, True, True, True)
+    draw_plot(plot, title, False, True, True)
 
 listofplots3=["fatjet_msoftdrop4_0", "fatjet_msoftdrop4_1", "fatjet_msoftdrop4_2",
                 "fatjet_pt4_0", "fatjet_pt4_1", "fatjet_pt4_2",
@@ -144,5 +199,5 @@ listofplots3=["fatjet_msoftdrop4_0", "fatjet_msoftdrop4_1", "fatjet_msoftdrop4_2
 
 for plot in listofplots3:
     title=plot
-    draw_plot(plot, title, True)
-    draw_plot(plot, title, False)
+    draw_plot(plot, title, True, True, True)
+    draw_plot(plot, title, False, True, True)

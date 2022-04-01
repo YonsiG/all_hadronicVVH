@@ -151,17 +151,17 @@ int VBF_Selection(int VBF_method, int &VBF_jet_index0, int &VBF_jet_index1,
             }
         }
 
-        VBF_max_DeltaEta = 0;
+        VBF_max_Energy = 0;
         if (opposite_eta == 0)
         {
             for (int ivbf = 0; ivbf < count_jet; ivbf++)
             {
                 if (ivbf == VBF_jet_index0)
                     continue;
-                if (fabs(Jet[ivbf].Eta() - Jet[VBF_jet_index0].Eta()) > VBF_max_DeltaEta)
+                if (Jet[ivbf].E() > VBF_max_Energy)
                 {
                     VBF_jet_index1 = ivbf;
-                    VBF_max_DeltaEta = fabs(Jet[ivbf].Eta() - Jet[VBF_jet_index0].Eta());
+                    VBF_max_Energy = Jet[ivbf].E();
                 }
             }
         }
